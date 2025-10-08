@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: svasth-ol
+    env: node
+    plan: free
+    buildCommand: npm run build
+    startCommand: npm run preview
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+    staticPublishPath: dist
