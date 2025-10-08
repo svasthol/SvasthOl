@@ -1,6 +1,7 @@
 {
   "name": "svasth-ol",
   "version": "1.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -21,3 +22,4 @@
     "vite": "^5.2.0"
   }
 }
+
