@@ -47,6 +47,9 @@ export default function SvasthOlWebsite() {
           background-size: 200% 200%;
           animation: gradientFlow 18s ease infinite;
         }
+        header { 
+          backdrop-filter: saturate(180%) blur(10px);
+        }
       `}</style>
 
       {/* header */}
