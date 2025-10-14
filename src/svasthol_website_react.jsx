@@ -124,25 +124,29 @@ export default function SvasthOlWebsite() {
       {/* hero */}
       <section
   id="home"
-  className="pt-32 pb-24 flex flex-col items-center justify-center text-center bg-gradient-to-r from-emerald-100 via-amber-50 to-yellow-100 animate-gradient"
+  className="pt-28 pb-28 flex flex-col items-center justify-center text-center bg-gradient-to-r from-emerald-100 via-amber-50 to-yellow-100 animate-gradient"
 >
+  {/* Logo */}
   <motion.img
     src="/svasthol_logo.png"
     alt="Svasth Ol Logo"
     initial={{ opacity: 0, scale: 0.8 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 1.2, ease: 'easeOut' }}
-    className="w-40 h-auto mb-6 drop-shadow-md hover:drop-shadow-xl transition-all duration-500"
+    className="w-72 md:w-96 h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-500"
   />
+
+  {/* Tagline */}
   <motion.h2
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.3, duration: 1 }}
-    className="text-4xl md:text-5xl font-extrabold text-emerald-800"
+    className="text-2xl md:text-3xl font-semibold text-emerald-800 tracking-wide"
   >
     Natural · Trusted · Quality
   </motion.h2>
 </section>
+
 
 
       {/* menu */}
