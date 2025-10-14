@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Instagram, Youtube, Star } from 'lucide-react'
+import svasthol_logo from 'svasthol_logo.png'
 
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
@@ -52,11 +53,8 @@ export default function SvasthOlWebsite() {
       <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">S O</div>
-            <div>
-              <h1 className="text-lg font-semibold">Svasth Ol</h1>
-              <p className="text-xs text-gray-600">Pure Taste · Natural Goodness</p>
-            </div>
+            <img src={svasthol_logo} alt="Svasth Ol Logo" className="h-10 w-auto" />
+          </div>
           </div>
 
           <nav className="hidden md:flex items-center gap-6 text-sm">
@@ -222,8 +220,8 @@ export default function SvasthOlWebsite() {
       {/* footer */}
       <footer className="mt-20 py-8 bg-white border-t">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <p className="font-semibold text-emerald-800">Svasth Ol</p>
+          <div className="flex flex-col items-start">
+            <img src={svasthol_logo} alt="Svasth Ol Logo" className="h-6 w-auto mb-1" />
             <p className="text-sm text-gray-500">© {new Date().getFullYear()} Svasth Ol. All rights reserved.</p>
           </div>
           <div className="flex items-center gap-4 text-sm text-gray-600">
