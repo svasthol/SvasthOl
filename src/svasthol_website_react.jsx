@@ -47,18 +47,18 @@ export default function SvasthOlWebsite() {
           background-size: 200% 200%;
           animation: gradientFlow 18s ease infinite;
         }
-      `}
-         @keyframes logoGlow {
-           0% { filter: drop-shadow(0 0 2px #9ef0c5); }
-           50% { filter: drop-shadow(0 0 10px #6ee7b7); }
-           100% { filter: drop-shadow(0 0 2px #9ef0c5); }
+        @keyframes logoGlow {
+         0% { filter: drop-shadow(0 0 2px #b0f4c8); }
+         50% { filter: drop-shadow(0 0 12px #6ee7b7); }
+         100% { filter: drop-shadow(0 0 2px #b0f4c8); }
 }
 .glow-logo {
-  animation: logoGlow 3s ease-in-out infinite;
+  animation: logoGlow 3.5s ease-in-out infinite;
 }
 
-		  
-	  </style>
+		
+      `}
+  </style>
 
       {/* header */}
     <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-sm">
