@@ -111,14 +111,28 @@ export default function SvasthOlWebsite() {
 
 
       {/* hero */}
-      <section id="home" className="pt-20 pb-16 text-center bg-gradient-to-r from-emerald-100 via-amber-50 to-yellow-100 animate-gradient">
-        <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }} className="text-5xl font-extrabold text-emerald-800">Svasth Ol</motion.h2>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 1 }} className="mt-4 text-lg text-gray-700">Fresh · Wholesome · Traditional</motion.p>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 1 }} className="mt-6 flex justify-center gap-4">
-          <a href="#menu" className="px-5 py-3 rounded-lg bg-emerald-600 text-white font-semibold shadow">Explore Menu</a>
-          <a href="#contact" className="px-5 py-3 rounded-lg border border-emerald-600 text-emerald-700 font-semibold">Order Now</a>
-        </motion.div>
-      </section>
+      <section
+  id="home"
+  className="pt-32 pb-24 flex flex-col items-center justify-center text-center bg-gradient-to-r from-emerald-100 via-amber-50 to-yellow-100 animate-gradient"
+>
+  <motion.img
+    src="/svasthol_logo.png"
+    alt="Svasth Ol Logo"
+    initial={{ opacity: 0, scale: 0.8 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 1.2, ease: 'easeOut' }}
+    className="w-40 h-auto mb-6 drop-shadow-md hover:drop-shadow-xl transition-all duration-500"
+  />
+  <motion.h2
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3, duration: 1 }}
+    className="text-4xl md:text-5xl font-extrabold text-emerald-800"
+  >
+    Natural · Trusted · Quality
+  </motion.h2>
+</section>
+
 
       {/* menu */}
       <section id="menu" className="mt-20">
