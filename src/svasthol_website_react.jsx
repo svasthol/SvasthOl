@@ -222,6 +222,7 @@ export default function SvasthOlWebsite() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex flex-col items-start">
             <img src={svasthol_logo} alt="Svasth Ol Logo" className="h-6 w-auto mb-1" />
+            <img src={SvasthOlLogo} alt="Svasth Ol Logo" className="h-6 w-auto mb-1 opacity-80" />
             <p className="text-sm text-gray-500">© {new Date().getFullYear()} Svasth Ol. All rights reserved.</p>
           </div>
           <div className="flex items-center gap-4 text-sm text-gray-600">
