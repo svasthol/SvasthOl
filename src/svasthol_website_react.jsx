@@ -53,7 +53,7 @@ export default function SvasthOlWebsite() {
          100% { filter: drop-shadow(0 0 2px #b0f4c8); }
 }
 .glow-logo {
-  animation: logoGlow 3.5s ease-in-out infinite;
+  className="w-72 md:w-96 h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-500 glow-logo";
 }
 
 		
