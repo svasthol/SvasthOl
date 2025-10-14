@@ -1,5 +1,5 @@
 ## Hi there 👋
-![Svasth Ol Logo](src/svasthol_logo.jpg)
+![Svasth Ol Logo](src/svasthol_logo.png)
 <!--
 **svasthol/SvasthOl** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
