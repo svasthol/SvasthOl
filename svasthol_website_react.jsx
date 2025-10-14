@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Instagram, Youtube, Star } from 'lucide-react'
+import svasthol_logo from 'svasthol_logo.png'
 
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
@@ -49,39 +50,65 @@ export default function SvasthOlWebsite() {
       `}</style>
 
       {/* header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">S O</div>
-            <div>
-              <h1 className="text-lg font-semibold">Svasth Ol</h1>
-              <p className="text-xs text-gray-600">Pure Taste · Natural Goodness</p>
-            </div>
-          </div>
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-sm">
+      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+    
+    {/* Left Navigation */}
+    <nav className="hidden md:flex items-center gap-6 text-sm text-gray-700">
+      <a href="#home" className="hover:text-emerald-600 transition-colors">Home</a>
+      <a href="#menu" className="hover:text-emerald-600 transition-colors">Menu</a>
+      <a href="#about" className="hover:text-emerald-600 transition-colors">About</a>
+    </nav>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#home" className="hover:text-emerald-600">Home</a>
-            <a href="#menu" className="hover:text-emerald-600">Our Menu</a>
-            <a href="#about" className="hover:text-emerald-600">About Us</a>
-            <a href="#gallery" className="hover:text-emerald-600">Gallery</a>
-            <a href="#reviews" className="hover:text-emerald-600">Reviews</a>
-            <a href="#contact" className="hover:text-emerald-600">Contact / Order</a>
+    {/* Center Logo */}
+    <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2">
+      <img
+        src={svasthol_logo}
+        alt="Svasth Ol Logo"
+        className="h-10 w-auto object-contain"
+      />
+      <span className="text-xl font-semibold text-emerald-800 tracking-wide">Svasth Ol</span>
+    </div>
 
-            <div className="flex items-center gap-3">
-              <a href="https://www.instagram.com/svasth_ol/" target="_blank" rel="noreferrer" aria-label="Svasth Ol Instagram" className="hover:text-pink-500">
-                <Instagram size={18} />
-              </a>
-              <a href="https://www.youtube.com/channel/UCUkPG2jyOxipC0EDYCXZdFQ" target="_blank" rel="noreferrer" aria-label="Svasth Ol YouTube" className="hover:text-red-600">
-                <Youtube size={18} />
-              </a>
-            </div>
-          </nav>
+    {/* Right Navigation */}
+    <nav className="hidden md:flex items-center gap-6 text-sm text-gray-700">
+      <a href="#gallery" className="hover:text-emerald-600 transition-colors">Gallery</a>
+      <a href="#reviews" className="hover:text-emerald-600 transition-colors">Reviews</a>
+      <a href="#contact" className="hover:text-emerald-600 transition-colors">Contact</a>
 
-          <div className="md:hidden">
-            <a href="#contact" className="px-3 py-2 rounded-md bg-emerald-600 text-white font-semibold text-sm">Order</a>
-          </div>
-        </div>
-      </header>
+      {/* Social Icons */}
+      <div className="flex items-center gap-3">
+        <a
+          href="https://www.instagram.com/svasth_ol/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Svasth Ol Instagram"
+          className="hover:text-pink-500 transition-colors">
+          <Instagram size={18} />
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCUkPG2jyOxipC0EDYCXZdFQ"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Svasth Ol YouTube"
+          className="hover:text-red-600 transition-colors">
+          <Youtube size={18} />
+        </a>
+      </div>
+    </nav>
+
+    {/* Mobile CTA */}
+    <div className="md:hidden">
+      <a
+        href="#contact"
+        className="px-3 py-2 rounded-md bg-emerald-600 text-white font-semibold text-sm"
+      >
+        Order
+      </a>
+    </div>
+  </div>
+</header>
+
 
       {/* hero */}
       <section id="home" className="pt-20 pb-16 text-center bg-gradient-to-r from-emerald-100 via-amber-50 to-yellow-100 animate-gradient">
@@ -222,8 +249,9 @@ export default function SvasthOlWebsite() {
       {/* footer */}
       <footer className="mt-20 py-8 bg-white border-t">
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <p className="font-semibold text-emerald-800">Svasth Ol</p>
+          <div className="flex flex-col items-start">
+            <img src={svasthol_logo} alt="Svasth Ol Logo" className="h-6 w-auto mb-1" />
+			<img src={svasthol_logo} alt="Svasth Ol Logo" className="h-6 w-auto mb-1 opacity-80" />
             <p className="text-sm text-gray-500">© {new Date().getFullYear()} Svasth Ol. All rights reserved.</p>
           </div>
           <div className="flex items-center gap-4 text-sm text-gray-600">
