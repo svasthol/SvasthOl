@@ -238,14 +238,16 @@ useEffect(() => {
 
   {/* 🌿 Foreground: logo + text + buttons */}
   <div className="relative z-20 flex flex-col items-center justify-center px-4">
-    <motion.img
-      src="/svasthol_logo.png"
-      alt="Svasth Ol Logo"
-      initial={{ opacity: 0, scale: 0.8, y: 40 }}
-      animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 1.4, ease: "easeOut" }}
-      className="w-56 sm:w-80 md:w-[26rem] h-auto mb-8 drop-shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:scale-105 transition-transform duration-700"
-    />
+   <motion.img
+  src="/svasthol_logo.png"
+  alt="Svasth Ol Logo"
+  style={{
+    transform: `translate(${offset.x}px, ${offset.y}px)`,
+  }}
+  transition={{ type: "spring", stiffness: 50, damping: 20 }}
+  className="w-56 sm:w-80 md:w-[26rem] h-auto mb-8 drop-shadow-[0_0_25px_rgba(16,185,129,0.3)]"
+/>
+
 
     <motion.h2
       initial={{ opacity: 0, y: 20 }}
