@@ -124,30 +124,87 @@ export default function SvasthOlWebsite() {
       {/* hero */}
       <section
   id="home"
-  className="pt-28 pb-28 flex flex-col items-center justify-center text-center bg-gradient-to-r from-emerald-100 via-amber-50 to-yellow-100 animate-gradient"
+  className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-white text-center"
 >
+  {/* Floating Background Animation */}
+  <div className="absolute inset-0 overflow-hidden">
+    <div className="absolute w-[200%] h-[200%] bg-gradient-to-r from-emerald-50 via-amber-50 to-yellow-50 animate-gradientFlow opacity-80"></div>
+    {/* Floating leaves (soft animated elements) */}
+    {Array.from({ length: 12 }).map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute text-emerald-200 text-6xl"
+        initial={{ opacity: 0, y: Math.random() * 400 }}
+        animate={{
+          opacity: [0.3, 0.8, 0.3],
+          y: [Math.random() * 500, -200],
+          x: [Math.random() * 400 - 200, Math.random() * 400 - 200],
+          rotate: [0, 360],
+        }}
+        transition={{
+          duration: 12 + Math.random() * 8,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        🍃
+      </motion.div>
+    ))}
+  </div>
+
   {/* Logo */}
   <motion.img
     src="/svasthol_logo.png"
     alt="Svasth Ol Logo"
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 1.2, ease: 'easeOut' }}
-    className="w-72 md:w-96 h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-500"
+    initial={{ opacity: 0, scale: 0.9, y: 40 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    transition={{ duration: 1.4, ease: "easeOut" }}
+    className="relative w-72 md:w-[26rem] h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-700"
   />
 
   {/* Tagline */}
   <motion.h2
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.3, duration: 1 }}
-    className="text-2xl md:text-3xl font-semibold text-emerald-800 tracking-wide"
+    transition={{ delay: 0.5, duration: 1 }}
+    className="relative text-3xl md:text-4xl font-semibold text-emerald-800 tracking-wide"
   >
     Natural · Trusted · Quality
   </motion.h2>
+
+  {/* CTA buttons */}
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 1, duration: 1 }}
+    className="mt-10 flex gap-4 justify-center"
+  >
+    <a
+      href="#menu"
+      className="px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold shadow-lg hover:bg-emerald-700 transition"
+    >
+      Explore Menu
+    </a>
+    <a
+      href="#contact"
+      className="px-6 py-3 rounded-full border border-emerald-600 text-emerald-700 font-semibold hover:bg-emerald-50 transition"
+    >
+      Order Now
+    </a>
+  </motion.div>
+
+  {/* Gradient Animation Keyframes */}
+  <style>{`
+    @keyframes gradientFlow {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(-10%, -10%) rotate(3deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+    .animate-gradientFlow {
+      animation: gradientFlow 15s ease-in-out infinite;
+    }
+  `}</style>
 </section>
-
-
 
       {/* menu */}
       <section id="menu" className="mt-20">
