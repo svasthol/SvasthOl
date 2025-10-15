@@ -73,65 +73,50 @@ useEffect(() => {
       `}
   </style>
 
-      {/* header */}
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-sm">
-      <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+{/* ============================= */}
+{/* 🌿 Svasth Ol Header/Navbar */}
+{/* ============================= */}
+
+<header className="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-md shadow-sm">
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
     
-    {/* Left Navigation */}
-    <nav className="hidden md:flex items-center gap-6 text-sm text-gray-700">
-      <a href="#home" className="hover:text-emerald-600 transition-colors">Home</a>
-      <a href="#menu" className="hover:text-emerald-600 transition-colors">Menu</a>
-      <a href="#about" className="hover:text-emerald-600 transition-colors">About</a>
-    </nav>
-
-    {/* Center Logo */}
-    <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-2">
-      <img
-        src={svasthol_logo}
-        alt="Svasth Ol Logo"
-        className="h-10 w-auto object-contain"
-      />
-      <span className="text-xl font-semibold text-emerald-800 tracking-wide">Svasth Ol</span>
-    </div>
-
-    {/* Right Navigation */}
-    <nav className="hidden md:flex items-center gap-6 text-sm text-gray-700">
-      <a href="#gallery" className="hover:text-emerald-600 transition-colors">Gallery</a>
-      <a href="#reviews" className="hover:text-emerald-600 transition-colors">Reviews</a>
-      <a href="#contact" className="hover:text-emerald-600 transition-colors">Contact</a>
-
-      {/* Social Icons */}
-      <div className="flex items-center gap-3">
-        <a
-          href="https://www.instagram.com/svasth_ol/"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Svasth Ol Instagram"
-          className="hover:text-pink-500 transition-colors">
-          <Instagram size={18} />
-        </a>
-        <a
-          href="https://www.youtube.com/channel/UCUkPG2jyOxipC0EDYCXZdFQ"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Svasth Ol YouTube"
-          className="hover:text-red-600 transition-colors">
-          <Youtube size={18} />
-        </a>
-      </div>
-    </nav>
-
-    {/* Mobile CTA */}
-    <div className="md:hidden">
-      <a
-        href="#contact"
-        className="px-3 py-2 rounded-md bg-emerald-600 text-white font-semibold text-sm"
+    {/* 🌿 Brand Logo Orb */}
+    <a href="#home" className="flex items-center gap-2 group">
+      <motion.div
+        className="w-11 h-11 rounded-full bg-white shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-emerald-100 flex items-center justify-center overflow-hidden transition-transform duration-700 group-hover:scale-110 hover:shadow-[0_0_25px_rgba(16,185,129,0.4)]"
+        whileHover={{ rotate: 360 }}
+        transition={{ duration: 1.2, ease: 'easeInOut' }}
       >
-        Order
-      </a>
-    </div>
+        <img
+          src="/svasthol_logo.png"
+          alt="Svasth Ol Logo"
+          className="w-8 h-8 object-contain"
+        />
+      </motion.div>
+
+      <span className="font-semibold text-emerald-700 text-lg tracking-wide group-hover:text-emerald-800 transition-colors">
+        Svasth Ol
+      </span>
+    </a>
+
+    {/* 🌿 Navigation Links */}
+    <nav className="hidden md:flex items-center gap-8 text-emerald-800 font-medium">
+      <a href="#home" className="hover:text-emerald-600 transition">Home</a>
+      <a href="#about" className="hover:text-emerald-600 transition">About</a>
+      <a href="#menu" className="hover:text-emerald-600 transition">Menu</a>
+      <a href="#contact" className="hover:text-emerald-600 transition">Contact</a>
+    </nav>
+
+    {/* 🌿 Call-to-Action Button */}
+    <a
+      href="#order"
+      className="hidden md:inline-block px-5 py-2 bg-emerald-600 text-white rounded-full font-semibold shadow-md hover:bg-emerald-700 transition"
+    >
+      Order Now
+    </a>
   </div>
 </header>
+      
 
 
       {/* hero */}
