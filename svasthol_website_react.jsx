@@ -32,6 +32,19 @@ export default function SvasthOlWebsite() {
 
   const filtered = cat === 'All' ? MENU : MENU.filter((m) => m.category === cat)
 
+const [offset, setOffset] = useState({ x: 0, y: 0 })
+
+useEffect(() => {
+  const handleMove = (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 20
+    const y = (e.clientY / window.innerHeight - 0.5) * 20
+    setOffset({ x, y })
+  }
+  window.addEventListener('mousemove', handleMove)
+  return () => window.removeEventListener('mousemove', handleMove)
+}, [])
+
+  
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50 animate-gradient">
       {/* animated gradient keyframes (site-wide subtle theme) */}
