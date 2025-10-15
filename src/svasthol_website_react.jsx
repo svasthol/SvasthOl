@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Instagram, Youtube, Star } from 'lucide-react'
 import svasthol_logo from '/svasthol_logo.png'
-import { motion } from "framer-motion";
+
 
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
@@ -75,49 +75,72 @@ useEffect(() => {
   </style>
 
 {/* ============================= */}
-{/* 🌿 Svasth Ol Header/Navbar */}
+{/* 🌿 Svasth Ol Premium Header */}
 {/* ============================= */}
 
-<header className="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-md shadow-sm">
-  <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+<header
+  className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${
+    scrolled
+      ? 'bg-white/80 backdrop-blur-xl shadow-lg py-2'
+      : 'bg-white/60 backdrop-blur-md shadow-sm py-4'
+  }`}
+>
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-6 transition-all duration-700">
     
     {/* 🌿 Brand Logo Orb */}
     <a href="#home" className="flex items-center gap-2 group">
       <motion.div
-        className="w-11 h-11 rounded-full bg-white shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-emerald-100 flex items-center justify-center overflow-hidden transition-transform duration-700 group-hover:scale-110 hover:shadow-[0_0_25px_rgba(16,185,129,0.4)]"
+        className={`w-11 h-11 rounded-full border flex items-center justify-center overflow-hidden transition-all duration-700 ${
+          scrolled
+            ? 'bg-white border-emerald-300 shadow-[0_0_25px_rgba(16,185,129,0.5)]'
+            : 'bg-white border-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
+        }`}
         whileHover={{ rotate: 360 }}
         transition={{ duration: 1.2, ease: 'easeInOut' }}
       >
         <img
           src="/svasthol_logo.png"
           alt="Svasth Ol Logo"
-          className="w-8 h-8 object-contain"
+          className={`object-contain transition-all duration-700 ${
+            scrolled ? 'w-7 h-7' : 'w-8 h-8'
+          }`}
         />
       </motion.div>
 
-      <span className="font-semibold text-emerald-700 text-lg tracking-wide group-hover:text-emerald-800 transition-colors">
+      <span
+        className={`font-semibold tracking-wide transition-all duration-700 ${
+          scrolled ? 'text-emerald-800 text-base' : 'text-emerald-700 text-lg'
+        }`}
+      >
         Svasth Ol
       </span>
     </a>
 
     {/* 🌿 Navigation Links */}
-    <nav className="hidden md:flex items-center gap-8 text-emerald-800 font-medium">
+    <nav
+      className={`hidden md:flex items-center gap-8 font-medium transition-all duration-700 ${
+        scrolled ? 'text-emerald-700' : 'text-emerald-800'
+      }`}
+    >
       <a href="#home" className="hover:text-emerald-600 transition">Home</a>
       <a href="#about" className="hover:text-emerald-600 transition">About</a>
       <a href="#menu" className="hover:text-emerald-600 transition">Menu</a>
       <a href="#contact" className="hover:text-emerald-600 transition">Contact</a>
     </nav>
 
-    {/* 🌿 Call-to-Action Button */}
+    {/* 🌿 CTA Button */}
     <a
       href="#order"
-      className="hidden md:inline-block px-5 py-2 bg-emerald-600 text-white rounded-full font-semibold shadow-md hover:bg-emerald-700 transition"
+      className={`hidden md:inline-block px-5 py-2 rounded-full font-semibold shadow-md transition-all duration-700 ${
+        scrolled
+          ? 'bg-emerald-600 text-white hover:bg-emerald-700'
+          : 'bg-emerald-500 text-white hover:bg-emerald-600'
+      }`}
     >
       Order Now
     </a>
   </div>
 </header>
-      
 
 
       {/* hero */}
