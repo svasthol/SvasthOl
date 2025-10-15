@@ -3,9 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Svasth Ol</title>
-	 <link rel="icon" type="image/png" href="/svasthol_logo.png" />
+    <meta name="theme-color" content="#10B981" />
+    <meta
+      name="description"
+      content="Svasth Ol · Natural · Trusted · Quality — Authentic South Indian Pulihora made with love and tradition."
+    />
+
+    <!-- 🌿 Favicon & App Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/svasthol_logo.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/svasthol_logo.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/svasthol_logo.png" />
+
+    <!-- 🌈 Page Title -->
+    <title>Svasth Ol · Natural · Trusted · Quality</title>
+
+    <!-- Optional: Animated favicon glow for modern browsers -->
+    <style>
+      @keyframes faviconGlow {
+        0% {
+          filter: drop-shadow(0 0 0px rgba(16, 185, 129, 0.2));
+        }
+        50% {
+          filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.6));
+        }
+        100% {
+          filter: drop-shadow(0 0 0px rgba(16, 185, 129, 0.2));
+        }
+      }
+      link[rel='icon'] {
+        animation: faviconGlow 4s ease-in-out infinite;
+      }
+    </style>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
