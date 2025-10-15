@@ -163,35 +163,37 @@ export default function SvasthOlWebsite() {
       />
     ))}
 
-    {/* Floating ingredients */}
-    {[
-      "🍋",
-      "🌿",
-      "🌶️",
-      "🌾",
-      "🥥",
-      "🫛",
-      "🍊",
-      "🍎",
-      "🍍",
-    ].map((icon, i) => (
-      <motion.div
-        key={`icon-${i}`}
-        className="absolute text-4xl sm:text-5xl opacity-40"
-        style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`,
-        }}
-        animate={{
-          y: [0, -30, 0],
-          rotate: [0, 10, -10, 0],
-        }}
-        transition={{
-          duration: 10 + i * 2,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      >
+    {/* 🍋 Floating SVG ingredients */}
+{[
+  "lemon.svg",
+  "leaf.svg",
+  "chili.svg",
+  "rice.svg",
+  "coconut.svg",
+  "lentil.svg",
+].map((file, i) => (
+  <motion.img
+    key={i}
+    src={`/graphics/${file}`}
+    alt={file.replace(".svg", "")}
+    className="absolute w-8 sm:w-10 md:w-12 opacity-40"
+    style={{
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    }}
+    animate={{
+      y: [0, -30, 0],
+      rotate: [0, 10, -10, 0],
+    }}
+    transition={{
+      duration: 12 + i * 2,
+      repeat: Infinity,
+      ease: "easeInOut",
+    }}
+  />
+))}
+
+    
         {icon}
       </motion.div>
     ))}
