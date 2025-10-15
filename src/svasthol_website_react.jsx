@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Instagram, Youtube, Star } from 'lucide-react'
 import svasthol_logo from '/svasthol_logo.png'
-
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
@@ -45,6 +46,16 @@ useEffect(() => {
   window.addEventListener('mousemove', handleMove)
   return () => window.removeEventListener('mousemove', handleMove)
 }, [])
+
+	const [scrolled, setScrolled] = useState(false);
+
+useEffect(() => {
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 30);
+  };
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
 	
   return (
@@ -141,6 +152,7 @@ useEffect(() => {
     </a>
   </div>
 </header>
+
 
 
       {/* hero */}
