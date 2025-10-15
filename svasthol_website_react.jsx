@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Instagram, Youtube, Star } from 'lucide-react'
+import { motion } from "framer-motion";
 
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
@@ -71,40 +72,50 @@ useEffect(() => {
       }
       </style>
 
-      {/* header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-sm shadow-sm">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">S O</div>
-            <div>
-              <h1 className="text-lg font-semibold">Svasth Ol</h1>
-              <p className="text-xs text-gray-600">Pure Taste · Natural Goodness</p>
-            </div>
-          </div>
+      {/* ============================= */}
+{/* 🌿 Svasth Ol Header/Navbar */}
+{/* ============================= */}
 
-          <nav className="hidden md:flex items-center gap-6 text-sm">
-            <a href="#home" className="hover:text-emerald-600">Home</a>
-            <a href="#menu" className="hover:text-emerald-600">Our Menu</a>
-            <a href="#about" className="hover:text-emerald-600">About Us</a>
-            <a href="#gallery" className="hover:text-emerald-600">Gallery</a>
-            <a href="#reviews" className="hover:text-emerald-600">Reviews</a>
-            <a href="#contact" className="hover:text-emerald-600">Contact / Order</a>
+<header className="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-md shadow-sm">
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
+    
+    {/* 🌿 Brand Logo Orb */}
+    <a href="#home" className="flex items-center gap-2 group">
+      <motion.div
+        className="w-11 h-11 rounded-full bg-white shadow-[0_0_15px_rgba(16,185,129,0.2)] border border-emerald-100 flex items-center justify-center overflow-hidden transition-transform duration-700 group-hover:scale-110 hover:shadow-[0_0_25px_rgba(16,185,129,0.4)]"
+        whileHover={{ rotate: 360 }}
+        transition={{ duration: 1.2, ease: 'easeInOut' }}
+      >
+        <img
+          src="/svasthol_logo.png"
+          alt="Svasth Ol Logo"
+          className="w-8 h-8 object-contain"
+        />
+      </motion.div>
 
-            <div className="flex items-center gap-3">
-              <a href="https://www.instagram.com/svasth_ol/" target="_blank" rel="noreferrer" aria-label="Svasth Ol Instagram" className="hover:text-pink-500">
-                <Instagram size={18} />
-              </a>
-              <a href="https://www.youtube.com/channel/UCUkPG2jyOxipC0EDYCXZdFQ" target="_blank" rel="noreferrer" aria-label="Svasth Ol YouTube" className="hover:text-red-600">
-                <Youtube size={18} />
-              </a>
-            </div>
-          </nav>
+      <span className="font-semibold text-emerald-700 text-lg tracking-wide group-hover:text-emerald-800 transition-colors">
+        Svasth Ol
+      </span>
+    </a>
 
-          <div className="md:hidden">
-            <a href="#contact" className="px-3 py-2 rounded-md bg-emerald-600 text-white font-semibold text-sm">Order</a>
-          </div>
-        </div>
-      </header>
+    {/* 🌿 Navigation Links */}
+    <nav className="hidden md:flex items-center gap-8 text-emerald-800 font-medium">
+      <a href="#home" className="hover:text-emerald-600 transition">Home</a>
+      <a href="#about" className="hover:text-emerald-600 transition">About</a>
+      <a href="#menu" className="hover:text-emerald-600 transition">Menu</a>
+      <a href="#contact" className="hover:text-emerald-600 transition">Contact</a>
+    </nav>
+
+    {/* 🌿 Call-to-Action Button */}
+    <a
+      href="#order"
+      className="hidden md:inline-block px-5 py-2 bg-emerald-600 text-white rounded-full font-semibold shadow-md hover:bg-emerald-700 transition"
+    >
+      Order Now
+    </a>
+  </div>
+</header>
+
 
       {/* hero */}
       <section
