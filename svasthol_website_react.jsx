@@ -123,30 +123,33 @@ useEffect(() => {
 
   {/* 🧃 Mid-layer graphics */}
   <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-    {/* Swirling juice waves */}
-    {Array.from({ length: 3 }).map((_, i) => (
-      <motion.div
-        key={`wave-${i}`}
-        className="absolute w-[120%] h-[120%] rounded-full mix-blend-multiply blur-3xl opacity-40"
-        style={{
-          background:
-            i % 2 === 0
-              ? "radial-gradient(circle at 30% 30%, #fde68a40 0%, transparent 70%)"
-              : "radial-gradient(circle at 70% 70%, #6ee7b740 0%, transparent 70%)",
-          left: `${-10 + i * 5}%`,
-          top: `${-20 + i * 10}%`,
-        }}
-        animate={{
-          rotate: [0, 360],
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 40 + i * 10,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-      />
-    ))}
+    {/* Swirling juice waves with parallax */}
+{Array.from({ length: 3 }).map((_, i) => (
+  <motion.div
+    key={`wave-${i}`}
+    className="absolute w-[120%] h-[120%] rounded-full mix-blend-multiply blur-3xl opacity-40"
+    style={{
+      background:
+        i % 2 === 0
+          ? "radial-gradient(circle at 30% 30%, #fde68a40 0%, transparent 70%)"
+          : "radial-gradient(circle at 70% 70%, #6ee7b740 0%, transparent 70%)",
+      left: `${-10 + i * 5}%`,
+      top: `${-20 + i * 10}%`,
+      transform: `translate(${-offset.x * 0.5}px, ${-offset.y * 0.5}px)`,
+    }}
+    animate={{
+      rotate: [0, 360],
+      scale: [1, 1.1, 1],
+    }}
+    transition={{
+      duration: 40 + i * 10,
+      repeat: Infinity,
+      ease: "linear",
+    }}
+  />
+))}
+
+    
 
     {/* 🍋 Floating SVG ingredients */}
 {[
