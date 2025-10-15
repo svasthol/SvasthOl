@@ -102,26 +102,35 @@ export default function SvasthOlWebsite() {
   <div className="absolute inset-0 bg-gradient-to-r from-emerald-50 via-amber-50 to-yellow-50 animate-gradientFlow opacity-90"></div>
 
   {/* Floating leaves (light, subtle, local only) */}
-  {Array.from({ length: 10 }).map((_, i) => (
+  {/* 🍋 Desktop-only natural animation layer */}
+<div className="absolute inset-0 hidden md:block pointer-events-none overflow-hidden">
+  {[
+    { icon: "🍋", x: 10, y: 100 },
+    { icon: "🌿", x: 300, y: 250 },
+    { icon: "🌶️", x: 600, y: 150 },
+    { icon: "🌾", x: 900, y: 280 },
+    { icon: "🥥", x: 200, y: 400 },
+    { icon: "🫛", x: 750, y: 380 },
+  ].map((item, i) => (
     <motion.div
       key={i}
-      className="absolute text-emerald-200 text-6xl select-none"
-      initial={{ opacity: 0, y: Math.random() * 300 }}
+      className="absolute text-5xl opacity-30"
+      style={{ left: item.x, top: item.y }}
       animate={{
-        opacity: [0.2, 0.8, 0.2],
-        y: [Math.random() * 400, -100],
-        x: [Math.random() * 300 - 150, Math.random() * 300 - 150],
-        rotate: [0, 360],
+        y: [item.y, item.y - 40, item.y],
+        rotate: [0, 15, -10, 0],
       }}
       transition={{
-        duration: 15 + Math.random() * 10,
+        duration: 10 + i * 3,
         repeat: Infinity,
         ease: "easeInOut",
       }}
     >
-      🍃
+      {item.icon}
     </motion.div>
   ))}
+</div>
+
 
   {/* Content Layer */}
   <div className="relative z-10 flex flex-col items-center justify-center px-4">
