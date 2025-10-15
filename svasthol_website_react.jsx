@@ -124,68 +124,62 @@ useEffect(() => {
   {/* 🧃 Mid-layer graphics */}
   <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
     {/* Swirling juice waves with parallax */}
-{Array.from({ length: 3 }).map((_, i) => (
-  <motion.div
-    key={`wave-${i}`}
-    className="absolute w-[120%] h-[120%] rounded-full mix-blend-multiply blur-3xl opacity-40"
-    style={{
-      background:
-        i % 2 === 0
-          ? "radial-gradient(circle at 30% 30%, #fde68a40 0%, transparent 70%)"
-          : "radial-gradient(circle at 70% 70%, #6ee7b740 0%, transparent 70%)",
-      left: `${-10 + i * 5}%`,
-      top: `${-20 + i * 10}%`,
-      transform: `translate(${-offset.x * 0.5}px, ${-offset.y * 0.5}px)`,
-    }}
-    animate={{
-      rotate: [0, 360],
-      scale: [1, 1.1, 1],
-    }}
-    transition={{
-      duration: 40 + i * 10,
-      repeat: Infinity,
-      ease: "linear",
-    }}
-  />
-))}
-
-    
-
-    {/* 🍋 Floating SVG ingredients */}
-{[
-  "lemon.svg",
-  "leaf.svg",
-  "chili.svg",
-  "rice.svg",
-  "coconut.svg",
-  "lentil.svg",
-].map((file, i) => (
-  <motion.img
-    key={i}
-    src={`/graphics/${file}`}
-    alt={file.replace(".svg", "")}
-    className="absolute w-8 sm:w-10 md:w-12 opacity-40"
-    style={{
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-    }}
-    animate={{
-      y: [0, -30, 0],
-      rotate: [0, 10, -10, 0],
-    }}
-    transition={{
-      duration: 12 + i * 2,
-      repeat: Infinity,
-      ease: "easeInOut",
-    }}
-  />
-))}
-
-        {icon}
-      </motion.div>
+    {Array.from({ length: 3 }).map((_, i) => (
+      <motion.div
+        key={`wave-${i}`}
+        className="absolute w-[120%] h-[120%] rounded-full mix-blend-multiply blur-3xl opacity-40"
+        style={{
+          background:
+            i % 2 === 0
+              ? "radial-gradient(circle at 30% 30%, #fde68a40 0%, transparent 70%)"
+              : "radial-gradient(circle at 70% 70%, #6ee7b740 0%, transparent 70%)",
+          left: `${-10 + i * 5}%`,
+          top: `${-20 + i * 10}%`,
+          transform: `translate(${-offset.x * 0.5}px, ${-offset.y * 0.5}px)`,
+        }}
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 40 + i * 10,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+      />
     ))}
 
-    {/* Bubbles */}
+    {/* Floating SVG ingredients */}
+    {[
+      "lemon.svg",
+      "leaf.svg",
+      "chili.svg",
+      "rice.svg",
+      "coconut.svg",
+      "lentil.svg",
+    ].map((file, i) => (
+      <motion.img
+        key={i}
+        src={`/graphics/${file}`}
+        alt={file.replace(".svg", "")}
+        className="absolute w-8 sm:w-10 md:w-12 opacity-40"
+        style={{
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+        }}
+        animate={{
+          y: [0, -30, 0],
+          rotate: [0, 10, -10, 0],
+        }}
+        transition={{
+          duration: 12 + i * 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      />
+    ))}
+
+    {/* Juice bubbles */}
     {Array.from({ length: 15 }).map((_, i) => (
       <motion.div
         key={`bubble-${i}`}
@@ -212,16 +206,13 @@ useEffect(() => {
 
   {/* 🌿 Foreground: logo + text + buttons */}
   <div className="relative z-20 flex flex-col items-center justify-center px-4">
-   <motion.img
-  src="/svasthol_logo.png"
-  alt="Svasth Ol Logo"
-  style={{
-    transform: `translate(${offset.x}px, ${offset.y}px)`,
-  }}
-  transition={{ type: "spring", stiffness: 50, damping: 20 }}
-  className="w-56 sm:w-80 md:w-[26rem] h-auto mb-8 drop-shadow-[0_0_25px_rgba(16,185,129,0.3)]"
-/>
-
+    <motion.img
+      src="/svasthol_logo.png"
+      alt="Svasth Ol Logo"
+      style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
+      transition={{ type: "spring", stiffness: 50, damping: 20 }}
+      className="w-56 sm:w-80 md:w-[26rem] h-auto mb-8 drop-shadow-[0_0_25px_rgba(16,185,129,0.3)] hover:scale-105 transition-transform duration-700"
+    />
 
     <motion.h2
       initial={{ opacity: 0, y: 20 }}
@@ -253,6 +244,7 @@ useEffect(() => {
     </motion.div>
   </div>
 </section>
+
 
 
       {/* menu */}
