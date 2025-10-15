@@ -126,67 +126,90 @@ export default function SvasthOlWebsite() {
   id="home"
   className="relative flex flex-col items-center justify-center min-h-screen text-center bg-white overflow-hidden"
 >
-  {/* Animated gradient only behind logo */}
-  <div className="absolute inset-0 bg-gradient-to-r from-emerald-50 via-amber-50 to-yellow-50 animate-gradientFlow opacity-90"></div>
+  {/* 🌈 Animated gradient background */}
+  <div className="absolute inset-0 z-0 bg-gradient-to-r from-emerald-50 via-amber-50 to-yellow-50 animate-gradientFlow opacity-90"></div>
 
-  {/* Floating leaves (light, subtle, local only) */}
-  {/* 🍋 Desktop-only natural animation layer */}
-<div className="absolute inset-0 hidden md:block pointer-events-none overflow-hidden">
-  {[
-    { icon: "🍋", x: 10, y: 100 },
-    { icon: "🌿", x: 300, y: 250 },
-    { icon: "🌶️", x: 600, y: 150 },
-    { icon: "🌾", x: 900, y: 280 },
-    { icon: "🥥", x: 200, y: 400 },
-    { icon: "🫛", x: 750, y: 380 },
-  ].map((item, i) => (
-    <motion.div
-      key={i}
-      className="absolute text-5xl opacity-30"
-      style={{ left: item.x, top: item.y }}
-      animate={{
-        y: [item.y, item.y - 40, item.y],
-        rotate: [0, 15, -10, 0],
-      }}
-      transition={{
-        duration: 10 + i * 3,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-    >
-      {item.icon}
-    </motion.div>
-  ))}
-</div>
+  {/* 🍋 Natural ingredient animation layer — now visible on all devices */}
+  <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+    {[
+      { icon: "🍋", x: 30, y: 120 },
+      { icon: "🌿", x: 220, y: 240 },
+      { icon: "🌶️", x: 100, y: 160 },
+      { icon: "🌾", x: 270, y: 320 },
+      { icon: "🥥", x: 80, y: 400 },
+      { icon: "🫛", x: 200, y: 420 },
+    ].map((item, i) => (
+      <motion.div
+        key={i}
+        className="absolute text-4xl sm:text-5xl opacity-30"
+        style={{
+          left: `${item.x + Math.random() * 40}px`,
+          top: `${item.y + Math.random() * 40}px`,
+        }}
+        animate={{
+          y: [item.y, item.y - 40, item.y],
+          rotate: [0, 10, -10, 0],
+        }}
+        transition={{
+          duration: 14 + i * 2,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        {item.icon}
+      </motion.div>
+    ))}
 
-  {/* Content Layer */}
-  <div className="relative z-10 flex flex-col items-center justify-center px-4">
-    {/* Logo */}
+    {/* 🧃 Juice bubbles animation (mobile friendly) */}
+    {Array.from({ length: 10 }).map((_, i) => (
+      <motion.div
+        key={`bubble-${i}`}
+        className="absolute bg-amber-200/40 rounded-full blur-sm"
+        style={{
+          left: `${Math.random() * 100}%`,
+          bottom: `${Math.random() * 20}%`,
+          width: `${6 + Math.random() * 16}px`,
+          height: `${6 + Math.random() * 16}px`,
+        }}
+        animate={{
+          y: [-80 - Math.random() * 100, 0],
+          opacity: [0, 0.6, 0],
+        }}
+        transition={{
+          duration: 7 + Math.random() * 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: i * 0.3,
+        }}
+      />
+    ))}
+  </div>
+
+  {/* 🌿 Logo + Text + Buttons */}
+  <div className="relative z-20 flex flex-col items-center justify-center px-4">
     <motion.img
       src="/svasthol_logo.png"
       alt="Svasth Ol Logo"
       initial={{ opacity: 0, scale: 0.9, y: 30 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 1.4, ease: "easeOut" }}
-      className="w-72 md:w-[24rem] h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-700"
+      className="w-52 sm:w-72 md:w-[22rem] h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-700"
     />
 
-    {/* Tagline */}
     <motion.h2
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 1 }}
-      className="text-3xl md:text-4xl font-semibold text-emerald-800 tracking-wide"
+      className="text-2xl sm:text-3xl md:text-4xl font-semibold text-emerald-800 tracking-wide"
     >
       Natural · Trusted · Quality
     </motion.h2>
 
-    {/* CTA Buttons */}
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1, duration: 1 }}
-      className="mt-10 flex gap-4 justify-center"
+      className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
     >
       <a
         href="#menu"
@@ -203,7 +226,7 @@ export default function SvasthOlWebsite() {
     </motion.div>
   </div>
 
-  {/* Gradient Animation Keyframes (local only) */}
+  {/* 🎞️ Local keyframes */}
   <style>{`
     @keyframes gradientFlow {
       0% { background-position: 0% 50%; }
@@ -216,6 +239,7 @@ export default function SvasthOlWebsite() {
     }
   `}</style>
 </section>
+
 
       {/* menu */}
       <section id="menu" className="mt-20">
