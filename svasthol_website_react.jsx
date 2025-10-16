@@ -120,7 +120,7 @@ useEffect(() => {
           scrolled ? 'text-emerald-800 text-base' : 'text-emerald-700 text-lg'
         }`}
       >
-        Svasth Ol
+        Svasth Òl
       </span>
     </a>
 
