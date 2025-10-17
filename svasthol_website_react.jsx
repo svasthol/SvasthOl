@@ -336,7 +336,7 @@ useEffect(() => {
                 <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-emerald-600 font-bold">{item.price}</div>
-                  <a href={`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(`Hi Svasth Ol, I want to order ${item.name}`)}`} className="px-3 py-2 rounded-md bg-emerald-600 text-white text-sm">Order on WhatsApp</a>
+                  <a href={`https://wa.me/917569633829?text=${encodeURIComponent(`Hi Svasth Ol, I want to order ${item.name}`)}`} className="px-3 py-2 rounded-md bg-emerald-600 text-white text-sm">Order on WhatsApp</a>
                 </div>
               </motion.div>
             ))}
