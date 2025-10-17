@@ -8,7 +8,7 @@ export default function PrivacyPolicy() {
 
       <section className="space-y-6">
         <p>
-          Svasth Ol Foods Private Limited (“Svasth Ol”, “we”, “our”, “us”) respects your privacy and 
+          Svasth Ol (“Svasth Ol”, “we”, “our”, “us”) respects your privacy and 
           handles your personal data in compliance with the <strong>Digital Personal Data Protection Act, 2023</strong> 
           and relevant Indian regulations.
         </p>
