@@ -1,10 +1,13 @@
 services:
   - type: web
     name: svasth-ol
-    env: static
+    env: node
     plan: free
     buildCommand: npm run build
-    staticPublishPath: dist
+    startCommand: npx serve -s dist
+    envVars:
+      - key: NODE_VERSION
+        value: 20
     routes:
       - type: rewrite
         source: /*
