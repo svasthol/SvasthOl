@@ -92,8 +92,8 @@ export default function TermsConditions() {
         <h2 className="text-xl font-semibold text-emerald-700">13. Contact</h2>
         <p>
           📧 hello@svasthol.example<br />
-          📞 +91-XXXXXXXXXX<br />
-          📍 Kitchen: Hometown Road, City – PIN
+          📞 +91-7569633829<br />
+          📍 Kitchen: Satyanarayana Colony, Nagaram, Hyderabad -PIN 500083
         </p>
       </section>
     </div>
