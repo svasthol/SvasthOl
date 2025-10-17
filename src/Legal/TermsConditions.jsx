@@ -63,7 +63,7 @@ export default function TermsConditions() {
 
         <h2 className="text-xl font-semibold text-emerald-700">8. Intellectual Property</h2>
         <p>
-          All recipes, logos, content, and designs belong to Svasth Ol Foods Pvt. Ltd. 
+          All recipes, logos, content, and designs belong to Svasth Ol Foods  
           Reproduction or distribution without permission is prohibited.
         </p>
 
