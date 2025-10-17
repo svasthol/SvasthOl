@@ -10,7 +10,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Instagram, Youtube, Star, MessageCircle } from "lucide-react";
-import { FloatingDecor, GlowButton } from "./components/MobileEffects";
+import { FloatingDecor, GlowButton } from "./src/components/MobileEffects";
 
 // --- your data (unchanged)
 const MENU = [
