@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Instagram, Youtube, Star } from "lucide-react";
+import MobileLuxury from "./src/components/MobileLuxury";
+
 
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
