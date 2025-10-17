@@ -437,26 +437,75 @@ useEffect(() => {
         </div>
       </section>
 
-      {/* footer */}
-      <footer className="mt-20 py-8 bg-white border-t">
-        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>
-            <p className="font-semibold text-emerald-800">Svasth Ol</p>
-            <p className="text-sm text-gray-500">© {new Date().getFullYear()} Svasth Ol. All rights reserved.</p>
-          </div>
-          <div className="flex items-center gap-4 text-sm text-gray-600">
-            <a href="https://www.instagram.com/svasth_ol/" target="_blank" rel="noreferrer" className="hover:text-pink-500" aria-label="Instagram link">
-              <Instagram size={18} />
-            </a>
-            <a href="https://www.youtube.com/channel/UCUkPG2jyOxipC0EDYCXZdFQ" target="_blank" rel="noreferrer" className="hover:text-red-600" aria-label="YouTube link">
-              <Youtube size={18} />
-            </a>
-            <a href="#" className="text-gray-600 hover:text-emerald-700">Privacy</a>
-            <a href="#" className="text-gray-600 hover:text-emerald-700">Terms</a>
-            <a href="#contact" className="text-gray-600 hover:text-emerald-700">Contact</a>
-          </div>
-        </div>
-      </footer>
+      {/* 🌿 Ultra Premium Footer */}
+<footer className="relative mt-32 overflow-hidden">
+  {/* Background gradient & decorative orbs */}
+  <div className="absolute inset-0 bg-gradient-to-r from-emerald-50 via-amber-50 to-yellow-50"></div>
+  <motion.div
+    className="absolute -top-10 -left-20 w-64 h-64 bg-emerald-200/40 rounded-full blur-3xl"
+    animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+    transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+  />
+  <motion.div
+    className="absolute bottom-0 right-0 w-80 h-80 bg-amber-200/40 rounded-full blur-3xl"
+    animate={{ x: [0, -40, 0], y: [0, 30, 0] }}
+    transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+  />
+
+  {/* Content */}
+  <div className="relative z-10 max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+    
+    {/* Brand Section */}
+    <div>
+      <img src="/svasthol_logo.png" alt="Svasth Ol Logo"
+        className="h-14 w-auto mb-3 drop-shadow-[0_0_12px_rgba(16,185,129,0.4)]" />
+      <h3 className="text-2xl font-bold text-emerald-800">Svasth Ol</h3>
+      <p className="text-amber-700 text-sm mt-1">Natural · Trusted · Quality</p>
+      <p className="text-gray-600 text-sm mt-3">Authentic South-Indian wellness, re-imagined for the modern world.</p>
     </div>
+
+    {/* Quick Links */}
+    <div>
+      <h4 className="font-semibold text-emerald-700 mb-3">Explore</h4>
+      <ul className="space-y-2 text-gray-700">
+        <li><a href="#home" className="hover:text-emerald-600">Home</a></li>
+        <li><a href="#menu" className="hover:text-emerald-600">Menu</a></li>
+        <li><a href="#about" className="hover:text-emerald-600">About</a></li>
+        <li><a href="#contact" className="hover:text-emerald-600">Order Now</a></li>
+      </ul>
+    </div>
+
+    {/* Contact */}
+    <div>
+      <h4 className="font-semibold text-emerald-700 mb-3">Connect</h4>
+      <p className="text-gray-700 text-sm">📍 Hometown Rd, City</p>
+      <p className="text-gray-700 text-sm">📞 +91-XXXXXXXXXX</p>
+      <p className="text-gray-700 text-sm">✉️ hello@svasthol.example</p>
+      <div className="flex gap-4 mt-4">
+        <a href="https://www.instagram.com/svasth_ol/" target="_blank" rel="noreferrer"
+           className="hover:text-pink-500"><Instagram size={20}/></a>
+        <a href="https://www.youtube.com/channel/UCUkPG2jyOxipC0EDYCXZdFQ" target="_blank" rel="noreferrer"
+           className="hover:text-red-600"><Youtube size={20}/></a>
+      </div>
+    </div>
+
+    {/* Newsletter */}
+    <div>
+      <h4 className="font-semibold text-emerald-700 mb-3">Stay Updated</h4>
+      <p className="text-gray-600 text-sm mb-2">Join our list for fresh offers & new blends.</p>
+      <div className="flex">
+        <input type="email" placeholder="Your Email"
+          className="flex-1 rounded-l-md border border-emerald-300 p-2 focus:outline-none" />
+        <button className="bg-emerald-600 text-white px-4 rounded-r-md hover:bg-emerald-700">Join</button>
+      </div>
+    </div>
+  </div>
+
+  {/* Bottom Line */}
+  <div className="relative z-10 border-t border-emerald-200 text-center py-4 text-sm text-gray-600">
+    © {new Date().getFullYear()} <strong>Svasth Ol</strong> — Crafted with 🌿 and Tradition · All Rights Reserved
+    </div>
+  </footer>
+</div>
   )
 }
