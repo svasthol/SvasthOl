@@ -9,7 +9,7 @@ export default function TermsConditions() {
 
       <section className="space-y-6">
         <p>
-          Welcome to <strong>Svasth Ol Foods Private Limited</strong> (“Svasth Ol”, “we”, “our”, “us”). 
+          Welcome to <strong>Svasth Ol Foods</strong> (“Svasth Ol”, “we”, “our”, “us”). 
           By accessing or ordering through our website or WhatsApp channel, you agree to be bound by these Terms & Conditions 
           and our Privacy Policy. Please read them carefully.
         </p>
