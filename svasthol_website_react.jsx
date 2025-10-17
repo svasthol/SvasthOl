@@ -472,6 +472,8 @@ useEffect(() => {
         <li><a href="#menu" className="hover:text-emerald-600">Menu</a></li>
         <li><a href="#about" className="hover:text-emerald-600">About</a></li>
         <li><a href="#contact" className="hover:text-emerald-600">Order Now</a></li>
+        <li><a href="/terms" className="hover:text-emerald-600">Terms & Conditions</a></li>
+        <li><a href="/privacy-policy" className="hover:text-emerald-600">Privacy Policy</a></li>
       </ul>
     </div>
 
