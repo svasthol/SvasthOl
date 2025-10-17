@@ -58,6 +58,24 @@ useEffect(() => {
   
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50 animate-gradient">
+
+      {/* 🌿 Floating decorative graphics */}
+<motion.img
+  src="/graphics/leaf.svg"
+  alt="Leaf decor"
+  className="fixed bottom-10 left-10 w-12 opacity-30 rotate-[20deg] pointer-events-none"
+  animate={{ y: [0, -10, 0], rotate: [15, 25, 15] }}
+  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+/>
+<motion.img
+  src="/graphics/coconut.svg"
+  alt="Coconut decor"
+  className="fixed top-20 right-16 w-16 opacity-30 pointer-events-none"
+  animate={{ y: [0, 15, 0], rotate: [-10, 10, -10] }}
+  transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+/>
+
+      
       {/* animated gradient keyframes (site-wide subtle theme) */}
       <style>{`
         @keyframes gradientFlow {
