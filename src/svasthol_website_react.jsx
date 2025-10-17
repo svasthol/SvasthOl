@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Instagram, Youtube, Star } from "lucide-react";
-import { FloatingDecor, GlowButton } from "./components/MobileEffects";
+import { FloatingDecor, GlowButton } from "./src/components/MobileEffects";
 
 // Svasth Ol — React Single-File Component
 // Desktop remains the same; Mobile gets upgraded smooth scrolling
