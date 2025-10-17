@@ -79,7 +79,7 @@ export default function PrivacyPolicy() {
         <p>
           <strong>Name:</strong> [Appointed Contact Person]<br />
           <strong>Email:</strong> privacy@svasthol.example<br />
-          <strong>Address:</strong> Svasth Ol Foods Pvt. Ltd., Hometown Road, City – PIN<br />
+          <strong>Address:</strong> Svasth Ol Foods, Hometown Road, City – PIN<br />
           <strong>Response Time:</strong> Within 15 working days (as per DPDP Rules 2025)
         </p>
 
