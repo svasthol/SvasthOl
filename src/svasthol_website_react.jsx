@@ -419,7 +419,7 @@ useEffect(() => {
               <p className="text-sm">📞 Phone: +91-XXXXXXXXXX</p>
               <p className="text-sm">✉️ Email: hello@svasthol.example</p>
               <div className="flex gap-3 mt-4">
-                <a href={`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent('Hi Svasth Ol, I would like to place an order')}`} className="px-4 py-3 rounded-lg bg-white text-emerald-700 font-semibold">Order on WhatsApp</a>
+                <a href={`https://wa.me/917569633829?text=${encodeURIComponent('Hi Svasth Ol, I would like to place an order')}`} className="px-4 py-3 rounded-lg bg-white text-emerald-700 font-semibold">Order on WhatsApp</a>
                 <a href="https://www.swiggy.com" target="_blank" rel="noreferrer" className="px-4 py-3 rounded-lg border border-white text-white">Swiggy</a>
                 <a href="https://www.zomato.com" target="_blank" rel="noreferrer" className="px-4 py-3 rounded-lg border border-white text-white">Zomato</a>
               </div>
