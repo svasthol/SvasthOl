@@ -422,13 +422,7 @@ useEffect(() => {
 	  
 {/* 🍋 Mobile Swipe Menu (Elastic & Simple) */}
 {/* 🛒 Floating Cart Button */}
-```)
 
-with the following code 👇
-
----
-
-```jsx
 {/* 🍋 Mobile Swipe Menu (Elastic & Simple with Elegant Swipe Hint) */}
 <div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
   <div className="flex flex-col gap-5">
