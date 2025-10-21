@@ -315,7 +315,7 @@ useEffect(() => {
 
 
       {/* menu */}
-      <section id="menu" className="mt-20">
+      <section id="menu" className="relative z-10 mt-20">
         <div className="max-w-6xl mx-auto px-6">
           <h3 className="text-3xl font-bold text-emerald-800">Our Menu</h3>
           <p className="mt-2 text-gray-600">Healthy choices — made fresh daily.</p>
