@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Instagram, Youtube, Star } from "lucide-react";
-import MobileLuxury from "./src/components/MobileLuxury";
+
 
 
 
@@ -32,7 +32,7 @@ export default function SvasthOlWebsite() {
   const [isOpeningCart, setIsOpeningCart] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [showHintHidden, setShowHintHidden] = useState(false);
-
+  const MobileLuxury = React.lazy(() => import("./src/components/MobileLuxury"));
 useEffect(() => {
   // Auto-hide after 3 seconds
   const timer = setTimeout(() => setShowHintHidden(true), 3000);
