@@ -433,41 +433,53 @@ useEffect(() => {
 
       return (
         <motion.div
-          key={item.id}
-          drag="x"
-          dragElastic={0.4}
-          dragConstraints={{ left: 0, right: 0 }}
-          onDragEnd={(e, info) => {
-            if (showHint) localStorage.setItem("swipeHintShown", "true");
+  key={item.id}
+  drag="x"
+  dragElastic={0.35}
+  dragConstraints={{ left: 0, right: 0 }}
+  animate={
+    index === 0 && !localStorage.getItem("swipeHintShown")
+      ? { x: [0, 12, -12, 8, -8, 0] }
+      : {}
+  }
+  transition={
+    index === 0
+      ? { duration: 1.8, ease: "easeInOut", repeat: 0, delay: 0.8 }
+      : {}
+  }
+  onAnimationComplete={() =>
+    index === 0 && localStorage.setItem("swipeHintShown", "true")
+  }
+  onDragEnd={(e, info) => {
+    if (info.offset.x > 80) {
+      // 👉 Swipe Right → Add
+      setCart((prev) => {
+        const existing = prev.find((p) => p.id === item.id);
+        if (existing) {
+          return prev.map((p) =>
+            p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+          );
+        }
+        return [...prev, { ...item, qty: 1 }];
+      });
+    } else if (info.offset.x < -80) {
+      // 👈 Swipe Left → Remove
+      setCart((prev) => {
+        const existing = prev.find((p) => p.id === item.id);
+        if (!existing) return prev;
+        if (existing.qty > 1) {
+          return prev.map((p) =>
+            p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+          );
+        }
+        return prev.filter((p) => p.id !== item.id);
+      });
+    }
+  }}
+  whileTap={{ scale: 0.97 }}
+  className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
+>
 
-            if (info.offset.x > 80) {
-              // 👉 Swipe Right → Add
-              setCart((prev) => {
-                const existing = prev.find((p) => p.id === item.id);
-                if (existing) {
-                  return prev.map((p) =>
-                    p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-                  );
-                }
-                return [...prev, { ...item, qty: 1 }];
-              });
-            } else if (info.offset.x < -80) {
-              // 👈 Swipe Left → Remove
-              setCart((prev) => {
-                const existing = prev.find((p) => p.id === item.id);
-                if (!existing) return prev;
-                if (existing.qty > 1) {
-                  return prev.map((p) =>
-                    p.id === item.id ? { ...p, qty: p.qty - 1 } : p
-                  );
-                }
-                return prev.filter((p) => p.id !== item.id);
-              });
-            }
-          }}
-          whileTap={{ scale: 0.97 }}
-          className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
-        >
           {/* ✅ Swipe Feedback Color */}
           <motion.div
             className="absolute inset-0 z-0 rounded-2xl"
