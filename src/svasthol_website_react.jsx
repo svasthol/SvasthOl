@@ -4,6 +4,7 @@ import { Instagram, Youtube, Star } from "lucide-react";
 import MobileLuxury from "./src/components/MobileLuxury";
 
 
+
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
 
@@ -27,13 +28,10 @@ const CATEGORIES = ['All', 'Cold Pressed Juices', 'Fruit Juices', 'Pulihora & Ri
 export default function SvasthOlWebsite() {
   const [cat, setCat] = useState('All')
   const [cart, setCart] = useState([]);
-	const [showCart, setShowCart] = useState(false);
-	const [isOpeningCart, setIsOpeningCart] = useState(false);
-	const [showHint, setShowHint] = useState(false);
-
-
-
-	const [showHintHidden, setShowHintHidden] = useState(false);
+  const [showCart, setShowCart] = useState(false);
+  const [isOpeningCart, setIsOpeningCart] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+  const [showHintHidden, setShowHintHidden] = useState(false);
 
 useEffect(() => {
   // Auto-hide after 3 seconds
@@ -41,9 +39,8 @@ useEffect(() => {
   return () => clearTimeout(timer);
 }, []);
 
-
-
- const toggleCartItem = (item) => {
+  
+  const toggleCartItem = (item) => {
   setCart((prev) => {
     const exists = prev.find((p) => p.id === item.id);
     if (exists) {
@@ -62,7 +59,7 @@ useEffect(() => {
 
   const filtered = cat === 'All' ? MENU : MENU.filter((m) => m.category === cat)
 
-	const [offset, setOffset] = useState({ x: 0, y: 0 })
+const [offset, setOffset] = useState({ x: 0, y: 0 })
 
 useEffect(() => {
   const handleMove = (e) => {
@@ -74,7 +71,7 @@ useEffect(() => {
   return () => window.removeEventListener('mousemove', handleMove)
 }, [])
 
-	const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
 useEffect(() => {
   const handleScroll = () => {
@@ -84,12 +81,12 @@ useEffect(() => {
   return () => window.removeEventListener("scroll", handleScroll);
 }, []);
 
-	
+  
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50 animate-gradient">
-		<MobileLuxury />
+      <MobileLuxury />
 
-       {/* 🌿 Floating decorative graphics */}
+      {/* 🌿 Floating decorative graphics */}
 <motion.img
   src="/graphics/leaf.svg"
   alt="Leaf decor"
@@ -105,7 +102,7 @@ useEffect(() => {
   transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
 />
 
-		
+      
       {/* animated gradient keyframes (site-wide subtle theme) */}
       <style>{`
         @keyframes gradientFlow {
@@ -118,18 +115,17 @@ useEffect(() => {
           background-size: 200% 200%;
           animation: gradientFlow 18s ease infinite;
         }
-        @keyframes logoGlow {
-         0% { filter: drop-shadow(0 0 2px #b0f4c8); }
-         50% { filter: drop-shadow(0 0 12px #6ee7b7); }
-         100% { filter: drop-shadow(0 0 2px #b0f4c8); }
+         @keyframes logoGlow {
+  0% { filter: drop-shadow(0 0 2px #b0f4c8); }
+  50% { filter: drop-shadow(0 0 12px #6ee7b7); }
+  100% { filter: drop-shadow(0 0 2px #b0f4c8); }
 }
 .glow-logo {
-  className="w-72 md:w-96 h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-500 glow-logo";
-}
-
-		
-      `}
-  </style>
+  className="w-72 md:w-96 h-auto mb-8 drop-shadow-xl hover:scale-105 transition-transform duration-500 glow-logo"
+}`
+      
+      }
+      </style>
 
 {/* ============================= */}
 {/* 🌿 Svasth Ol Premium Header */}
@@ -202,7 +198,7 @@ useEffect(() => {
 
 
       {/* hero */}
-     <section
+      <section
   id="home"
   className="relative flex flex-col items-center justify-center min-h-screen text-center bg-white overflow-hidden"
 >
@@ -325,11 +321,16 @@ useEffect(() => {
       className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
     >
       <a
-        href="#menu"
-        className="px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold shadow-lg hover:bg-emerald-700 transition"
-      >
-        Explore Menu
-      </a>
+  href="#menu"
+  onClick={() => {
+    setShowHint(true);
+    setTimeout(() => localStorage.removeItem("swipeHintShown"), 100); // reset so animation plays
+  }}
+  className="px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold shadow-lg hover:bg-emerald-700 transition"
+>
+  Explore Menu
+</a>
+
       <a
         href="#contact"
         className="px-6 py-3 rounded-full border border-emerald-600 text-emerald-700 font-semibold hover:bg-emerald-50 transition"
@@ -340,14 +341,13 @@ useEffect(() => {
   </div>
 </section>
 
-{/* 🛒 Floating Cart Indicator (Mobile only) */}
+      {/* 🛒 Floating Cart Indicator (Mobile only) */}
 {cart.length > 0 && (
   <div className="fixed bottom-6 right-4 md:hidden z-50 bg-emerald-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-semibold">
     🛒 {cart.length} item{cart.length > 1 ? "s" : ""} in cart
   </div>
 )}
 
-		{/* ===================== */}
 {/* ===================== */}
 {/* 🌿 MENU SECTION START */}
 {/* ===================== */}
@@ -384,7 +384,7 @@ useEffect(() => {
       🛒 Tap the cart icon to view your order.
     </motion.div>
 
- {/* 🧠 Swipe Hint Overlay (Mobile Only) */}
+    {/* 🧠 Swipe Hint Overlay (Mobile Only) */}
 {!showHintHidden && (
   <motion.div
     initial={{ opacity: 0 }}
@@ -421,8 +421,8 @@ useEffect(() => {
   </motion.div>
 )}
 
-	  
-{/* 🍋 Mobile Swipe Menu (Elastic & Simple) */}
+
+   {/* 🍋 Mobile Swipe Menu (Elastic & Simple) */}
 {/* 🛒 Floating Cart Button */}
 
 {/* 🍋 Mobile Swipe Menu (Elastic & Simple with Elegant Swipe Hint) */}
@@ -440,10 +440,11 @@ useEffect(() => {
   dragElastic={0.35}
   dragConstraints={{ left: 0, right: 0 }}
   animate={
-    index === 0 && !localStorage.getItem("swipeHintShown")
-      ? { x: [0, 12, -12, 8, -8, 0] }
-      : {}
-  }
+  showHint && index === 0 && !localStorage.getItem("swipeHintShown")
+    ? { x: [0, 12, -12, 8, -8, 0] }
+    : {}
+}
+
   transition={
     index === 0
       ? { duration: 1.8, ease: "easeInOut", repeat: 0, delay: 0.8 }
@@ -603,6 +604,7 @@ useEffect(() => {
 
 
     {/* 🛒 Floating Cart Button */}
+  
 {cart.length > 0 && (
   <button
     disabled={isOpeningCart}
@@ -779,6 +781,9 @@ useEffect(() => {
 {/* ===================== */}
 
 
+
+  
+
       {/* about */}
       <section id="about" className="mt-20 bg-gradient-to-r from-amber-50 via-emerald-50 to-yellow-50 py-12">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -854,7 +859,7 @@ useEffect(() => {
               <p className="text-sm">📞 Phone: +91-XXXXXXXXXX</p>
               <p className="text-sm">✉️ Email: hello@svasthol.example</p>
               <div className="flex gap-3 mt-4">
-                <a href={`https://wa.me/917569633829?text=${encodeURIComponent('Hi Svasth Ol, I would like to place an order')}`} className="px-4 py-3 rounded-lg bg-white text-emerald-700 font-semibold">Order on WhatsApp</a>
+                <a href={`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent('Hi Svasth Ol, I would like to place an order')}`} className="px-4 py-3 rounded-lg bg-white text-emerald-700 font-semibold">Order on WhatsApp</a>
                 <a href="https://www.swiggy.com" target="_blank" rel="noreferrer" className="px-4 py-3 rounded-lg border border-white text-white">Swiggy</a>
                 <a href="https://www.zomato.com" target="_blank" rel="noreferrer" className="px-4 py-3 rounded-lg border border-white text-white">Zomato</a>
               </div>
@@ -944,8 +949,8 @@ useEffect(() => {
   {/* Bottom Line */}
   <div className="relative z-10 border-t border-emerald-200 text-center py-4 text-sm text-gray-600">
     © {new Date().getFullYear()} <strong>Svasth Ol</strong> — Crafted with 🌿 and Tradition · All Rights Reserved
-  </div>
-</footer>
- </div>
+    </div>
+  </footer>
+</div>
   )
 }
