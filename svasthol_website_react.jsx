@@ -321,11 +321,16 @@ useEffect(() => {
       className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
     >
       <a
-        href="#menu"
-        className="px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold shadow-lg hover:bg-emerald-700 transition"
-      >
-        Explore Menu
-      </a>
+  href="#menu"
+  onClick={() => {
+    setShowHint(true);
+    setTimeout(() => localStorage.removeItem("swipeHintShown"), 100); // reset so animation plays
+  }}
+  className="px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold shadow-lg hover:bg-emerald-700 transition"
+>
+  Explore Menu
+</a>
+
       <a
         href="#contact"
         className="px-6 py-3 rounded-full border border-emerald-600 text-emerald-700 font-semibold hover:bg-emerald-50 transition"
