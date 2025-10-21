@@ -27,6 +27,19 @@ const CATEGORIES = ['All', 'Cold Pressed Juices', 'Fruit Juices', 'Pulihora & Ri
 
 export default function SvasthOlWebsite() {
   const [cat, setCat] = useState('All')
+  const [cart, setCart] = useState([]);
+
+  const toggleCartItem = (item) => {
+  setCart((prev) => {
+    const exists = prev.find((p) => p.id === item.id);
+    if (exists) {
+      return prev.filter((p) => p.id !== item.id); // remove
+    } else {
+      return [...prev, item]; // add
+    }
+  });
+};
+
 
   useEffect(() => {
     // enable smooth scrolling for anchor links
