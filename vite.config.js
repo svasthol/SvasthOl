@@ -1,12 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import viteCompression from "vite-plugin-compression";
 
 export default defineConfig({
   plugins: [
     react(),
-    // Gzip + Brotli compression (auto serves smallest)
-    viteCompression({ algorithm: "brotliCompress" }),
+    // viteCompression removed because Render already compresses static assets
   ],
   build: {
     sourcemap: false,
