@@ -29,6 +29,7 @@ export default function SvasthOlWebsite() {
   const [cat, setCat] = useState('All')
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [isOpeningCart, setIsOpeningCart] = useState(false);
 
 const [showHintHidden, setShowHintHidden] = useState(false);
 
