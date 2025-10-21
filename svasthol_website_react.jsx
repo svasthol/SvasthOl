@@ -26,12 +26,59 @@ const REVIEWS = [
 const CATEGORIES = ["All", "Cold Pressed Juices", "Fruit Juices", "Pulihora & Rice"];
 
 export default function SvasthOlWebsite() {
+  
   const [cat, setCat] = useState("All");
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [isOpeningCart, setIsOpeningCart] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [scrolled, setScrolled] = useState(false);
+
+  // 🌿 Performance Enhancer — post-render micro-optimizations
+if (typeof window !== "undefined") {
+  // Defer non-critical animations until idle
+  requestIdleCallback?.(() => {
+    // Clean up console warnings in production
+    if (import.meta.env.PROD) {
+      console.clear();
+    }
+
+    // Lazy load offscreen images (fallback for older browsers)
+    const lazyImgs = document.querySelectorAll("img[loading='lazy']");
+    lazyImgs.forEach((img) => {
+      if ("IntersectionObserver" in window) {
+        const obs = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              img.src = img.dataset.src || img.src;
+              observer.unobserve(img);
+            }
+          });
+        });
+        obs.observe(img);
+      }
+    });
+
+    // Optional: prewarm cache for smooth navigation
+    const prefetchLinks = document.querySelectorAll("a[href^='#']");
+    prefetchLinks.forEach((link) => {
+      link.addEventListener("mouseenter", () => {
+        const href = link.getAttribute("href");
+        if (href && href.startsWith("#")) {
+          requestAnimationFrame(() => {
+            document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+          });
+        }
+      });
+    });
+  });
+
+  // Reduce animation jitter on low-end mobiles
+  if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
+    document.body.classList.add("reduced-anim");
+  }
+}
+
 
   // 🌿 Smooth scroll
   useEffect(() => {
