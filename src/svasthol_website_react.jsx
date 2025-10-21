@@ -331,7 +331,8 @@ useEffect(() => {
     🛒 {cart.length} item{cart.length > 1 ? "s" : ""} in cart
   </div>
 )}
-{/* menu */}
+
+		{/* menu */}
 <section id="menu" className="relative z-10 mt-20">
   <div className="max-w-6xl mx-auto px-6">
     <h3 className="text-3xl font-bold text-emerald-800">Our Menu</h3>
@@ -357,65 +358,62 @@ useEffect(() => {
     {/* 🍃 Mobile Swipe Menu */}
     <div className="block md:hidden overflow-x-hidden px-3 mt-6">
       <div className="flex flex-col gap-5">
-        {filtered.map((item) => (
-          <motion.div
-            key={item.id}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            onDragEnd={(e, info) => {
-              if (info.offset.x > 80) {
-                // Swipe Right → Add
-                toggleCartItem(item);
-              } else if (info.offset.x < -80) {
-                // Swipe Left → Remove
-                toggleCartItem(item);
-              }
-            }}
-            whileTap={{ scale: 0.97 }}
-            className="relative bg-white rounded-2xl shadow-md overflow-hidden"
-          >
-            {/* Highlight when in cart */}
+        {filtered.map((item) => {
+          const inCart = cart.some((p) => p.id === item.id);
+          const [dragX, setDragX] = useState(0);
+
+          return (
             <motion.div
-              className="absolute inset-0"
-              animate={{
-                backgroundColor: cart.find((p) => p.id === item.id)
-                  ? "rgba(16,185,129,0.12)"
-                  : "transparent",
+              key={item.id}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDrag={(e, info) => setDragX(info.offset.x)}
+              onDragEnd={(e, info) => {
+                if (info.offset.x > 60) toggleCartItem(item);
+                else if (info.offset.x < -60) toggleCartItem(item);
+                setDragX(0);
               }}
-              transition={{ duration: 0.3 }}
-            />
+              className="relative bg-white rounded-2xl shadow-md overflow-hidden"
+            >
+              {/* swipe background color */}
+              <motion.div
+                className="absolute inset-0"
+                animate={{
+                  backgroundColor:
+                    dragX > 60
+                      ? "rgba(16,185,129,0.15)" // right = green
+                      : dragX < -60
+                      ? "rgba(239,68,68,0.15)" // left = red
+                      : inCart
+                      ? "rgba(16,185,129,0.08)"
+                      : "transparent",
+                }}
+                transition={{ duration: 0.2 }}
+              />
 
-            <div className="relative z-10 p-5">
-              <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
-                {item.name.split(" ")[0]}
+              <div className="relative z-10 p-5">
+                <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
+                  {item.name.split(" ")[0]}
+                </div>
+
+                <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+                <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="text-emerald-600 font-bold">{item.price}</div>
+                  <span
+                    className={`text-sm font-medium ${
+                      inCart ? "text-emerald-600" : "text-gray-400"
+                    }`}
+                  >
+                    {inCart ? "In Cart ✓" : "Swipe → to Add"}
+                  </span>
+                </div>
               </div>
-
-              <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
-              <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
-
-              <div className="mt-4 flex items-center justify-between">
-                <div className="text-emerald-600 font-bold">{item.price}</div>
-                <span
-                  className={`text-sm font-medium ${
-                    cart.find((p) => p.id === item.id)
-                      ? "text-emerald-600"
-                      : "text-gray-400"
-                  }`}
-                >
-                  {cart.find((p) => p.id === item.id)
-                    ? "In Cart ✓"
-                    : "Swipe → to Add"}
-                </span>
-              </div>
-            </div>
-
-            {/* Static swipe feedback overlays */}
-            <div className="absolute inset-0 pointer-events-none flex justify-between items-center text-white font-semibold text-lg px-6">
-              <div className="bg-emerald-500/80 rounded-xl px-3 py-1">+ Add</div>
-              <div className="bg-red-500/80 rounded-xl px-3 py-1">Remove -</div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
     </div>
 
@@ -448,9 +446,6 @@ useEffect(() => {
     </div>
   </div>
 </section>
-
-		
-
 
 
       {/* about */}
