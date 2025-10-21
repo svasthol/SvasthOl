@@ -549,14 +549,26 @@ useEffect(() => {
 
 
     {/* 🛒 Floating Cart Button */}
-    {cart.length > 0 && (
-      <button
-        onClick={() => setShowCart(true)}
-        className="fixed bottom-6 right-4 md:hidden z-50 bg-emerald-600 text-white px-4 py-3 rounded-full shadow-lg text-sm font-semibold"
-      >
-        🛒 {cart.reduce((a, b) => a + b.qty, 0)} items
-      </button>
-    )}
+  
+{cart.length > 0 && (
+  <button
+    disabled={isOpeningCart}
+    onClick={() => {
+      if (isOpeningCart) return;
+      setIsOpeningCart(true);
+      setShowCart(true);
+      setTimeout(() => setIsOpeningCart(false), 800); // debounce for 0.8s
+    }}
+    className={`fixed bottom-6 right-4 md:hidden z-50 px-5 py-3 rounded-full text-sm font-semibold shadow-lg transition-all duration-300 ${
+      isOpeningCart
+        ? "bg-emerald-400 text-white opacity-70 cursor-not-allowed"
+        : "bg-emerald-600 text-white"
+    }`}
+  >
+    🛒 {cart.reduce((a, b) => a + b.qty, 0)} items
+  </button>
+)}
+
 
     {/* 🧾 Cart Modal */}
     <AnimatePresence>
