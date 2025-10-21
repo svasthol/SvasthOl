@@ -3,118 +3,94 @@ import { useEffect, useState } from "react";
 
 export default function MobileLuxury() {
   const [show, setShow] = useState(false);
-  const [fade, setFade] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth < 768) {
       setShow(true);
 
-      // show skip button after 3 s
+      // show skip after 3s
       const skipTimer = setTimeout(() => setShowSkip(true), 3000);
 
-      // begin fading out at 6 s
-      const fadeTimer = setTimeout(() => setFade(true), 6000);
+      // start fade at 5s
+      const fadeTimer = setTimeout(() => setFadeOut(true), 5000);
 
-      // fully hide & re-enable clicks at 7.5 s
-      const endTimer = setTimeout(() => {
+      // remove overlay and re-enable site after 6s
+      const removeTimer = setTimeout(() => {
         setShow(false);
         document.body.style.pointerEvents = "auto";
-      }, 7500);
+      }, 6000);
 
       return () => {
         clearTimeout(skipTimer);
         clearTimeout(fadeTimer);
-        clearTimeout(endTimer);
+        clearTimeout(removeTimer);
       };
     }
   }, []);
 
   const handleSkip = () => {
-    setFade(true);
+    setFadeOut(true);
     setTimeout(() => {
       setShow(false);
       document.body.style.pointerEvents = "auto";
-    }, 500);
+    }, 400);
   };
 
   if (!show) return null;
 
   return (
     <AnimatePresence>
-      {!fade && (
+      {!fadeOut && (
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/70 backdrop-blur-3xl"
+          transition={{ duration: 0.8 }}
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-white/60 backdrop-blur-2xl"
         >
-          {/* animated gradient shimmer */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-emerald-50 via-amber-50 to-yellow-50"
-            animate={{
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-              filter: [
-                "blur(10px) brightness(1)",
-                "blur(30px) brightness(1.1)",
-                "blur(10px) brightness(1)",
-              ],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            style={{ backgroundSize: "200% 200%" }}
-          />
-
-          {/* logo elevation */}
+          {/* Logo elevation */}
           <motion.img
             src="/svasthol_logo.png"
             alt="Svasth Ol"
-            initial={{ y: 80, opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, y: 40, scale: 0.9 }}
             animate={{
-              y: [80, 0, -10, 0],
-              opacity: [0, 1, 1, 1],
-              scale: [0.9, 1, 1.05, 1],
-              filter: [
-                "drop-shadow(0 0 5px rgba(16,185,129,0.2))",
-                "drop-shadow(0 0 20px rgba(16,185,129,0.6))",
-                "drop-shadow(0 0 8px rgba(16,185,129,0.3))",
-              ],
+              opacity: 1,
+              y: [40, 0, -5, 0],
+              scale: [0.9, 1, 1.03, 1],
             }}
-            transition={{ duration: 6, ease: "easeInOut" }}
-            className="relative w-48 h-auto z-10"
+            transition={{ duration: 2.5, ease: "easeInOut" }}
+            className="w-48 h-auto"
           />
 
-          {/* tagline */}
+          {/* Tagline */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: [0, 1, 1, 0], y: [20, 0, 0, -10] }}
-            transition={{ duration: 6.5, ease: "easeInOut" }}
-            className="mt-8 text-emerald-800 text-lg font-medium tracking-wide relative z-10"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: [0, 1, 1, 0], y: [15, 0, 0, -10] }}
+            transition={{ duration: 4.5, delay: 1, ease: "easeInOut" }}
+            className="mt-6 text-emerald-800 text-lg font-medium tracking-wide"
           >
             Natural · Trusted · Quality
           </motion.p>
 
-          {/* shimmer layer */}
+          {/* Subtle background fade animation */}
           <motion.div
-            className="absolute inset-0 bg-white/40 backdrop-blur-md"
-            animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.02, 1] }}
+            className="absolute inset-0 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50"
+            animate={{ opacity: [0.7, 1, 0.7] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
 
-          {/* skip button */}
+          {/* Skip Button */}
           <AnimatePresence>
             {showSkip && (
               <motion.button
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.5 }}
                 onClick={handleSkip}
-                className="absolute bottom-12 right-8 bg-emerald-600 text-white text-sm font-medium px-5 py-2 rounded-full shadow-md hover:bg-emerald-700 active:scale-95 transition"
+                className="absolute bottom-10 right-8 bg-emerald-600 text-white text-sm font-medium px-5 py-2 rounded-full shadow-md hover:bg-emerald-700 active:scale-95 transition"
               >
                 Skip →
               </motion.button>
