@@ -489,11 +489,10 @@ useEffect(() => {
             <div className="mt-4 flex items-center justify-between">
               <div className="text-emerald-600 font-bold">{item.price}</div>
 
-              {/* Quantity Controls */}
              {/* Quantity Controls */}
 <div className="flex items-center gap-2">
-  {qty > 0 && (
-    <>
+  {qty > 0 ? (
+    <div className="flex items-center gap-2">
       {/* ➖ Minus button — auto removes item if qty = 1 */}
       <button
         onClick={(e) => {
@@ -502,12 +501,11 @@ useEffect(() => {
             const existing = prev.find((p) => p.id === item.id);
             if (!existing) return prev;
             if (existing.qty > 1) {
-              // decrease quantity
               return prev.map((p) =>
                 p.id === item.id ? { ...p, qty: p.qty - 1 } : p
               );
             }
-            // remove item completely if quantity becomes 0
+            // remove item completely if qty = 1
             return prev.filter((p) => p.id !== item.id);
           });
         }}
@@ -516,34 +514,44 @@ useEffect(() => {
         −
       </button>
 
-      {/* Quantity Number */}
-      <span className="text-sm font-semibold text-emerald-700">{qty}</span>
-    </>
-  )}
+      {/* Quantity Display */}
+      <span className="text-sm font-semibold text-emerald-700">
+        {qty}
+      </span>
 
-  {/* ➕ Plus button — always adds or increments */}
-  <button
-    onClick={(e) => {
-      e.stopPropagation();
-      setCart((prev) => {
-        const existing = prev.find((p) => p.id === item.id);
-        if (existing) {
-          return prev.map((p) =>
-            p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-          );
-        }
-        return [...prev, { ...item, qty: 1 }];
-      });
-    }}
-    className={`px-3 py-1 rounded-lg transition-all ${
-      qty > 0
-        ? "bg-emerald-100 text-emerald-700 font-semibold shadow-sm"
-        : "bg-gray-100 text-gray-500"
-    } active:scale-95`}
-  >
-    +
-  </button>
+      {/* ➕ Plus button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setCart((prev) => {
+            const existing = prev.find((p) => p.id === item.id);
+            if (existing) {
+              return prev.map((p) =>
+                p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+              );
+            }
+            return [...prev, { ...item, qty: 1 }];
+          });
+        }}
+        className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
+      >
+        +
+      </button>
+    </div>
+  ) : (
+    // Add Button (when item not in cart yet)
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        setCart((prev) => [...prev, { ...item, qty: 1 }]);
+      }}
+      className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
+    >
+      Add to Cart
+    </button>
+  )}
 </div>
+
 
                       className="px-2 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95"
                     >
