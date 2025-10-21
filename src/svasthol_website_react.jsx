@@ -493,20 +493,60 @@ useEffect(() => {
               <div className="text-emerald-600 font-bold">{item.price}</div>
 
               {/* Quantity Controls */}
-              <div className="flex items-center gap-2">
-                {qty > 0 && (
-                  <>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCart((prev) =>
-                          prev.map((p) =>
-                            p.id === item.id && p.qty > 1
-                              ? { ...p, qty: p.qty - 1 }
-                              : p
-                          )
-                        );
-                      }}
+<div className="flex items-center gap-2">
+  {qty > 0 && (
+    <>
+      {/* ➖ Minus button — auto removes item if qty = 1 */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setCart((prev) => {
+            const existing = prev.find((p) => p.id === item.id);
+            if (!existing) return prev;
+            if (existing.qty > 1) {
+              // decrease quantity
+              return prev.map((p) =>
+                p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+              );
+            }
+            // remove item completely if quantity becomes 0
+            return prev.filter((p) => p.id !== item.id);
+          });
+        }}
+        className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
+      >
+        −
+      </button>
+
+      {/* Quantity Number */}
+      <span className="text-sm font-semibold text-emerald-700">{qty}</span>
+    </>
+  )}
+
+  {/* ➕ Plus button — always adds or increments */}
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      setCart((prev) => {
+        const existing = prev.find((p) => p.id === item.id);
+        if (existing) {
+          return prev.map((p) =>
+            p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+          );
+        }
+        return [...prev, { ...item, qty: 1 }];
+      });
+    }}
+    className={`px-3 py-1 rounded-lg transition-all ${
+      qty > 0
+        ? "bg-emerald-100 text-emerald-700 font-semibold shadow-sm"
+        : "bg-gray-100 text-gray-500"
+    } active:scale-95`}
+  >
+    +
+  </button>
+</div>
+
                       className="px-2 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95"
                     >
                       −
