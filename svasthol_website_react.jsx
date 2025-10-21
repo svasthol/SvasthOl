@@ -30,8 +30,8 @@ export default function SvasthOlWebsite() {
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const [isOpeningCart, setIsOpeningCart] = useState(false);
-
-const [showHintHidden, setShowHintHidden] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+  const [showHintHidden, setShowHintHidden] = useState(false);
 
 useEffect(() => {
   // Auto-hide after 3 seconds
