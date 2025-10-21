@@ -29,6 +29,15 @@ export default function SvasthOlWebsite() {
   const [cart, setCart] = useState([]);
 	const [showCart, setShowCart] = useState(false);
 
+	const [showHintHidden, setShowHintHidden] = useState(false);
+
+useEffect(() => {
+  // Auto-hide after 3 seconds
+  const timer = setTimeout(() => setShowHintHidden(true), 3000);
+  return () => clearTimeout(timer);
+}, []);
+
+
 
  const toggleCartItem = (item) => {
   setCart((prev) => {
