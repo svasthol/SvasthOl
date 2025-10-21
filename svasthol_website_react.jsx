@@ -341,12 +341,26 @@ useEffect(() => {
   </div>
 </section>
 
-      {/* 🛒 Floating Cart Indicator (Mobile only) */}
+{/* 🛒 Floating Cart Indicator (Mobile only - Top Right) */}
 {cart.length > 0 && (
-  <div className="fixed bottom-6 right-4 md:hidden z-50 bg-emerald-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-semibold">
-    🛒 {cart.length} item{cart.length > 1 ? "s" : ""} in cart
-  </div>
+  <motion.div
+    initial={{ opacity: 0, y: -10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.4 }}
+    onClick={() => {
+      if (!isOpeningCart) {
+        setIsOpeningCart(true);
+        setShowCart(true);
+        setTimeout(() => setIsOpeningCart(false), 800);
+      }
+    }}
+    className="fixed top-5 right-4 md:hidden z-50 bg-emerald-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-semibold active:scale-95"
+  >
+    🛒 {cart.reduce((a, b) => a + b.qty, 0)} item
+    {cart.reduce((a, b) => a + b.qty, 0) > 1 ? "s" : ""} 
+  </motion.div>
 )}
+
 
 {/* ===================== */}
 {/* 🌿 MENU SECTION START */}
