@@ -418,19 +418,31 @@ useEffect(() => {
 
 
    {/* 🍋 Mobile Swipe Menu (Elastic & Simple) */}
+{/* 🛒 Floating Cart Button */}
+```)
+
+with the following code 👇
+
+---
+
+```jsx
+{/* 🍋 Mobile Swipe Menu (Elastic & Simple with Elegant Swipe Hint) */}
 <div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
   <div className="flex flex-col gap-5">
-    {filtered.map((item) => {
+    {filtered.map((item, index) => {
       const cartItem = cart.find((p) => p.id === item.id);
       const qty = cartItem ? cartItem.qty : 0;
+      const showHint = index === 0 && !localStorage.getItem("swipeHintShown");
 
       return (
         <motion.div
           key={item.id}
           drag="x"
-          dragElastic={0.4} // rubber-like snap
+          dragElastic={0.4}
           dragConstraints={{ left: 0, right: 0 }}
           onDragEnd={(e, info) => {
+            if (showHint) localStorage.setItem("swipeHintShown", "true");
+
             if (info.offset.x > 80) {
               // 👉 Swipe Right → Add
               setCart((prev) => {
@@ -459,7 +471,7 @@ useEffect(() => {
           whileTap={{ scale: 0.97 }}
           className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
         >
-          {/* ✅ Swipe Color Feedback */}
+          {/* ✅ Swipe Feedback Color */}
           <motion.div
             className="absolute inset-0 z-0 rounded-2xl"
             style={{ backgroundColor: "transparent" }}
@@ -477,7 +489,7 @@ useEffect(() => {
             transition={{ duration: 0.2 }}
           />
 
-          {/* Card Content */}
+          {/* 🧃 Item Card */}
           <div className="relative z-10 p-5">
             <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
               {item.name.split(" ")[0]}
@@ -489,78 +501,94 @@ useEffect(() => {
             <div className="mt-4 flex items-center justify-between">
               <div className="text-emerald-600 font-bold">{item.price}</div>
 
-             {/* Quantity Controls */}
-<div className="flex items-center gap-2">
-  {qty > 0 ? (
-    <div className="flex items-center gap-2">
-      {/* ➖ Minus button — auto removes item if qty = 1 */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setCart((prev) => {
-            const existing = prev.find((p) => p.id === item.id);
-            if (!existing) return prev;
-            if (existing.qty > 1) {
-              return prev.map((p) =>
-                p.id === item.id ? { ...p, qty: p.qty - 1 } : p
-              );
-            }
-            // remove item completely if qty = 1
-            return prev.filter((p) => p.id !== item.id);
-          });
-        }}
-        className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
-      >
-        −
-      </button>
+              {/* 🧮 Quantity Controls */}
+              <div className="flex items-center gap-2">
+                {qty > 0 ? (
+                  <div className="flex items-center gap-2">
+                    {/* ➖ Minus */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart((prev) => {
+                          const existing = prev.find((p) => p.id === item.id);
+                          if (!existing) return prev;
+                          if (existing.qty > 1) {
+                            return prev.map((p) =>
+                              p.id === item.id
+                                ? { ...p, qty: p.qty - 1 }
+                                : p
+                            );
+                          }
+                          return prev.filter((p) => p.id !== item.id);
+                        });
+                      }}
+                      className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
+                    >
+                      −
+                    </button>
 
-      {/* Quantity Display */}
-      <span className="text-sm font-semibold text-emerald-700">
-        {qty}
-      </span>
+                    {/* Count */}
+                    <span className="text-sm font-semibold text-emerald-700">
+                      {qty}
+                    </span>
 
-      {/* ➕ Plus button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setCart((prev) => {
-            const existing = prev.find((p) => p.id === item.id);
-            if (existing) {
-              return prev.map((p) =>
-                p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-              );
-            }
-            return [...prev, { ...item, qty: 1 }];
-          });
-        }}
-        className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
-      >
-        +
-      </button>
-    </div>
-  ) : (
-    // Add Button (when item not in cart yet)
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        setCart((prev) => [...prev, { ...item, qty: 1 }]);
-      }}
-      className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
-    >
-    Add to Cart
+                    {/* ➕ Plus */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart((prev) => {
+                          const existing = prev.find((p) => p.id === item.id);
+                          if (existing) {
+                            return prev.map((p) =>
+                              p.id === item.id
+                                ? { ...p, qty: p.qty + 1 }
+                                : p
+                            );
+                          }
+                          return [...prev, { ...item, qty: 1 }];
+                        });
+                      }}
+                      className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCart((prev) => [...prev, { ...item, qty: 1 }]);
+                    }}
+                    className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
+                  >
+                    Add to Cart
                   </button>
                 )}
               </div>
             </div>
+
+            {/* ✨ “Swipe Once” Hint Animation — first item only */}
+            {showHint && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{
+                  opacity: [0, 1, 1, 0],
+                  x: [0, 10, -10, 0],
+                }}
+                transition={{ duration: 2.5, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              >
+                <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
+                  👈 Swipe → 👉
+                </div>
+              </motion.div>
+            )}
           </div>
         </motion.div>
       );
     })}
   </div>
 </div>
-
-
-
 
 
     {/* 🛒 Floating Cart Button */}
