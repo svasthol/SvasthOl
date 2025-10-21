@@ -370,8 +370,8 @@ useEffect(() => {
       🛒 Tap the cart icon to view your order.
     </motion.div>
 
-    {/* 🍋 Mobile Swipe Menu */}
-<div className="block md:hidden px-3 mt-6">
+   {/* 🍋 Mobile Swipe Menu */}
+<div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
   <div className="flex flex-col gap-5">
     {filtered.map((item) => {
       const cartItem = cart.find((p) => p.id === item.id);
@@ -381,29 +381,11 @@ useEffect(() => {
         <motion.div
           key={item.id}
           drag="x"
-          dragElastic={0.6}
+          dragElastic={0.3}
           dragConstraints={{ left: -120, right: 120 }}
-          onDrag={(e, info) => {
-            const delta = info.offset.x;
-            const el = e.currentTarget;
-            if (delta > 0)
-              el.style.backgroundColor = `rgba(16,185,129,${Math.min(
-                delta / 200,
-                0.25
-              )})`; // green
-            else if (delta < 0)
-              el.style.backgroundColor = `rgba(239,68,68,${Math.min(
-                -delta / 200,
-                0.25
-              )})`; // red
-            else el.style.backgroundColor = "white";
-          }}
           onDragEnd={(e, info) => {
-            const delta = info.offset.x;
-            e.currentTarget.style.backgroundColor = "white";
-
-            if (delta > 80) {
-              // Swipe Right → Add
+            if (info.offset.x > 80) {
+              // 👉 Swipe Right → Add
               setCart((prev) => {
                 const existing = prev.find((p) => p.id === item.id);
                 if (existing) {
@@ -413,8 +395,8 @@ useEffect(() => {
                 }
                 return [...prev, { ...item, qty: 1 }];
               });
-            } else if (delta < -80) {
-              // Swipe Left → Remove
+            } else if (info.offset.x < -80) {
+              // 👈 Swipe Left → Remove
               setCart((prev) => {
                 const existing = prev.find((p) => p.id === item.id);
                 if (!existing) return prev;
@@ -428,68 +410,100 @@ useEffect(() => {
             }
           }}
           whileTap={{ scale: 0.98 }}
-          className="relative bg-white rounded-2xl shadow-md overflow-hidden active:cursor-grabbing touch-pan-y transition-all duration-300"
+          className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
         >
-          <div className="relative z-10 p-5 select-none">
+          {/* ✅ Color Feedback Layer */}
+          <motion.div
+            className="absolute inset-0 z-0"
+            style={{ backgroundColor: "transparent" }}
+            animate={{
+              backgroundColor: [
+                "rgba(0,0,0,0)",
+                "rgba(0,0,0,0)",
+                "rgba(0,0,0,0)",
+              ],
+            }}
+            transition={{ duration: 0.2 }}
+          />
+
+          {/* Main Card Content */}
+          <div className="relative z-10 p-5">
             <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
               {item.name.split(" ")[0]}
             </div>
 
-            <h4 className="mt-3 font-semibold text-emerald-800">
-              {item.name}
-            </h4>
+            <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
             <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
 
             <div className="mt-4 flex items-center justify-between">
               <div className="text-emerald-600 font-bold">{item.price}</div>
 
-              {/* ✅ Inline quantity controls */}
-              {qty > 0 ? (
-                <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-1 text-emerald-700 font-medium">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCart((prev) =>
-                        prev.map((p) =>
-                          p.id === item.id && p.qty > 1
-                            ? { ...p, qty: p.qty - 1 }
-                            : p
-                        )
-                      );
-                    }}
-                    className="px-2 text-lg font-bold"
-                  >
-                    −
-                  </button>
-                  <span className="text-sm font-semibold">{qty}</span>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCart((prev) =>
-                        prev.map((p) =>
-                          p.id === item.id
-                            ? { ...p, qty: p.qty + 1 }
-                            : p
-                        )
-                      );
-                    }}
-                    className="px-2 text-lg font-bold"
-                  >
-                    +
-                  </button>
-                </div>
-              ) : (
-                <span className="text-sm font-medium text-gray-400">
-                  Swipe → to Add
-                </span>
-              )}
+              {/* Quantity + / - Controls */}
+              <div className="flex items-center gap-2">
+                {qty > 0 && (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart((prev) =>
+                          prev.map((p) =>
+                            p.id === item.id && p.qty > 1
+                              ? { ...p, qty: p.qty - 1 }
+                              : p
+                          )
+                        );
+                      }}
+                      className="px-2 py-1 bg-red-100 text-red-600 rounded-lg"
+                    >
+                      −
+                    </button>
+                    <span className="text-sm font-semibold text-emerald-700">
+                      {qty}
+                    </span>
+                  </>
+                )}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCart((prev) => {
+                      const existing = prev.find((p) => p.id === item.id);
+                      if (existing) {
+                        return prev.map((p) =>
+                          p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+                        );
+                      }
+                      return [...prev, { ...item, qty: 1 }];
+                    });
+                  }}
+                  className={`px-3 py-1 rounded-lg ${
+                    qty > 0
+                      ? "bg-emerald-100 text-emerald-700"
+                      : "bg-gray-100 text-gray-500"
+                  }`}
+                >
+                  +
+                </button>
+              </div>
             </div>
           </div>
+
+          {/* Motion Background Feedback */}
+          <motion.div
+            className="absolute inset-0 z-0 rounded-2xl"
+            style={{ backgroundColor: "transparent" }}
+            whileDrag={{
+              backgroundColor: [
+                "rgba(16,185,129,0.15)",
+                "rgba(239,68,68,0.15)",
+              ],
+            }}
+          />
         </motion.div>
       );
     })}
   </div>
 </div>
+
 
 
 
