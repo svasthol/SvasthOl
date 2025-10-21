@@ -370,7 +370,7 @@ useEffect(() => {
       🛒 Tap the cart icon to view your order.
     </motion.div>
 
-   {/* 🍋 Mobile Swipe Menu */}
+   {/* 🍋 Mobile Swipe Menu (Elastic & Simple) */}
 <div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
   <div className="flex flex-col gap-5">
     {filtered.map((item) => {
@@ -381,8 +381,8 @@ useEffect(() => {
         <motion.div
           key={item.id}
           drag="x"
-          dragElastic={0.3}
-          dragConstraints={{ left: -120, right: 120 }}
+          dragElastic={0.4} // smooth rubber feel
+          dragConstraints={{ left: 0, right: 0 }} // ensures snap-back
           onDragEnd={(e, info) => {
             if (info.offset.x > 80) {
               // 👉 Swipe Right → Add
@@ -412,21 +412,23 @@ useEffect(() => {
           whileTap={{ scale: 0.98 }}
           className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
         >
-          {/* ✅ Color Feedback Layer */}
+          {/* ✅ Swipe Color Feedback */}
           <motion.div
-            className="absolute inset-0 z-0"
+            className="absolute inset-0 z-0 rounded-2xl"
             style={{ backgroundColor: "transparent" }}
             animate={{
+              backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
+            }}
+            whileDrag={{
               backgroundColor: [
-                "rgba(0,0,0,0)",
-                "rgba(0,0,0,0)",
-                "rgba(0,0,0,0)",
+                "rgba(16,185,129,0.15)",
+                "rgba(239,68,68,0.15)",
               ],
             }}
             transition={{ duration: 0.2 }}
           />
 
-          {/* Main Card Content */}
+          {/* Card Content */}
           <div className="relative z-10 p-5">
             <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
               {item.name.split(" ")[0]}
@@ -438,7 +440,7 @@ useEffect(() => {
             <div className="mt-4 flex items-center justify-between">
               <div className="text-emerald-600 font-bold">{item.price}</div>
 
-              {/* Quantity + / - Controls */}
+              {/* Quantity Control */}
               <div className="flex items-center gap-2">
                 {qty > 0 && (
                   <>
@@ -453,7 +455,7 @@ useEffect(() => {
                           )
                         );
                       }}
-                      className="px-2 py-1 bg-red-100 text-red-600 rounded-lg"
+                      className="px-2 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95"
                     >
                       −
                     </button>
@@ -475,17 +477,23 @@ useEffect(() => {
                       return [...prev, { ...item, qty: 1 }];
                     });
                   }}
-                  className={`px-3 py-1 rounded-lg ${
+                  className={`px-3 py-1 rounded-lg transition-all ${
                     qty > 0
-                      ? "bg-emerald-100 text-emerald-700"
+                      ? "bg-emerald-100 text-emerald-700 font-semibold shadow-sm"
                       : "bg-gray-100 text-gray-500"
-                  }`}
+                  } active:scale-95`}
                 >
                   +
                 </button>
               </div>
             </div>
           </div>
+        </motion.div>
+      );
+    })}
+  </div>
+</div>
+
 
           {/* Motion Background Feedback */}
           <motion.div
