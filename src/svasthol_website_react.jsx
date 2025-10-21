@@ -382,8 +382,8 @@ useEffect(() => {
         <motion.div
           key={item.id}
           drag="x"
-          dragElastic={0.4} // smooth rubber feel
-          dragConstraints={{ left: 0, right: 0 }} // ensures snap-back
+          dragElastic={0.4} // rubber-like snap
+          dragConstraints={{ left: 0, right: 0 }}
           onDragEnd={(e, info) => {
             if (info.offset.x > 80) {
               // 👉 Swipe Right → Add
@@ -410,7 +410,7 @@ useEffect(() => {
               });
             }
           }}
-          whileTap={{ scale: 0.98 }}
+          whileTap={{ scale: 0.97 }}
           className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
         >
           {/* ✅ Swipe Color Feedback */}
@@ -420,12 +420,14 @@ useEffect(() => {
             animate={{
               backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
             }}
-            whileDrag={{
-              backgroundColor: [
-                "rgba(16,185,129,0.15)",
-                "rgba(239,68,68,0.15)",
-              ],
-            }}
+            whileDrag={(event, info) => ({
+              backgroundColor:
+                info.offset.x > 0
+                  ? "rgba(16,185,129,0.15)" // green
+                  : info.offset.x < 0
+                  ? "rgba(239,68,68,0.15)" // red
+                  : "transparent",
+            })}
             transition={{ duration: 0.2 }}
           />
 
@@ -441,7 +443,7 @@ useEffect(() => {
             <div className="mt-4 flex items-center justify-between">
               <div className="text-emerald-600 font-bold">{item.price}</div>
 
-              {/* Quantity Control */}
+              {/* Quantity Controls */}
               <div className="flex items-center gap-2">
                 {qty > 0 && (
                   <>
@@ -494,6 +496,7 @@ useEffect(() => {
     })}
   </div>
 </div>
+
 
 
 
