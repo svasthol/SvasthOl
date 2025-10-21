@@ -440,10 +440,11 @@ useEffect(() => {
   dragElastic={0.35}
   dragConstraints={{ left: 0, right: 0 }}
   animate={
-    index === 0 && !localStorage.getItem("swipeHintShown")
-      ? { x: [0, 12, -12, 8, -8, 0] }
-      : {}
-  }
+  showHint && index === 0 && !localStorage.getItem("swipeHintShown")
+    ? { x: [0, 12, -12, 8, -8, 0] }
+    : {}
+}
+
   transition={
     index === 0
       ? { duration: 1.8, ease: "easeInOut", repeat: 0, delay: 0.8 }
