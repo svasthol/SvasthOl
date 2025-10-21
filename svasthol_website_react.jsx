@@ -371,7 +371,7 @@ useEffect(() => {
     </motion.div>
 
     {/* 🍋 Mobile Swipe Menu */}
-<div className="block md:hidden overflow-x-hidden px-3 mt-6">
+<div className="block md:hidden px-3 mt-6">
   <div className="flex flex-col gap-5">
     {filtered.map((item) => {
       const cartItem = cart.find((p) => p.id === item.id);
@@ -381,12 +381,21 @@ useEffect(() => {
         <motion.div
           key={item.id}
           drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.6}
+          dragConstraints={{ left: -120, right: 120 }}
           onDrag={(e, info) => {
             const delta = info.offset.x;
             const el = e.currentTarget;
-            if (delta > 0) el.style.backgroundColor = `rgba(16,185,129,${Math.min(delta / 200, 0.25)})`; // green
-            else if (delta < 0) el.style.backgroundColor = `rgba(239,68,68,${Math.min(-delta / 200, 0.25)})`; // red
+            if (delta > 0)
+              el.style.backgroundColor = `rgba(16,185,129,${Math.min(
+                delta / 200,
+                0.25
+              )})`; // green
+            else if (delta < 0)
+              el.style.backgroundColor = `rgba(239,68,68,${Math.min(
+                -delta / 200,
+                0.25
+              )})`; // red
             else el.style.backgroundColor = "white";
           }}
           onDragEnd={(e, info) => {
@@ -418,15 +427,17 @@ useEffect(() => {
               });
             }
           }}
-          whileTap={{ scale: 0.97 }}
-          className="relative bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300"
+          whileTap={{ scale: 0.98 }}
+          className="relative bg-white rounded-2xl shadow-md overflow-hidden active:cursor-grabbing touch-pan-y transition-all duration-300"
         >
-          <div className="relative z-10 p-5">
+          <div className="relative z-10 p-5 select-none">
             <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
               {item.name.split(" ")[0]}
             </div>
 
-            <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+            <h4 className="mt-3 font-semibold text-emerald-800">
+              {item.name}
+            </h4>
             <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
 
             <div className="mt-4 flex items-center justify-between">
@@ -436,30 +447,32 @@ useEffect(() => {
               {qty > 0 ? (
                 <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-1 text-emerald-700 font-medium">
                   <button
-                    onClick={() =>
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setCart((prev) =>
                         prev.map((p) =>
                           p.id === item.id && p.qty > 1
                             ? { ...p, qty: p.qty - 1 }
                             : p
                         )
-                      )
-                    }
+                      );
+                    }}
                     className="px-2 text-lg font-bold"
                   >
                     −
                   </button>
                   <span className="text-sm font-semibold">{qty}</span>
                   <button
-                    onClick={() =>
+                    onClick={(e) => {
+                      e.stopPropagation();
                       setCart((prev) =>
                         prev.map((p) =>
                           p.id === item.id
                             ? { ...p, qty: p.qty + 1 }
                             : p
                         )
-                      )
-                    }
+                      );
+                    }}
                     className="px-2 text-lg font-bold"
                   >
                     +
@@ -477,6 +490,7 @@ useEffect(() => {
     })}
   </div>
 </div>
+
 
 
     {/* 🛒 Floating Cart Button */}
