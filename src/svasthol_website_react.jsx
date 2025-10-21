@@ -332,13 +332,15 @@ useEffect(() => {
   </div>
 )}
 
-		{/* menu */}
+		{/* ===================== */}
+{/* 🌿 MENU SECTION START */}
+{/* ===================== */}
 <section id="menu" className="relative z-10 mt-20">
   <div className="max-w-6xl mx-auto px-6">
     <h3 className="text-3xl font-bold text-emerald-800">Our Menu</h3>
     <p className="mt-2 text-gray-600">Healthy choices — made fresh daily.</p>
 
-    {/* Category Buttons */}
+    {/* 🍃 Category Buttons */}
     <div className="mt-6 flex gap-3 flex-wrap">
       {CATEGORIES.map((c) => (
         <button
@@ -355,38 +357,67 @@ useEffect(() => {
       ))}
     </div>
 
-    {/* 🍃 Mobile Swipe Menu */}
+    {/* 🧠 Friendly Instruction Banner (Mobile only) */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 0.5, duration: 1 }}
+      className="md:hidden mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-800 text-center shadow-sm"
+    >
+      👉 Swipe <strong>right</strong> to <strong>add</strong> | Swipe <strong>left</strong> to <strong>remove</strong><br />
+      🛒 Tap the cart icon to view your order.
+    </motion.div>
+
+    {/* 🍋 Mobile Swipe Menu */}
     <div className="block md:hidden overflow-x-hidden px-3 mt-6">
       <div className="flex flex-col gap-5">
         {filtered.map((item) => {
-          const inCart = cart.some((p) => p.id === item.id);
-          const [dragX, setDragX] = useState(0);
+          const cartItem = cart.find((p) => p.id === item.id);
+          const qty = cartItem ? cartItem.qty : 0;
 
           return (
             <motion.div
               key={item.id}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDrag={(e, info) => setDragX(info.offset.x)}
               onDragEnd={(e, info) => {
-                if (info.offset.x > 60) toggleCartItem(item);
-                else if (info.offset.x < -60) toggleCartItem(item);
-                setDragX(0);
+                if (info.offset.x > 80) {
+                  // Swipe Right → Add
+                  setCart((prev) => {
+                    const existing = prev.find((p) => p.id === item.id);
+                    if (existing) {
+                      return prev.map((p) =>
+                        p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+                      );
+                    }
+                    return [...prev, { ...item, qty: 1 }];
+                  });
+                } else if (info.offset.x < -80) {
+                  // Swipe Left → Remove
+                  setCart((prev) => {
+                    const existing = prev.find((p) => p.id === item.id);
+                    if (!existing) return prev;
+                    if (existing.qty > 1) {
+                      return prev.map((p) =>
+                        p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+                      );
+                    }
+                    return prev.filter((p) => p.id !== item.id);
+                  });
+                }
               }}
+              whileTap={{ scale: 0.97 }}
               className="relative bg-white rounded-2xl shadow-md overflow-hidden"
             >
-              {/* swipe background color */}
+              {/* Color Feedback */}
               <motion.div
                 className="absolute inset-0"
                 animate={{
                   backgroundColor:
-                    dragX > 60
-                      ? "rgba(16,185,129,0.15)" // right = green
-                      : dragX < -60
-                      ? "rgba(239,68,68,0.15)" // left = red
-                      : inCart
-                      ? "rgba(16,185,129,0.08)"
+                    info?.offset?.x > 0
+                      ? "rgba(16,185,129,0.1)"
+                      : info?.offset?.x < 0
+                      ? "rgba(239,68,68,0.1)"
                       : "transparent",
                 }}
                 transition={{ duration: 0.2 }}
@@ -397,17 +428,19 @@ useEffect(() => {
                   {item.name.split(" ")[0]}
                 </div>
 
-                <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+                <h4 className="mt-3 font-semibold text-emerald-800">
+                  {item.name}
+                </h4>
                 <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
 
                 <div className="mt-4 flex items-center justify-between">
                   <div className="text-emerald-600 font-bold">{item.price}</div>
                   <span
                     className={`text-sm font-medium ${
-                      inCart ? "text-emerald-600" : "text-gray-400"
+                      qty > 0 ? "text-emerald-600" : "text-gray-400"
                     }`}
                   >
-                    {inCart ? "In Cart ✓" : "Swipe → to Add"}
+                    {qty > 0 ? `In Cart (${qty})` : "Swipe → to Add"}
                   </span>
                 </div>
               </div>
@@ -417,7 +450,139 @@ useEffect(() => {
       </div>
     </div>
 
-    {/* 🖥 Desktop Grid (Golden Version — unchanged) */}
+    {/* 🛒 Floating Cart Button */}
+    {cart.length > 0 && (
+      <button
+        onClick={() => setShowCart(true)}
+        className="fixed bottom-6 right-4 md:hidden z-50 bg-emerald-600 text-white px-4 py-3 rounded-full shadow-lg text-sm font-semibold"
+      >
+        🛒 {cart.reduce((a, b) => a + b.qty, 0)} items
+      </button>
+    )}
+
+    {/* 🧾 Cart Modal */}
+    <AnimatePresence>
+      {showCart && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end justify-center z-[999]"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowCart(false);
+          }}
+        >
+          <motion.div
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
+            exit={{ y: 100 }}
+            transition={{ type: "spring", stiffness: 80 }}
+            className="bg-white w-full rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto"
+          >
+            <h4 className="text-xl font-semibold text-emerald-700 mb-4">
+              Your Cart
+            </h4>
+            {cart.length === 0 ? (
+              <p className="text-gray-500 text-center py-10">
+                Your cart is empty.
+              </p>
+            ) : (
+              <>
+                <div className="space-y-4">
+                  {cart.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex justify-between items-center border-b border-gray-200 pb-3"
+                    >
+                      <div>
+                        <h5 className="font-semibold text-emerald-800">
+                          {item.name}
+                        </h5>
+                        <p className="text-sm text-gray-500">
+                          ₹{parseInt(item.price.replace("₹", ""))} × {item.qty}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() =>
+                            setCart((prev) =>
+                              prev.map((p) =>
+                                p.id === item.id && p.qty > 1
+                                  ? { ...p, qty: p.qty - 1 }
+                                  : p
+                              )
+                            )
+                          }
+                          className="px-2 py-1 bg-gray-100 rounded-lg text-gray-600"
+                        >
+                          -
+                        </button>
+                        <span className="font-medium">{item.qty}</span>
+                        <button
+                          onClick={() =>
+                            setCart((prev) =>
+                              prev.map((p) =>
+                                p.id === item.id
+                                  ? { ...p, qty: p.qty + 1 }
+                                  : p
+                              )
+                            )
+                          }
+                          className="px-2 py-1 bg-emerald-100 rounded-lg text-emerald-700"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* 💰 Billing Summary */}
+                {(() => {
+                  const subtotal = cart.reduce(
+                    (sum, item) =>
+                      sum + parseInt(item.price.replace("₹", "")) * item.qty,
+                    0
+                  );
+                  const gst = subtotal * 0.05;
+                  const total = subtotal + gst;
+                  return (
+                    <div className="mt-6 border-t border-gray-200 pt-4 space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span>Subtotal</span>
+                        <span>₹{subtotal.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>GST (5%)</span>
+                        <span>₹{gst.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between font-semibold text-emerald-700 text-base">
+                        <span>Total</span>
+                        <span>₹{total.toFixed(2)}</span>
+                      </div>
+                      <button
+                        onClick={() =>
+                          alert(
+                            `Thank you! Your total is ₹${total.toFixed(
+                              2
+                            )}. Proceed to WhatsApp for order confirmation.`
+                          )
+                        }
+                        className="mt-4 w-full bg-emerald-600 text-white py-3 rounded-xl shadow-md font-semibold"
+                      >
+                        Proceed to Order
+                      </button>
+                    </div>
+                  );
+                })()}
+              </>
+            )}
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+    {/* 🖥️ Golden Desktop Grid (Unchanged) */}
     <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
       {filtered.map((item) => (
         <motion.div
@@ -446,6 +611,9 @@ useEffect(() => {
     </div>
   </div>
 </section>
+{/* ===================== */}
+{/* 🌿 MENU SECTION END */}
+{/* ===================== */}
 
 
       {/* about */}
