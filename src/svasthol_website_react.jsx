@@ -494,6 +494,7 @@ useEffect(() => {
 
 
 
+
     {/* 🛒 Floating Cart Button */}
     {cart.length > 0 && (
       <button
