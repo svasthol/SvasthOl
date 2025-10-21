@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 🌿 Reduced animation class for low-end devices */
+.reduced-anim * {
+  transition-duration: 0.2s !important;
+  animation-duration: 0.2s !important;
+}
+
+
