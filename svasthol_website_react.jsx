@@ -28,6 +28,8 @@ const CATEGORIES = ['All', 'Cold Pressed Juices', 'Fruit Juices', 'Pulihora & Ri
 export default function SvasthOlWebsite() {
   const [cat, setCat] = useState('All')
   const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+
 
   const toggleCartItem = (item) => {
   setCart((prev) => {
