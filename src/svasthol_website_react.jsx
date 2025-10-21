@@ -331,9 +331,7 @@ useEffect(() => {
     🛒 {cart.length} item{cart.length > 1 ? "s" : ""} in cart
   </div>
 )}
-
-		
-     {/* menu */}
+{/* menu */}
 <section id="menu" className="relative z-10 mt-20">
   <div className="max-w-6xl mx-auto px-6">
     <h3 className="text-3xl font-bold text-emerald-800">Our Menu</h3>
@@ -366,22 +364,22 @@ useEffect(() => {
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={(e, info) => {
               if (info.offset.x > 80) {
-                // Swipe Right → Add to cart
+                // Swipe Right → Add
                 toggleCartItem(item);
               } else if (info.offset.x < -80) {
-                // Swipe Left → Remove from cart
+                // Swipe Left → Remove
                 toggleCartItem(item);
               }
             }}
             whileTap={{ scale: 0.97 }}
             className="relative bg-white rounded-2xl shadow-md overflow-hidden"
           >
-            {/* Animated color feedback while dragging */}
+            {/* Highlight when in cart */}
             <motion.div
               className="absolute inset-0"
               animate={{
                 backgroundColor: cart.find((p) => p.id === item.id)
-                  ? "rgba(16,185,129,0.1)" // green if in cart
+                  ? "rgba(16,185,129,0.12)"
                   : "transparent",
               }}
               transition={{ duration: 0.3 }}
@@ -411,22 +409,11 @@ useEffect(() => {
               </div>
             </div>
 
-            {/* Swipe direction visual feedback */}
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center text-white font-semibold text-lg pointer-events-none"
-              style={{ mixBlendMode: "multiply" }}
-              initial={{ opacity: 0 }}
-              whileDrag={{ opacity: 0.6 }}
-              animate={{
-                backgroundColor:
-                  info?.offset?.x > 0
-                    ? "rgba(16,185,129,0.6)" // green right swipe
-                    : info?.offset?.x < 0
-                    ? "rgba(239,68,68,0.6)" // red left swipe
-                    : "transparent",
-              }}
-              transition={{ duration: 0.2 }}
-            />
+            {/* Static swipe feedback overlays */}
+            <div className="absolute inset-0 pointer-events-none flex justify-between items-center text-white font-semibold text-lg px-6">
+              <div className="bg-emerald-500/80 rounded-xl px-3 py-1">+ Add</div>
+              <div className="bg-red-500/80 rounded-xl px-3 py-1">Remove -</div>
+            </div>
           </motion.div>
         ))}
       </div>
@@ -461,6 +448,9 @@ useEffect(() => {
     </div>
   </div>
 </section>
+
+		
+
 
 
       {/* about */}
