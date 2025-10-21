@@ -371,78 +371,113 @@ useEffect(() => {
     </motion.div>
 
     {/* 🍋 Mobile Swipe Menu */}
-    <div className="block md:hidden overflow-x-hidden px-3 mt-6">
-      <div className="flex flex-col gap-5">
-        {filtered.map((item) => {
-          const cartItem = cart.find((p) => p.id === item.id);
-          const qty = cartItem ? cartItem.qty : 0;
+<div className="block md:hidden overflow-x-hidden px-3 mt-6">
+  <div className="flex flex-col gap-5">
+    {filtered.map((item) => {
+      const cartItem = cart.find((p) => p.id === item.id);
+      const qty = cartItem ? cartItem.qty : 0;
 
-          return (
-            <motion.div
-              key={item.id}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              onDragEnd={(e, info) => {
-                const delta = info.offset.x;
-                if (delta > 80) {
-                  // Swipe Right → Add
-                  setCart((prev) => {
-                    const existing = prev.find((p) => p.id === item.id);
-                    if (existing) {
-                      return prev.map((p) =>
-                        p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-                      );
-                    }
-                    return [...prev, { ...item, qty: 1 }];
-                  });
-                } else if (delta < -80) {
-                  // Swipe Left → Remove
-                  setCart((prev) => {
-                    const existing = prev.find((p) => p.id === item.id);
-                    if (!existing) return prev;
-                    if (existing.qty > 1) {
-                      return prev.map((p) =>
-                        p.id === item.id ? { ...p, qty: p.qty - 1 } : p
-                      );
-                    }
-                    return prev.filter((p) => p.id !== item.id);
-                  });
+      return (
+        <motion.div
+          key={item.id}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          onDrag={(e, info) => {
+            const delta = info.offset.x;
+            const el = e.currentTarget;
+            if (delta > 0) el.style.backgroundColor = `rgba(16,185,129,${Math.min(delta / 200, 0.25)})`; // green
+            else if (delta < 0) el.style.backgroundColor = `rgba(239,68,68,${Math.min(-delta / 200, 0.25)})`; // red
+            else el.style.backgroundColor = "white";
+          }}
+          onDragEnd={(e, info) => {
+            const delta = info.offset.x;
+            e.currentTarget.style.backgroundColor = "white";
+
+            if (delta > 80) {
+              // Swipe Right → Add
+              setCart((prev) => {
+                const existing = prev.find((p) => p.id === item.id);
+                if (existing) {
+                  return prev.map((p) =>
+                    p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+                  );
                 }
-              }}
-              whileTap={{ scale: 0.97 }}
-              className="relative bg-white rounded-2xl shadow-md overflow-hidden"
-            >
-              {/* Color Feedback (Safe Static) */}
-              {qty > 0 && (
-                <div className="absolute inset-0 bg-emerald-50 transition-all duration-200" />
-              )}
+                return [...prev, { ...item, qty: 1 }];
+              });
+            } else if (delta < -80) {
+              // Swipe Left → Remove
+              setCart((prev) => {
+                const existing = prev.find((p) => p.id === item.id);
+                if (!existing) return prev;
+                if (existing.qty > 1) {
+                  return prev.map((p) =>
+                    p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+                  );
+                }
+                return prev.filter((p) => p.id !== item.id);
+              });
+            }
+          }}
+          whileTap={{ scale: 0.97 }}
+          className="relative bg-white rounded-2xl shadow-md overflow-hidden transition-all duration-300"
+        >
+          <div className="relative z-10 p-5">
+            <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
+              {item.name.split(" ")[0]}
+            </div>
 
-              <div className="relative z-10 p-5">
-                <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
-                  {item.name.split(" ")[0]}
-                </div>
+            <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+            <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
 
-                <h4 className="mt-3 font-semibold text-emerald-800">
-                  {item.name}
-                </h4>
-                <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+            <div className="mt-4 flex items-center justify-between">
+              <div className="text-emerald-600 font-bold">{item.price}</div>
 
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="text-emerald-600 font-bold">{item.price}</div>
-                  <span
-                    className={`text-sm font-medium ${
-                      qty > 0 ? "text-emerald-600" : "text-gray-400"
-                    }`}
+              {/* ✅ Inline quantity controls */}
+              {qty > 0 ? (
+                <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-1 text-emerald-700 font-medium">
+                  <button
+                    onClick={() =>
+                      setCart((prev) =>
+                        prev.map((p) =>
+                          p.id === item.id && p.qty > 1
+                            ? { ...p, qty: p.qty - 1 }
+                            : p
+                        )
+                      )
+                    }
+                    className="px-2 text-lg font-bold"
                   >
-                    {qty > 0 ? `In Cart (${qty})` : "Swipe → to Add"}
-                  </span>
+                    −
+                  </button>
+                  <span className="text-sm font-semibold">{qty}</span>
+                  <button
+                    onClick={() =>
+                      setCart((prev) =>
+                        prev.map((p) =>
+                          p.id === item.id
+                            ? { ...p, qty: p.qty + 1 }
+                            : p
+                        )
+                      )
+                    }
+                    className="px-2 text-lg font-bold"
+                  >
+                    +
+                  </button>
                 </div>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-    </div>
+              ) : (
+                <span className="text-sm font-medium text-gray-400">
+                  Swipe → to Add
+                </span>
+              )}
+            </div>
+          </div>
+        </motion.div>
+      );
+    })}
+  </div>
+</div>
+
 
     {/* 🛒 Floating Cart Button */}
     {cart.length > 0 && (
