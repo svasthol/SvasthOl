@@ -335,6 +335,7 @@ useEffect(() => {
 )}
 
 		{/* ===================== */}
+{/* ===================== */}
 {/* 🌿 MENU SECTION START */}
 {/* ===================== */}
 <section id="menu" className="relative z-10 mt-20">
@@ -383,7 +384,8 @@ useEffect(() => {
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
               onDragEnd={(e, info) => {
-                if (info.offset.x > 80) {
+                const delta = info.offset.x;
+                if (delta > 80) {
                   // Swipe Right → Add
                   setCart((prev) => {
                     const existing = prev.find((p) => p.id === item.id);
@@ -394,7 +396,7 @@ useEffect(() => {
                     }
                     return [...prev, { ...item, qty: 1 }];
                   });
-                } else if (info.offset.x < -80) {
+                } else if (delta < -80) {
                   // Swipe Left → Remove
                   setCart((prev) => {
                     const existing = prev.find((p) => p.id === item.id);
@@ -411,19 +413,10 @@ useEffect(() => {
               whileTap={{ scale: 0.97 }}
               className="relative bg-white rounded-2xl shadow-md overflow-hidden"
             >
-              {/* Color Feedback */}
-              <motion.div
-                className="absolute inset-0"
-                animate={{
-                  backgroundColor:
-                    info?.offset?.x > 0
-                      ? "rgba(16,185,129,0.1)"
-                      : info?.offset?.x < 0
-                      ? "rgba(239,68,68,0.1)"
-                      : "transparent",
-                }}
-                transition={{ duration: 0.2 }}
-              />
+              {/* Color Feedback (Safe Static) */}
+              {qty > 0 && (
+                <div className="absolute inset-0 bg-emerald-50 transition-all duration-200" />
+              )}
 
               <div className="relative z-10 p-5">
                 <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
