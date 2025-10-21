@@ -325,37 +325,143 @@ useEffect(() => {
   </div>
 </section>
 
+{/* 🛒 Floating Cart Indicator (Mobile only) */}
+{cart.length > 0 && (
+  <div className="fixed bottom-6 right-4 md:hidden z-50 bg-emerald-600 text-white px-4 py-2 rounded-full shadow-lg text-sm font-semibold">
+    🛒 {cart.length} item{cart.length > 1 ? "s" : ""} in cart
+  </div>
+)}
 
+		
+     {/* menu */}
+<section id="menu" className="relative z-10 mt-20">
+  <div className="max-w-6xl mx-auto px-6">
+    <h3 className="text-3xl font-bold text-emerald-800">Our Menu</h3>
+    <p className="mt-2 text-gray-600">Healthy choices — made fresh daily.</p>
 
-      {/* menu */}
-      <section id="menu" className="relative z-10 mt-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <h3 className="text-3xl font-bold text-emerald-800">Our Menu</h3>
-          <p className="mt-2 text-gray-600">Healthy choices — made fresh daily.</p>
+    {/* Category Buttons */}
+    <div className="mt-6 flex gap-3 flex-wrap">
+      {CATEGORIES.map((c) => (
+        <button
+          key={c}
+          onClick={() => setCat(c)}
+          className={`px-4 py-2 rounded-full text-sm ${
+            cat === c
+              ? "bg-emerald-600 text-white"
+              : "bg-white border border-emerald-200 text-emerald-700 hover:bg-emerald-50"
+          }`}
+        >
+          {c}
+        </button>
+      ))}
+    </div>
 
-          <div className="mt-6 flex gap-3 flex-wrap">
-            {CATEGORIES.map((c) => (
-              <button key={c} onClick={() => setCat(c)} className={`px-4 py-2 rounded-full text-sm ${cat === c ? 'bg-emerald-600 text-white' : 'bg-white border'}`}>
-                {c}
-              </button>
-            ))}
+    {/* 🍃 Mobile Swipe Menu */}
+    <div className="block md:hidden overflow-x-hidden px-3 mt-6">
+      <div className="flex flex-col gap-5">
+        {filtered.map((item) => (
+          <motion.div
+            key={item.id}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={(e, info) => {
+              if (info.offset.x > 80) {
+                // Swipe Right → Add to cart
+                toggleCartItem(item);
+              } else if (info.offset.x < -80) {
+                // Swipe Left → Remove from cart
+                toggleCartItem(item);
+              }
+            }}
+            whileTap={{ scale: 0.97 }}
+            className="relative bg-white rounded-2xl shadow-md overflow-hidden"
+          >
+            {/* Animated color feedback while dragging */}
+            <motion.div
+              className="absolute inset-0"
+              animate={{
+                backgroundColor: cart.find((p) => p.id === item.id)
+                  ? "rgba(16,185,129,0.1)" // green if in cart
+                  : "transparent",
+              }}
+              transition={{ duration: 0.3 }}
+            />
+
+            <div className="relative z-10 p-5">
+              <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
+                {item.name.split(" ")[0]}
+              </div>
+
+              <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+              <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+
+              <div className="mt-4 flex items-center justify-between">
+                <div className="text-emerald-600 font-bold">{item.price}</div>
+                <span
+                  className={`text-sm font-medium ${
+                    cart.find((p) => p.id === item.id)
+                      ? "text-emerald-600"
+                      : "text-gray-400"
+                  }`}
+                >
+                  {cart.find((p) => p.id === item.id)
+                    ? "In Cart ✓"
+                    : "Swipe → to Add"}
+                </span>
+              </div>
+            </div>
+
+            {/* Swipe direction visual feedback */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center text-white font-semibold text-lg pointer-events-none"
+              style={{ mixBlendMode: "multiply" }}
+              initial={{ opacity: 0 }}
+              whileDrag={{ opacity: 0.6 }}
+              animate={{
+                backgroundColor:
+                  info?.offset?.x > 0
+                    ? "rgba(16,185,129,0.6)" // green right swipe
+                    : info?.offset?.x < 0
+                    ? "rgba(239,68,68,0.6)" // red left swipe
+                    : "transparent",
+              }}
+              transition={{ duration: 0.2 }}
+            />
+          </motion.div>
+        ))}
+      </div>
+    </div>
+
+    {/* 🖥 Desktop Grid (Golden Version — unchanged) */}
+    <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      {filtered.map((item) => (
+        <motion.div
+          key={item.id}
+          whileHover={{ translateY: -6 }}
+          className="bg-white rounded-2xl p-5 shadow"
+        >
+          <div className="h-40 rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center text-2xl font-semibold text-amber-700">
+            {item.name.split(" ")[0]}
           </div>
-
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((item) => (
-              <motion.div key={item.id} whileHover={{ translateY: -6 }} className="bg-white rounded-2xl p-5 shadow">
-                <div className="h-40 rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center text-2xl font-semibold text-amber-700">{item.name.split(' ')[0]}</div>
-                <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
-                <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="text-emerald-600 font-bold">{item.price}</div>
-                  <a href={`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(`Hi Svasth Ol, I want to order ${item.name}`)}`} className="px-3 py-2 rounded-md bg-emerald-600 text-white text-sm">Order on WhatsApp</a>
-                </div>
-              </motion.div>
-            ))}
+          <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
+          <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+          <div className="mt-4 flex items-center justify-between">
+            <div className="text-emerald-600 font-bold">{item.price}</div>
+            <a
+              href={`https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(
+                `Hi Svasth Ol, I want to order ${item.name}`
+              )}`}
+              className="px-3 py-2 rounded-md bg-emerald-600 text-white text-sm hover:bg-emerald-700 transition"
+            >
+              Order on WhatsApp
+            </a>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
       {/* about */}
       <section id="about" className="mt-20 bg-gradient-to-r from-amber-50 via-emerald-50 to-yellow-50 py-12">
