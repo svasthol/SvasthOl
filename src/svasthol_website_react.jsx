@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { motion } from "framer-motion";
 import { Instagram, Youtube, Star } from "lucide-react";
 import MobileLuxury from "./src/components/MobileLuxury";
