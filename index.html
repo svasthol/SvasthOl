@@ -1,52 +1,109 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- ✅ Meta basics -->
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#10B981" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#10b981" />
     <meta
       name="description"
-      content="Svasth Ol · Natural · Trusted · Quality — Authentic South Indian Pulihora made with love and tradition."
+      content="Svasth Òl — Authentic South-Indian wellness kitchen. Cold pressed juices, Pulihora & Rice, and natural blends made with love."
     />
 
-   <!-- 🌿 Svasth Ol Favicon and PWA Setup -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-96x96.png">
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#10B981">
+    <!-- ✅ SEO -->
+    <title>Svasth Òl | Natural · Trusted · Quality</title>
+    <meta
+      name="keywords"
+      content="Svasth Ol, cold pressed juice, healthy food, pulihora, rice box, South Indian, organic, cloud kitchen"
+    />
+    <meta name="author" content="Svasth Òl" />
 
-<title>Svasth Ol · Natural · Trusted · Quality</title>
+    <!-- ✅ Open Graph / Social -->
+    <meta property="og:title" content="Svasth Òl — Natural · Trusted · Quality" />
+    <meta
+      property="og:description"
+      content="Authentic South Indian wellness kitchen — healthy juices and traditional meals made fresh daily."
+    />
+    <meta property="og:image" content="/svasthol_logo.webp" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://svasthol.example.com" />
 
-    <!-- 🌈 Page Title -->
-    <title>Svasth Ol · Natural · Trusted · Quality</title>
+    <!-- ✅ Twitter Meta -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Svasth Òl — Natural · Trusted · Quality" />
+    <meta
+      name="twitter:description"
+      content="Cold pressed juices & Pulihora made with authentic South Indian tradition."
+    />
+    <meta name="twitter:image" content="/svasthol_logo.webp" />
 
-    <!-- Optional: Animated favicon glow for modern browsers -->
+    <!-- ✅ Preconnects & Preloads -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Preload key image & script -->
+    <link rel="preload" as="image" href="/svasthol_logo.webp" />
+    <link rel="preload" as="script" href="/src/main.jsx" />
+
+    <!-- ✅ Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- ✅ Tailwind / App styles -->
+    <script type="module" crossorigin src="/src/main.jsx"></script>
+    <link rel="stylesheet" href="/index.css" />
+
+    <!-- ✅ Performance Hints -->
     <style>
-      @keyframes faviconGlow {
-        0% {
-          filter: drop-shadow(0 0 0px rgba(16, 185, 129, 0.2));
+      body {
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      /* Simple fade-in */
+      #root {
+        opacity: 0;
+        animation: fadeIn 0.5s ease-in-out forwards;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
         }
-        50% {
-          filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.6));
-        }
-        100% {
-          filter: drop-shadow(0 0 0px rgba(16, 185, 129, 0.2));
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
-      link[rel='icon'] {
-        animation: faviconGlow 4s ease-in-out infinite;
+
+      /* Reduced Motion support */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001s !important;
+          transition-duration: 0.001s !important;
+        }
       }
     </style>
   </head>
 
-  <body>
+  <body class="bg-emerald-50 text-gray-800">
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+
+    <!-- ✅ Noscript Fallback -->
+    <noscript>
+      <p style="text-align:center; padding: 2rem; font-family: sans-serif;">
+        🌿 Svasth Òl requires JavaScript to run this premium experience.
+      </p>
+    </noscript>
   </body>
 </html>
-
-
-
