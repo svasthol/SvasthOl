@@ -492,100 +492,151 @@ useEffect(() => {
             <div className="mt-4 flex items-center justify-between">
               <div className="text-emerald-600 font-bold">{item.price}</div>
 
-            {/* Quantity Controls */}
-<div className="flex items-center gap-2">
-  {qty > 0 ? (
-    <div className="flex items-center gap-2">
-      {/* ➖ Minus button — auto removes item if qty = 1 */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setCart((prev) => {
-            const existing = prev.find((p) => p.id === item.id);
-            if (!existing) return prev;
-            if (existing.qty > 1) {
-              return prev.map((p) =>
-                p.id === item.id ? { ...p, qty: p.qty - 1 } : p
-              );
+            {/* 🍋 Mobile Swipe Menu (Elastic & Simple) */}
+<div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
+  <div className="flex flex-col gap-5">
+    {filtered.map((item) => {
+      const cartItem = cart.find((p) => p.id === item.id);
+      const qty = cartItem ? cartItem.qty : 0;
+
+      return (
+        <motion.div
+          key={item.id}
+          drag="x"
+          dragElastic={0.4} // adds rubber-like elasticity
+          dragConstraints={{ left: 0, right: 0 }}
+          onDragEnd={(e, info) => {
+            if (info.offset.x > 80) {
+              // 👉 Swipe Right → Add
+              setCart((prev) => {
+                const existing = prev.find((p) => p.id === item.id);
+                if (existing) {
+                  return prev.map((p) =>
+                    p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+                  );
+                }
+                return [...prev, { ...item, qty: 1 }];
+              });
+            } else if (info.offset.x < -80) {
+              // 👈 Swipe Left → Remove
+              setCart((prev) => {
+                const existing = prev.find((p) => p.id === item.id);
+                if (!existing) return prev;
+                if (existing.qty > 1) {
+                  return prev.map((p) =>
+                    p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+                  );
+                }
+                // Remove the item completely when qty = 1
+                return prev.filter((p) => p.id !== item.id);
+              });
             }
-            // remove item completely if qty = 1
-            return prev.filter((p) => p.id !== item.id);
-          });
-        }}
-        className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
-      >
-        −
-      </button>
+          }}
+          whileTap={{ scale: 0.97 }}
+          className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
+        >
+          {/* ✅ Swipe Color Feedback */}
+          <motion.div
+            className="absolute inset-0 z-0 rounded-2xl"
+            initial={{ backgroundColor: "transparent" }}
+            animate={{
+              backgroundColor:
+                qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
+            }}
+            whileDrag={(event, info) => ({
+              backgroundColor:
+                info.offset.x > 0
+                  ? "rgba(16,185,129,0.15)" // Green for Add
+                  : info.offset.x < 0
+                  ? "rgba(239,68,68,0.15)" // Red for Remove
+                  : "transparent",
+            })}
+            transition={{ duration: 0.2 }}
+          />
 
-      {/* Quantity Display */}
-      <span className="text-sm font-semibold text-emerald-700">
-        {qty}
-      </span>
+          {/* Card Content */}
+          <div className="relative z-10 p-5">
+            <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
+              {item.name.split(" ")[0]}
+            </div>
 
-      {/* ➕ Plus button */}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setCart((prev) => {
-            const existing = prev.find((p) => p.id === item.id);
-            if (existing) {
-              return prev.map((p) =>
-                p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-              );
-            }
-            return [...prev, { ...item, qty: 1 }];
-          });
-        }}
-        className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
-      >
-        +
-      </button>
-    </div>
-  ) : (
-    // Add Button (when item not in cart yet)
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        setCart((prev) => [...prev, { ...item, qty: 1 }]);
-      }}
-      className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
-    >
-      Add to Cart
-    </button>
-  )}
-</div>
+            <h4 className="mt-3 font-semibold text-emerald-800">
+              {item.name}
+            </h4>
+            <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
 
+            <div className="mt-4 flex items-center justify-between">
+              <div className="text-emerald-600 font-bold">{item.price}</div>
 
-                      className="px-2 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95"
+              {/* Quantity Controls */}
+              <div className="flex items-center gap-2">
+                {qty > 0 ? (
+                  <div className="flex items-center gap-2">
+                    {/* ➖ Minus button — auto removes item if qty = 1 */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart((prev) => {
+                          const existing = prev.find(
+                            (p) => p.id === item.id
+                          );
+                          if (!existing) return prev;
+                          if (existing.qty > 1) {
+                            return prev.map((p) =>
+                              p.id === item.id
+                                ? { ...p, qty: p.qty - 1 }
+                                : p
+                            );
+                          }
+                          // remove item completely if qty = 1
+                          return prev.filter((p) => p.id !== item.id);
+                        });
+                      }}
+                      className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
                     >
                       −
                     </button>
+
+                    {/* Quantity Display */}
                     <span className="text-sm font-semibold text-emerald-700">
                       {qty}
                     </span>
-                  </>
+
+                    {/* ➕ Plus button */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart((prev) => {
+                          const existing = prev.find(
+                            (p) => p.id === item.id
+                          );
+                          if (existing) {
+                            return prev.map((p) =>
+                              p.id === item.id
+                                ? { ...p, qty: p.qty + 1 }
+                                : p
+                            );
+                          }
+                          return [...prev, { ...item, qty: 1 }];
+                        });
+                      }}
+                      className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  // Add Button (when item not in cart yet)
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCart((prev) => [...prev, { ...item, qty: 1 }]);
+                    }}
+                    className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
+                  >
+                    Add to Cart
+                  </button>
                 )}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCart((prev) => {
-                      const existing = prev.find((p) => p.id === item.id);
-                      if (existing) {
-                        return prev.map((p) =>
-                          p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-                        );
-                      }
-                      return [...prev, { ...item, qty: 1 }];
-                    });
-                  }}
-                  className={`px-3 py-1 rounded-lg transition-all ${
-                    qty > 0
-                      ? "bg-emerald-100 text-emerald-700 font-semibold shadow-sm"
-                      : "bg-gray-100 text-gray-500"
-                  } active:scale-95`}
-                >
-                  +
-                </button>
               </div>
             </div>
           </div>
@@ -594,6 +645,7 @@ useEffect(() => {
     })}
   </div>
 </div>
+
 
 
 
