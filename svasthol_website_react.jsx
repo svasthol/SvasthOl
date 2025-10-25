@@ -8,13 +8,67 @@ import MobileLuxury from "./src/components/MobileLuxury";
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
 
-const MENU = [
-  { id: 1, category: 'Cold Pressed Juices', name: 'Green Detox', desc: 'Spinach, apple, lemon, ginger — cold-pressed.', price: '₹149' },
-  { id: 2, category: 'Cold Pressed Juices', name: 'Citrus Boost', desc: 'Orange, carrot, lemon — vitamin C rich.', price: '₹129' },
-  { id: 3, category: 'Fruit Juices', name: 'Mango Fresh', desc: 'Seasonal ripe mango blended with love.', price: '₹119' },
-  { id: 4, category: 'Pulihora & Rice', name: 'Classic Pulihora', desc: 'Tangy pulihora made with traditional tempering.', price: '₹99' },
-  { id: 5, category: 'Pulihora & Rice', name: 'Podi Rice Box', desc: 'Flavourful podi rice with ghee & roasted nuts.', price: '₹89' },
-]
+import { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Instagram, Youtube, Star } from "lucide-react";
+import MobileLuxury from "./src/components/MobileLuxury";
+
+// 🌿 Dynamic menu loading from GitHub
+export default function SvasthOlWebsite() {
+  const [MENU, setMENU] = useState([]);
+  const [cat, setCat] = useState("All");
+  const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
+  const [isOpeningCart, setIsOpeningCart] = useState(false);
+  const [showHint, setShowHint] = useState(false);
+  const [showHintHidden, setShowHintHidden] = useState(false);
+  const [loadingMenu, setLoadingMenu] = useState(true);
+
+  useEffect(() => {
+    async function fetchMenuData() {
+      try {
+        const res = await fetch(
+          "https://raw.githubusercontent.com/svasthol/SvasthOl/main/src/data/menuData.json"
+        );
+        if (!res.ok) throw new Error("Failed to fetch menu data");
+        const data = await res.json();
+        // Ensure format consistency
+        const formatted = data.map((item, i) => ({
+          id: i + 1,
+          category: item.Category || "Other",
+          name: item.Name || "Untitled",
+          desc: item.Description || "",
+          price: item.Price ? `₹${item.Price}` : "₹0",
+          offer: item.Offer || "",
+          img: item.ImageURL || "",
+          active: item.Active !== "N",
+        }));
+        setMENU(formatted);
+      } catch (err) {
+        console.error("Error loading menu data:", err);
+      } finally {
+        setLoadingMenu(false);
+      }
+    }
+    fetchMenuData();
+  }, []);
+
+  // If still loading menu data
+  if (loadingMenu) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-emerald-700 font-semibold">
+        Loading menu...
+      </div>
+    );
+  }
+
+  // Categories will now be derived dynamically
+  const CATEGORIES = ["All", ...new Set(MENU.map((m) => m.category))];
+
+  const filtered = cat === "All"
+    ? MENU.filter((m) => m.active)
+    : MENU.filter((m) => m.active && m.category === cat);
+
 
 const REVIEWS = [
   { name: 'Ananya R.', stars: 5, text: 'The juices are unbelievably fresh! The Green Detox has become my daily favorite.' },
