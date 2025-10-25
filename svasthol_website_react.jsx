@@ -81,6 +81,15 @@ useEffect(() => {
   };
 
 const filtered = cat === "All" ? MENU : MENU.filter((m) => m.category === cat);
+
+// 🍋 Define menu categories for filtering
+const CATEGORIES = [
+  "All",
+  "Cold Pressed Juices",
+  "Fruit Juices",
+  "Pulihora & Rice",
+  "Snacks & Add-ons"
+];
   
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50 animate-gradient">
