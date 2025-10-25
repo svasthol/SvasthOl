@@ -824,8 +824,13 @@ useEffect(() => {
           className="bg-white rounded-2xl p-5 shadow"
         >
           <div className="h-40 rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center text-2xl font-semibold text-amber-700">
-            {item.name.split(" ")[0]}
-          </div>
+  {item.img ? (
+    <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
+  ) : (
+    item.name.split(" ")[0]
+  )}
+</div>
+
           <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
           <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
           <div className="mt-4 flex items-center justify-between">
