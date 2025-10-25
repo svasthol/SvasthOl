@@ -1,5 +1,15 @@
 [
   {
+    "ID": "mh6elhj6",
+    "Category": "Banana Loca",
+    "Name": "Choco bliss",
+    "Description": "Tearr",
+    "Price": "49",
+    "Offer": "5",
+    "Active": "Y",
+    "ImageURL": "https://raw.githubusercontent.com/svasthol/SvasthOl/main/public/graphics/1761404217749_56.jpg"
+  },
+  {
     "ID": "seed1",
     "Category": "Cold Pressed Juices",
     "Name": "Green Detox",
