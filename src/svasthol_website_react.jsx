@@ -3,9 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Instagram, Youtube, Star } from "lucide-react";
 import MobileLuxury from "./src/components/MobileLuxury";
 
-// Svasth Ol — React single-file component
-// Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
-
 // 🌿 Dynamic menu loading from GitHub
 export default function SvasthOlWebsite() {
   const [MENU, setMENU] = useState([]);
@@ -54,40 +51,30 @@ export default function SvasthOlWebsite() {
   }
 
   const CATEGORIES = ["All", ...new Set(MENU.map((m) => m.category))];
-
   const filtered =
     cat === "All"
       ? MENU.filter((m) => m.active)
       : MENU.filter((m) => m.active && m.category === cat);
 
-  // ... (Rest of JSX continues unchanged)
-}
+  // ✅ Everything below stays INSIDE the function now
+  const REVIEWS = [
+    { name: "Ananya R.", stars: 5, text: "The juices are unbelievably fresh! The Green Detox has become my daily favorite." },
+    { name: "Ravi Kumar", stars: 4, text: "Loved the Pulihora and Podi Rice combo — tastes like homemade with a healthy twist." },
+    { name: "Sneha Patel", stars: 5, text: "Perfect balance of taste and health. Their Mango Fresh is heavenly!" },
+    { name: "Suresh Varma", stars: 4, text: "Beautifully packed and delivered on time. Highly recommend Svasth Ol!" },
+  ];
 
-
-const REVIEWS = [
-  { name: 'Ananya R.', stars: 5, text: 'The juices are unbelievably fresh! The Green Detox has become my daily favorite.' },
-  { name: 'Ravi Kumar', stars: 4, text: 'Loved the Pulihora and Podi Rice combo — tastes like homemade with a healthy twist.' },
-  { name: 'Sneha Patel', stars: 5, text: 'Perfect balance of taste and health. Their Mango Fresh is heavenly!' },
-  { name: 'Suresh Varma', stars: 4, text: 'Beautifully packed and delivered on time. Highly recommend Svasth Ol!' },
-]
-
-  
   const toggleCartItem = (item) => {
-  setCart((prev) => {
-    const exists = prev.find((p) => p.id === item.id);
-    if (exists) {
-      return prev.filter((p) => p.id !== item.id); // remove
-    } else {
-      return [...prev, item]; // add
-    }
-  });
-};
-
+    setCart((prev) => {
+      const exists = prev.find((p) => p.id === item.id);
+      if (exists) return prev.filter((p) => p.id !== item.id);
+      return [...prev, item];
+    });
+  };
 
   useEffect(() => {
-    // enable smooth scrolling for anchor links
-    document.documentElement.style.scrollBehavior = 'smooth'
-  }, [])
+    document.documentElement.style.scrollBehavior = "smooth";
+  }, []);
 
   const filtered = cat === 'All' ? MENU : MENU.filter((m) => m.category === cat)
 
