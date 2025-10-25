@@ -14,6 +14,13 @@ export default function SvasthOlWebsite() {
   const [showHintHidden, setShowHintHidden] = useState(false);
   const [loadingMenu, setLoadingMenu] = useState(true);
 
+  const REVIEWS = [
+    { name: 'Ananya R.', stars: 5, text: 'The juices are unbelievably fresh! The Green Detox has become my daily favorite.' },
+    { name: 'Ravi Kumar', stars: 4, text: 'Loved the Pulihora and Podi Rice combo — tastes like homemade with a healthy twist.' },
+    { name: 'Sneha Patel', stars: 5, text: 'Perfect balance of taste and health. Their Mango Fresh is heavenly!' },
+    { name: 'Suresh Varma', stars: 4, text: 'Beautifully packed and delivered on time. Highly recommend Svasth Ol!' },
+  ];
+
   useEffect(() => {
     async function fetchMenuData() {
       try {
@@ -42,35 +49,23 @@ export default function SvasthOlWebsite() {
     fetchMenuData();
   }, []);
 
-  if (loadingMenu) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-emerald-700 font-semibold">
-        Loading menu...
-      </div>
-    );
-  }
-
-  const CATEGORIES = ["All", ...new Set(MENU.map((m) => m.category))];
-  const filtered =
-    cat === "All"
-      ? MENU.filter((m) => m.active)
-      : MENU.filter((m) => m.active && m.category === cat);
-
-  // ✅ Everything below stays INSIDE the function now
-  const REVIEWS = [
-    { name: "Ananya R.", stars: 5, text: "The juices are unbelievably fresh! The Green Detox has become my daily favorite." },
-    { name: "Ravi Kumar", stars: 4, text: "Loved the Pulihora and Podi Rice combo — tastes like homemade with a healthy twist." },
-    { name: "Sneha Patel", stars: 5, text: "Perfect balance of taste and health. Their Mango Fresh is heavenly!" },
-    { name: "Suresh Varma", stars: 4, text: "Beautifully packed and delivered on time. Highly recommend Svasth Ol!" },
-  ];
-
   const toggleCartItem = (item) => {
     setCart((prev) => {
       const exists = prev.find((p) => p.id === item.id);
-      if (exists) return prev.filter((p) => p.id !== item.id);
-      return [...prev, item];
+      if (exists) {
+        return prev.filter((p) => p.id !== item.id);
+      } else {
+        return [...prev, item];
+      }
     });
   };
+
+  // ... all other hooks and JSX return go here ...
+
+  return (
+    <div> ... </div>
+  );
+}
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = "smooth";
