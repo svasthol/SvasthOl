@@ -1002,6 +1002,6 @@ useEffect(() => {
     © {new Date().getFullYear()} <strong>Svasth Ol</strong> — Crafted with 🌿 and Tradition · All Rights Reserved
     </div>
   </footer>
-</div>
-  )
+);
 }
+
