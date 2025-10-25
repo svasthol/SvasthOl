@@ -3,8 +3,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Instagram, Youtube, Star } from "lucide-react";
 import MobileLuxury from "./src/components/MobileLuxury";
 
-
-
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
 
@@ -27,7 +25,6 @@ export default function SvasthOlWebsite() {
         );
         if (!res.ok) throw new Error("Failed to fetch menu data");
         const data = await res.json();
-        // Ensure format consistency
         const formatted = data.map((item, i) => ({
           id: i + 1,
           category: item.Category || "Other",
@@ -48,7 +45,6 @@ export default function SvasthOlWebsite() {
     fetchMenuData();
   }, []);
 
-  // If still loading menu data
   if (loadingMenu) {
     return (
       <div className="min-h-screen flex items-center justify-center text-emerald-700 font-semibold">
@@ -57,12 +53,15 @@ export default function SvasthOlWebsite() {
     );
   }
 
-  // Categories will now be derived dynamically
   const CATEGORIES = ["All", ...new Set(MENU.map((m) => m.category))];
 
-  const filtered = cat === "All"
-    ? MENU.filter((m) => m.active)
-    : MENU.filter((m) => m.active && m.category === cat);
+  const filtered =
+    cat === "All"
+      ? MENU.filter((m) => m.active)
+      : MENU.filter((m) => m.active && m.category === cat);
+
+  // ... (Rest of JSX continues unchanged)
+}
 
 
 const REVIEWS = [
