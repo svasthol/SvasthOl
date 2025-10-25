@@ -13,6 +13,8 @@ export default function SvasthOlWebsite() {
   const [showHint, setShowHint] = useState(false);
   const [showHintHidden, setShowHintHidden] = useState(false);
   const [loadingMenu, setLoadingMenu] = useState(true);
+  const [offset, setOffset] = useState({ x: 0, y: 0 })
+  const [scrolled, setScrolled] = useState(false);
 
   const REVIEWS = [
     { name: 'Ananya R.', stars: 5, text: 'The juices are unbelievably fresh! The Green Detox has become my daily favorite.' },
@@ -48,6 +50,24 @@ export default function SvasthOlWebsite() {
     }
     fetchMenuData();
   }, []);
+useEffect(() => {
+    document.documentElement.style.scrollBehavior = "smooth";
+  }, []);
+useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+  const handleMove = (e) => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 20
+    const y = (e.clientY / window.innerHeight - 0.5) * 20
+    setOffset({ x, y })
+  }
+  window.addEventListener('mousemove', handleMove)
+  return () => window.removeEventListener('mousemove', handleMove)
+}, [])
 
   const toggleCartItem = (item) => {
     setCart((prev) => {
@@ -60,40 +80,9 @@ export default function SvasthOlWebsite() {
     });
   };
 
-  // ... all other hooks and JSX return go here ...
-
-  return (
-    <div> ... </div>
-  );
 }
 
-  useEffect(() => {
-    document.documentElement.style.scrollBehavior = "smooth";
-  }, []);
-
-
-const [offset, setOffset] = useState({ x: 0, y: 0 })
-
-useEffect(() => {
-  const handleMove = (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 20
-    const y = (e.clientY / window.innerHeight - 0.5) * 20
-    setOffset({ x, y })
-  }
-  window.addEventListener('mousemove', handleMove)
-  return () => window.removeEventListener('mousemove', handleMove)
-}, [])
-
-  const [scrolled, setScrolled] = useState(false);
-
-useEffect(() => {
-  const handleScroll = () => {
-    setScrolled(window.scrollY > 30);
-  };
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
+const filtered = cat === "All" ? MENU : MENU.filter((m) => m.category === cat);
   
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50 animate-gradient">
@@ -983,7 +972,6 @@ useEffect(() => {
     © {new Date().getFullYear()} <strong>Svasth Ol</strong> — Crafted with 🌿 and Tradition · All Rights Reserved
     </div>
   </footer>
-</div>      
+</div>
 );
 }
-
