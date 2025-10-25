@@ -1,125 +1,198 @@
-
 // src/admin/AdminPanel.jsx
 import React, { useState } from "react";
 
-//const UPLOAD_API = process.env.REACT_APP_UPLOAD_API || "/api/upload-to-github";
-const UPLOAD_API = "/api/upload-to-github";
-// If your backend runs on a different domain, set REACT_APP_UPLOAD_API to the full URL in your build/env.
+const REPO = "svasthol/SvasthOl";
+const BRANCH = "main";
+const PATH_IMAGES = "public/graphics/";
+const PATH_MENU = "src/data/menuData.json";
 
-const ADMIN_KEY = "Mahadeva@2025"; // keep same; or pass in header from env at deployment time
+const ADMIN_KEY = "Mahadeva@2025";
 
 export default function AdminPanel() {
+  const params = new URLSearchParams(window.location.search);
+  const key = params.get("key");
+  const [authorized, setAuthorized] = useState(key === ADMIN_KEY);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     Category: "",
     Name: "",
-    Description: "",
     Price: "",
     Offer: "",
+    Description: "",
     Active: "Y",
+    Image: null,
   });
-  const [file, setFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [message, setMessage] = useState(null);
-  const [previewItem, setPreviewItem] = useState(null);
 
-  const onChange = (k) => (e) => setForm((s) => ({ ...s, [k]: e.target.value }));
+  const [status, setStatus] = useState("");
 
-  const handleFileSelect = (e) => {
-    setFile(e.target.files[0] || null);
-  };
-
-  const submit = async () => {
-    if (!form.Name.trim()) return alert("Please provide item Name");
-    setUploading(true);
-    setMessage(null);
-
+  async function handleUpload() {
     try {
-      const fd = new FormData();
-      fd.append("file", file || new Blob(), file ? file.name : "");
-      // append fields
-      Object.entries(form).forEach(([k, v]) => fd.append(k, v ?? ""));
-      // also include an adminKey field for fallback
-      fd.append("adminKey", ADMIN_KEY);
+      setLoading(true);
+      setStatus("Uploading...");
 
-      const resp = await fetch(UPLOAD_API, {
-        method: "POST",
-        body: fd,
-        headers: {
-          // Prefer header; fallback to form-field adminKey is present
-          "x-admin-key": ADMIN_KEY,
-        },
-      });
+      // Ask for GitHub token only once (securely per session)
+      let token = sessionStorage.getItem("github_pat");
+      if (!token) {
+        token = prompt("Enter your GitHub Personal Access Token:");
+        if (!token) return alert("Upload cancelled.");
+        sessionStorage.setItem("github_pat", token);
+      }
 
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data.error || "Upload failed");
+      // Step 1: Upload Image
+      let imgURL = "";
+      if (form.Image) {
+        const fname = `${Date.now()}_${form.Image.name.replace(/\s+/g, "_")}`;
+        const filePath = `${PATH_IMAGES}${fname}`;
+        const fileBase64 = await fileToBase64(form.Image);
 
-      setMessage("Uploaded and committed ✅");
-      setPreviewItem(data.item || null);
-      // reset form for convenience; keep preview
-      setForm({
-        Category: "",
-        Name: "",
-        Description: "",
-        Price: "",
-        Offer: "",
-        Active: "Y",
-      });
-      setFile(null);
-    } catch (err) {
-      console.error(err);
-      setMessage("Upload failed: " + err.message);
+        const uploadResp = await githubPut(
+          filePath,
+          fileBase64,
+          `Upload ${fname}`,
+          token
+        );
+        if (!uploadResp.ok) throw new Error("Image upload failed.");
+        imgURL = `https://raw.githubusercontent.com/${REPO}/${BRANCH}/${filePath}`;
+      }
+
+      // Step 2: Update menuData.json
+      const menuResp = await githubGet(PATH_MENU, token);
+      if (!menuResp.ok) throw new Error("Failed to fetch menu data");
+
+      const menuData = JSON.parse(
+        atob(menuResp.data.content)
+      );
+      const sha = menuResp.data.sha;
+
+      const newItem = {
+        ID: Date.now().toString(36),
+        Category: form.Category,
+        Name: form.Name,
+        Description: form.Description,
+        Price: form.Price,
+        Offer: form.Offer,
+        Active: form.Active,
+        ImageURL: imgURL,
+      };
+
+      menuData.unshift(newItem);
+
+      const encodedMenu = btoa(JSON.stringify(menuData, null, 2));
+
+      const updateMenu = await githubPut(
+        PATH_MENU,
+        encodedMenu,
+        `Add item ${form.Name}`,
+        token,
+        sha
+      );
+      if (!updateMenu.ok) throw new Error("Menu update failed");
+
+      setStatus("✅ Upload successful!");
+    } catch (e) {
+      console.error(e);
+      setStatus("❌ " + e.message);
     } finally {
-      setUploading(false);
+      setLoading(false);
     }
-  };
+  }
+
+  if (!authorized)
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p>Unauthorized — missing key</p>
+      </div>
+    );
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto bg-white p-6 rounded shadow">
-        <h2 className="text-xl font-semibold mb-4">Admin — Add Menu Item</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-8">
+      <div className="bg-white p-6 rounded-xl shadow-md max-w-lg w-full">
+        <h2 className="text-2xl font-semibold mb-4">
+          Admin — Add Menu Item
+        </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <input placeholder="Category" value={form.Category} onChange={onChange("Category")} className="p-2 border rounded" />
-          <input placeholder="Name *" value={form.Name} onChange={onChange("Name")} className="p-2 border rounded" />
-          <input placeholder="Price" value={form.Price} onChange={onChange("Price")} className="p-2 border rounded" />
-          <input placeholder="Offer" value={form.Offer} onChange={onChange("Offer")} className="p-2 border rounded" />
-          <input placeholder="Image or Video file (optional)" type="file" accept="image/*,video/*" onChange={handleFileSelect} className="p-1 border rounded" />
-          <select value={form.Active} onChange={onChange("Active")} className="p-2 border rounded">
+        <div className="grid gap-2">
+          <input placeholder="Category" onChange={(e) => setForm({ ...form, Category: e.target.value })} />
+          <input placeholder="Name" onChange={(e) => setForm({ ...form, Name: e.target.value })} />
+          <input placeholder="Price" onChange={(e) => setForm({ ...form, Price: e.target.value })} />
+          <input placeholder="Offer" onChange={(e) => setForm({ ...form, Offer: e.target.value })} />
+          <textarea placeholder="Description" onChange={(e) => setForm({ ...form, Description: e.target.value })}></textarea>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setForm({ ...form, Image: e.target.files[0] })
+            }
+          />
+
+          <select
+            onChange={(e) => setForm({ ...form, Active: e.target.value })}
+          >
             <option value="Y">Active</option>
             <option value="N">Hidden</option>
           </select>
-          <textarea placeholder="Description" value={form.Description} onChange={onChange("Description")} className="p-2 border rounded md:col-span-3" />
         </div>
 
-        <div className="mt-4 flex items-center gap-3">
-          <button onClick={submit} className="px-4 py-2 bg-emerald-600 text-white rounded" disabled={uploading}>
-            {uploading ? "Uploading..." : "Save & Publish"}
-          </button>
-          <div className="text-sm text-gray-600">{message}</div>
-        </div>
+        <button
+          onClick={handleUpload}
+          disabled={loading}
+          className="mt-4 px-4 py-2 bg-emerald-600 text-white rounded w-full"
+        >
+          {loading ? "Please wait..." : "Save & Publish"}
+        </button>
 
-        {previewItem && (
-          <div className="mt-6">
-            <h3 className="font-semibold mb-2">Published Item Preview</h3>
-            <div className="border p-3 rounded">
-              <div className="flex items-start gap-4">
-                {previewItem.ImageURL && previewItem.ImageURL.endsWith(".mp4") === false && (
-                  <img src={previewItem.ImageURL} alt={previewItem.Name} className="w-32 h-32 object-cover rounded" />
-                )}
-                {previewItem.VideoURL && (
-                  <video src={previewItem.VideoURL} controls className="w-48 h-32 rounded" />
-                )}
-                <div>
-                  <div className="font-semibold">{previewItem.Name}</div>
-                  <div className="text-sm text-gray-500">₹{previewItem.Price}</div>
-                  {previewItem.Offer && <div className="text-xs text-amber-700 mt-1">{previewItem.Offer}</div>}
-                  <div className="mt-2 text-sm">{previewItem.Description}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        <div className="mt-3 text-sm text-gray-600">{status}</div>
       </div>
     </div>
   );
+}
+
+// ------------------ Helpers ------------------
+
+async function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () =>
+      resolve(reader.result.split(",")[1]); // remove data: prefix
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function githubGet(path, token) {
+  const res = await fetch(
+    `https://api.github.com/repos/${REPO}/contents/${path}?ref=${BRANCH}`,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  const data = await res.json();
+  return { ok: res.ok, data };
+}
+
+async function githubPut(path, base64, msg, token, sha) {
+  const res = await fetch(
+    `https://api.github.com/repos/${REPO}/contents/${path}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: msg,
+        content: base64,
+        branch: BRANCH,
+        sha,
+      }),
+    }
+  );
+
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    data = {};
+  }
+  return { ok: res.ok, data };
 }
