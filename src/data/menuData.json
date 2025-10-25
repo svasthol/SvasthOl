@@ -1,0 +1,13 @@
+[
+  {
+    "ID": "seed1",
+    "Category": "Cold Pressed Juices",
+    "Name": "Green Detox",
+    "Description": "Spinach, apple, lemon, ginger — cold-pressed.",
+    "Price": "149",
+    "Offer": "10% OFF",
+    "ImageURL": "",
+    "VideoURL": "",
+    "Active": "Y"
+  }
+]
