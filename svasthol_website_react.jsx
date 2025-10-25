@@ -82,6 +82,7 @@ useEffect(() => {
 
 }
 
+const filtered = cat === "All" ? MENU : MENU.filter((m) => m.category === cat);
   
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50 animate-gradient">
