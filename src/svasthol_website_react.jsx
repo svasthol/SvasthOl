@@ -80,8 +80,6 @@ useEffect(() => {
     });
   };
 
-}
-
 const filtered = cat === "All" ? MENU : MENU.filter((m) => m.category === cat);
   
   return (
