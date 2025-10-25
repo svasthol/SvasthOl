@@ -76,7 +76,6 @@ export default function SvasthOlWebsite() {
     document.documentElement.style.scrollBehavior = "smooth";
   }, []);
 
-  const filtered = cat === 'All' ? MENU : MENU.filter((m) => m.category === cat)
 
 const [offset, setOffset] = useState({ x: 0, y: 0 })
 
