@@ -1,5 +1,15 @@
 [
   {
+    "ID": "mh6jefmp",
+    "Category": "Rice",
+    "Name": "Pulihora Lemon",
+    "Description": "Puli + hora ",
+    "Price": "99",
+    "Offer": "",
+    "Active": "Y",
+    "ImageURL": "https://raw.githubusercontent.com/svasthol/SvasthOl/main/public/graphics/1761412288752_eeb62bb51a.png"
+  },
+  {
     "ID": "mh6elhj6",
     "Category": "Banana Loca",
     "Name": "Choco bliss",
