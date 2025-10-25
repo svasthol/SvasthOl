@@ -91,5 +91,10 @@ router.post("/upload-to-github", upload.single("file"), async (req, res) => {
   }
 });
 
+router.use((err, req, res, next) => {
+  console.error("🔥 Upload API error:", err);
+  res.status(500).json({ error: err.message || "Unknown server error" });
+});
+
 export default router;
 
