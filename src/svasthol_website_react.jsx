@@ -8,11 +8,6 @@ import MobileLuxury from "./src/components/MobileLuxury";
 // Svasth Ol — React single-file component
 // Fixed JSX syntax (all tags properly closed) and added smooth scroll + animated gradient + reviews
 
-import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { Instagram, Youtube, Star } from "lucide-react";
-import MobileLuxury from "./src/components/MobileLuxury";
-
 // 🌿 Dynamic menu loading from GitHub
 export default function SvasthOlWebsite() {
   const [MENU, setMENU] = useState([]);
