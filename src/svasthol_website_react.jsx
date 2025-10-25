@@ -72,20 +72,6 @@ const REVIEWS = [
   { name: 'Suresh Varma', stars: 4, text: 'Beautifully packed and delivered on time. Highly recommend Svasth Ol!' },
 ]
 
-export default function SvasthOlWebsite() {
-  const [cat, setCat] = useState('All')
-  const [cart, setCart] = useState([]);
-  const [showCart, setShowCart] = useState(false);
-  const [isOpeningCart, setIsOpeningCart] = useState(false);
-  const [showHint, setShowHint] = useState(false);
-  const [showHintHidden, setShowHintHidden] = useState(false);
-
-useEffect(() => {
-  // Auto-hide after 3 seconds
-  const timer = setTimeout(() => setShowHintHidden(true), 3000);
-  return () => clearTimeout(timer);
-}, []);
-
   
   const toggleCartItem = (item) => {
   setCart((prev) => {
