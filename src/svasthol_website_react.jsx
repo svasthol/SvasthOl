@@ -72,8 +72,6 @@ const REVIEWS = [
   { name: 'Suresh Varma', stars: 4, text: 'Beautifully packed and delivered on time. Highly recommend Svasth Ol!' },
 ]
 
-const CATEGORIES = ['All', 'Cold Pressed Juices', 'Fruit Juices', 'Pulihora & Rice']
-
 export default function SvasthOlWebsite() {
   const [cat, setCat] = useState('All')
   const [cart, setCart] = useState([]);
