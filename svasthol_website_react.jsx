@@ -408,45 +408,7 @@ const CATEGORIES = [
       🛒 Tap the cart icon to view your order.
     </motion.div>
 
-    {/* 🧠 Swipe Hint Overlay (Mobile Only) */}
-    {!showHintHidden && (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.6 }}
-        className="md:hidden fixed inset-0 z-[60] flex flex-col items-center justify-center bg-emerald-50/70 backdrop-blur-sm text-emerald-800 text-center"
-      >
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="p-6 rounded-2xl bg-white/70 shadow-lg border border-emerald-200"
-        >
-          <div className="flex items-center justify-center gap-3 text-lg font-semibold mb-3">
-            <motion.span animate={{ x: [0, 10, 0] }} transition={{ duration: 1.2, repeat: Infinity }}>
-              👈
-            </motion.span>
-            Swipe left to Remove
-            <motion.span animate={{ x: [0, -10, 0] }} transition={{ duration: 1.2, repeat: Infinity }}>
-              👉
-            </motion.span>
-          </div>
-          <div className="text-emerald-600 font-semibold text-base">Swipe right to Add to Cart 🍃</div>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowHintHidden(true);
-              localStorage.setItem("swipeHintShown", "true");
-            }}
-            className="mt-4 bg-emerald-600 text-white px-4 py-2 rounded-lg shadow hover:bg-emerald-700"
-          >
-            Got it
-          </button>
-        </motion.div>
-      </motion.div>
-    )}
-
+    
     {/* 🍋 Mobile Swipe Menu */}
     <div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
       <div className="flex flex-col gap-5">
