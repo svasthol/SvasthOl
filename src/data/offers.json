@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "mh7dpcuy",
+    "title": "Apple Booster",
+    "subtitle": "Boost the health",
+    "image": "https://raw.githubusercontent.com/svasthol/SvasthOl/main/public/graphics/1761463188759_coconut.svg",
+    "validTill": "2025-10-26",
+    "animation": "fade"
+  }
+]
