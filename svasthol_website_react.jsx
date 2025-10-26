@@ -518,9 +518,11 @@ const CATEGORIES = [
           </motion.div>
         )}
       </div>
-    </motion.div>  {/* ✅ closes each card */}
+    </motion.div> 
+  {/* ✅ closes each card */}
   );
-})}               {/* ✅ closes map() */}
+})}            
+{/* ✅ closes map() */}
 
 {/* 🛒 Floating Cart Button */}
  {cart.length > 0 && (
