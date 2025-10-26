@@ -40,6 +40,7 @@ export default function SvasthOlWebsite() {
           offer: item.Offer || "",
           img: item.ImageURL || "",
           active: item.Active !== "N",
+          outOfStock: item.OutOfStock || false,
         }));
         setMENU(formatted);
       } catch (err) {
