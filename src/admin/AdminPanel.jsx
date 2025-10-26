@@ -88,12 +88,23 @@ export default function AdminPanel() {
     return { ok: res.ok, status: res.status, data };
   }
 
-  // 🔄 Enhanced PUT with automatic SHA refresh and retry
+  // ✅ Safe PUT with SHA check and retry (auto-fix for missing or invalid SHA)
 async function githubPut(path, contentB64, message, sha) {
   const t = await ensureToken();
 
   async function attempt(currentSha, retry = false) {
     setStatus(`Committing ${path}...${retry ? " (retrying with fresh SHA)" : ""}`);
+
+    // ✅ Build body dynamically — omit sha if invalid
+    const body = {
+      message: message + (retry ? " (retry)" : ""),
+      content: contentB64,
+      branch: BRANCH,
+    };
+
+    if (currentSha && typeof currentSha === "string") {
+      body.sha = currentSha; // include only if valid
+    }
 
     const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
       method: "PUT",
@@ -102,12 +113,7 @@ async function githubPut(path, contentB64, message, sha) {
         Accept: "application/vnd.github+json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        message: message + (retry ? " (retry)" : ""),
-        content: contentB64,
-        branch: BRANCH,
-        sha: currentSha,
-      }),
+      body: JSON.stringify(body),
     });
 
     const data = await res.json().catch(() => ({}));
@@ -139,9 +145,9 @@ async function githubPut(path, contentB64, message, sha) {
     return { ok: false, data };
   }
 
-  // ▶ First attempt
   return await attempt(sha);
 }
+
 
 
   function fileToBase64(file) {
