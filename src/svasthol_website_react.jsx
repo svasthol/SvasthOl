@@ -584,6 +584,13 @@ const CATEGORIES = ["All", ...new Set(MENU.map((i) => i.category))];
           </div>
 
           <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
+          <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
+            {item.outOfStock && (
+               <span className="inline-block mt-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">
+                Out of Stock
+               </span>
+          )}
+           <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
           <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
           <div className="mt-4 flex items-center justify-between">
             <div className="text-emerald-600 font-bold">{item.price}</div>
