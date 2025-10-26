@@ -636,7 +636,7 @@ const CATEGORIES = [
   )}
 </div>
 </motion.div> 
-{/* ✅ properly close the draggable motion.div */}
+
       
 
 
