@@ -531,7 +531,7 @@ const CATEGORIES = [
                   ? "rgba(239,68,68,0.15)" // red
                   : "transparent",
             })}
-            />
+          
             {/* 🧃 Item Card */}
 <div className="relative z-10 p-5">
   <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
@@ -618,7 +618,7 @@ const CATEGORIES = [
     </div>
   </div>
 
-  {/* ✨ “Swipe Once” Hint Animation — first item only */}
+    {/* ✨ “Swipe Once” Hint Animation — first item only */}
   {showHint && (
     <motion.div
       initial={{ opacity: 0 }}
@@ -632,11 +632,8 @@ const CATEGORIES = [
     </motion.div>
   )}
 </div>
-
-            transition={{ duration: 0.2 }}
-          />
-
-          
+</motion.div> {/* ✅ properly close the draggable motion.div */}
+      
 
 
     {/* 🛒 Floating Cart Button */}
