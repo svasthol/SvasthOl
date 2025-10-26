@@ -796,7 +796,9 @@ const CATEGORIES = [
         </motion.div>
       ))}
     </div>
+     {/* closes .max-w-6xl container */}
 </section>
+   {/* closes menu section properly */}
 {/* ===================== */}
 {/* 🌿 MENU SECTION END */}
 {/* ===================== */}
@@ -972,6 +974,5 @@ const CATEGORIES = [
     © {new Date().getFullYear()} <strong>Svasth Ol</strong> — Crafted with 🌿 and Tradition · All Rights Reserved
     </div>
   </footer>
-</div>
 );
 }
