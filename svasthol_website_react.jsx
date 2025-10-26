@@ -40,6 +40,7 @@ export default function SvasthOlWebsite() {
           offer: item.Offer || "",
           img: item.ImageURL || "",
           active: item.Active !== "N",
+          outOfStock: item.OutOfStock || false,
         }));
         setMENU(formatted);
       } catch (err) {
@@ -83,14 +84,7 @@ useEffect(() => {
 const filtered = cat === "All" ? MENU : MENU.filter((m) => m.category === cat);
 
 // 🍋 Define menu categories for filtering
-const CATEGORIES = [
-  "All",
-  "Cold Pressed Juices",
-  "Fruit Juices",
-  "Pulihora & Rice",
-  "Snacks & Add-ons"
-];
-  
+const CATEGORIES = ["All", ...new Set(MENU.map((i) => i.category))];
   return (
     <div className="min-h-screen font-sans text-gray-800 bg-gradient-to-b from-amber-50 via-emerald-50 to-yellow-50 animate-gradient">
       <MobileLuxury />
@@ -451,6 +445,7 @@ const CATEGORIES = [
               onAnimationComplete={() => {
                 if (index === 0) localStorage.setItem("swipeHintShown", "true");
               }}
+              style={{ opacity: item.outOfStock ? 0.6 : 1 }}
               className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
             >
               <motion.div
@@ -489,6 +484,14 @@ const CATEGORIES = [
                 </div>
 
                 <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+                
+                 {item.outOfStock && (
+                   <span className="inline-block mt-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">
+                           Out of Stock
+                   </span>
+                 )}
+                <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+
                 <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
 
                 <div className="mt-4 flex items-center justify-between">
@@ -572,7 +575,7 @@ const CATEGORIES = [
     {/* 🖥️ Desktop Grid */}
     <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
       {filtered.map((item) => (
-        <motion.div key={item.id} whileHover={{ translateY: -6 }} className="bg-white rounded-2xl p-5 shadow">
+        <motion.div key={item.id} whileHover={{ translateY: -6 }} style={{ opacity: item.outOfStock ? 0.6 : 1 }} className="bg-white rounded-2xl p-5 shadow">
           <div className="h-40 rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center text-2xl font-semibold text-amber-700">
             {item.img ? (
               <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
@@ -582,6 +585,12 @@ const CATEGORIES = [
           </div>
 
           <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
+            {item.outOfStock && (
+               <span className="inline-block mt-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">
+                Out of Stock
+               </span>
+          )}
+           <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
           <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
           <div className="mt-4 flex items-center justify-between">
             <div className="text-emerald-600 font-bold">{item.price}</div>
