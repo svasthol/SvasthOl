@@ -445,6 +445,7 @@ const CATEGORIES = ["All", ...new Set(MENU.map((i) => i.category))];
               onAnimationComplete={() => {
                 if (index === 0) localStorage.setItem("swipeHintShown", "true");
               }}
+              style={{ opacity: item.outOfStock ? 0.6 : 1 }}
               className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
             >
               <motion.div
@@ -483,7 +484,7 @@ const CATEGORIES = ["All", ...new Set(MENU.map((i) => i.category))];
                 </div>
 
                 <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
-                <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+                
                  {item.outOfStock && (
                    <span className="inline-block mt-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">
                            Out of Stock
