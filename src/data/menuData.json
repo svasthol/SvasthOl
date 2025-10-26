@@ -18,6 +18,7 @@
     "Offer": "10% OFF",
     "ImageURL": "",
     "VideoURL": "",
-    "Active": "Y"
+    "Active": "Y",
+    "OutOfStock": true
   }
 ]
