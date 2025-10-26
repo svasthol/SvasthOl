@@ -20,6 +20,6 @@
     "ImageURL": "",
     "VideoURL": "",
     "Active": "Y",
-    "OutOfStock": true
+    "OutOfStock": false
   }
 ]
