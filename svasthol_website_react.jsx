@@ -535,10 +535,24 @@ const CATEGORIES = [
           />
 
           {/* 🧃 Item Card */}
-          <div className="relative z-10 p-5">
-            <div className="h-36 flex items-center justify-center rounded-lg bg-gradient-to-br from-emerald-100 to-amber-50 font-semibold text-amber-700 text-lg">
-              {item.name.split(" ")[0]}
-            </div>
+          <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
+  {item.img ? (
+    <img
+      src={item.img}
+      alt={item.name}
+      className="w-full h-full object-cover"
+      loading="lazy"
+      onError={(e) => {
+        e.target.style.display = "none";
+      }}
+    />
+  ) : (
+    <span className="font-semibold text-amber-700 text-lg">
+      {item.name.split(" ")[0]}
+    </span>
+  )}
+</div>
+
 
             <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
             <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
