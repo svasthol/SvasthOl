@@ -88,19 +88,61 @@ export default function AdminPanel() {
     return { ok: res.ok, status: res.status, data };
   }
 
-  async function githubPut(path, contentB64, message, sha) {
-    const t = await ensureToken();
-    setStatus(`Committing ${path}...`);
-    const body = { message, content: contentB64, branch: BRANCH };
-    if (sha) body.sha = sha;
+  // 🔄 Enhanced PUT with automatic SHA refresh and retry
+async function githubPut(path, contentB64, message, sha) {
+  const t = await ensureToken();
+
+  async function attempt(currentSha, retry = false) {
+    setStatus(`Committing ${path}...${retry ? " (retrying with fresh SHA)" : ""}`);
+
     const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
       method: "PUT",
-      headers: { Authorization: `Bearer ${t}`, Accept: "application/vnd.github+json" },
-      body: JSON.stringify(body),
+      headers: {
+        Authorization: `Bearer ${t}`,
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: message + (retry ? " (retry)" : ""),
+        content: contentB64,
+        branch: BRANCH,
+        sha: currentSha,
+      }),
     });
+
     const data = await res.json().catch(() => ({}));
-    return { ok: res.ok, status: res.status, data };
+
+    // ✅ Success case
+    if (res.ok) {
+      console.log("✅ GitHub PUT success:", path);
+      return { ok: true, data };
+    }
+
+    // ⚠️ SHA mismatch case
+    if (
+      !retry &&
+      (data?.message?.includes("does not match") ||
+        data?.message?.includes("sha does not match"))
+    ) {
+      console.warn("⚠️ SHA mismatch detected, refetching latest SHA...");
+
+      const refetch = await githubGet(path);
+      if (refetch?.ok && refetch?.data?.sha) {
+        console.log("🔁 Retrying commit with fresh SHA:", refetch.data.sha);
+        return await attempt(refetch.data.sha, true);
+      }
+    }
+
+    // ❌ Hard fail
+    console.error("❌ GitHub PUT failed:", data);
+    setStatus(`Commit failed for ${path}: ${data?.message || "Unknown error"}`);
+    return { ok: false, data };
   }
+
+  // ▶ First attempt
+  return await attempt(sha);
+}
+
 
   function fileToBase64(file) {
     return new Promise((resolve, reject) => {
