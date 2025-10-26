@@ -462,68 +462,165 @@ const CATEGORIES = [
 <div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
   <div className="flex flex-col gap-5">
     {filtered.map((item, index) => {
-  const cartItem = cart.find((p) => p.id === item.id);
-  const qty = cartItem ? cartItem.qty : 0;
-  const showHint = index === 0 && !localStorage.getItem("swipeHintShown");
+      const cartItem = cart.find((p) => p.id === item.id);
+      const qty = cartItem ? cartItem.qty : 0;
+      const showFirstHint = index === 0 && !localStorage.getItem("swipeHintShown");
 
-  return (
-    <motion.div
-      key={item.id}
-      drag="x"
-      dragElastic={0.35}
-      dragConstraints={{ left: 0, right: 0 }}
-      className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
-    >
-      {/* ✅ Swipe feedback background */}
-      <motion.div
-        className="absolute inset-0 z-0 rounded-2xl"
-        style={{ backgroundColor: "transparent" }}
-        animate={{
-          backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
-        }}
-        whileDrag={(event, info) => ({
-          backgroundColor:
-            info.offset.x > 0
-              ? "rgba(16,185,129,0.15)"
-              : info.offset.x < 0
-              ? "rgba(239,68,68,0.15)"
-              : "transparent",
-        })}
-        transition={{ duration: 0.2 }}
-      />
+      return (
+        <motion.div
+          key={item.id}
+          drag="x"
+          dragElastic={0.35}
+          dragConstraints={{ left: 0, right: 0 }}
+          onDragEnd={(e, info) => {
+            if (info.offset.x > 80) {
+              // add
+              setCart((prev) => {
+                const existing = prev.find((p) => p.id === item.id);
+                if (existing) {
+                  return prev.map((p) =>
+                    p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+                  );
+                }
+                return [...prev, { ...item, qty: 1 }];
+              });
+            } else if (info.offset.x < -80) {
+              // remove
+              setCart((prev) => {
+                const existing = prev.find((p) => p.id === item.id);
+                if (!existing) return prev;
+                if (existing.qty > 1) {
+                  return prev.map((p) =>
+                    p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+                  );
+                }
+                return prev.filter((p) => p.id !== item.id);
+              });
+            }
+          }}
+          whileTap={{ scale: 0.97 }}
+          animate={showFirstHint ? { x: [0, 12, -12, 8, -8, 0] } : {}}
+          transition={index === 0 ? { duration: 1.8, ease: "easeInOut", delay: 0.8 } : {}}
+          onAnimationComplete={() => {
+            if (index === 0) localStorage.setItem("swipeHintShown", "true");
+          }}
+          className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
+        >
+          {/* swipe feedback background */}
+          <motion.div
+            className="absolute inset-0 z-0 rounded-2xl"
+            style={{ backgroundColor: "transparent" }}
+            animate={{
+              backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
+            }}
+            whileDrag={(event, info) => {
+              const x = info?.offset?.x ?? 0;
+              return {
+                backgroundColor:
+                  x > 0 ? "rgba(16,185,129,0.15)" : x < 0 ? "rgba(239,68,68,0.15)" : "transparent",
+              };
+            }}
+            transition={{ duration: 0.15 }}
+          />
 
-      {/* 🧃 Item Card */}
-      <div className="relative z-10 p-5">
-        <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
-          {item.img ? (
-            <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
-          ) : (
-            <span className="font-semibold text-amber-700 text-lg">
-              {item.name.split(" ")[0]}
-            </span>
-          )}
-        </div>
+          {/* item card (content) */}
+          <div className="relative z-10 p-5">
+            <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
+              {item.img ? (
+                <img
+                  src={item.img}
+                  alt={item.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => (e.target.style.display = "none")}
+                />
+              ) : (
+                <span className="font-semibold text-amber-700 text-lg">{item.name.split(" ")[0]}</span>
+              )}
+            </div>
 
-       {/* ✨ Hint animation */}
-{showHint && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
-    transition={{ duration: 2.5, ease: "easeInOut" }}
-    className="absolute inset-0 flex items-center justify-center pointer-events-none"
-  >
-    <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
-      👈 Swipe → 👉
-    </div>
-  </motion.div>
-)}
+            <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+            <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+
+            <div className="mt-4 flex items-center justify-between">
+              <div className="text-emerald-600 font-bold">{item.price}</div>
+
+              <div className="flex items-center gap-2">
+                {qty > 0 ? (
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart((prev) => {
+                          const existing = prev.find((p) => p.id === item.id);
+                          if (!existing) return prev;
+                          if (existing.qty > 1) {
+                            return prev.map((p) =>
+                              p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+                            );
+                          }
+                          return prev.filter((p) => p.id !== item.id);
+                        });
+                      }}
+                      className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
+                    >
+                      −
+                    </button>
+
+                    <span className="text-sm font-semibold text-emerald-700">{qty}</span>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCart((prev) => {
+                          const existing = prev.find((p) => p.id === item.id);
+                          if (existing) {
+                            return prev.map((p) =>
+                              p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+                            );
+                          }
+                          return [...prev, { ...item, qty: 1 }];
+                        });
+                      }}
+                      className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCart((prev) => [...prev, { ...item, qty: 1 }]);
+                    }}
+                    className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
+                  >
+                    Add to Cart
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* hint animation (first item only) */}
+            {showFirstHint && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
+                transition={{ duration: 2.5, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              >
+                <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
+                  👈 Swipe → 👉
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
+      );
+    })}
+  </div>
 </div>
-
-{/* ✅ closes each card */}
-</motion.div>
-); // ✅ closes return()
-})} // ✅ closes .map()
-
+     
 {/* 🛒 Floating Cart Button */}
  {cart.length > 0 && (
   <button
