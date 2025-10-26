@@ -357,13 +357,17 @@ async function commitOffers(newOffers, msg) {
     setLoading(true);
     const encoded = base64Encode(JSON.stringify(newOffers, null, 2));
 
-    // ✅ if offersSha is null, omit the sha property completely
+    // ✅ Only send SHA if valid
     const shaToUse = offersSha && typeof offersSha === "string" ? offersSha : undefined;
 
     const res = await githubPut(PATH_OFFERS, encoded, msg, shaToUse);
     if (!res.ok) throw new Error(res.data?.message || "Failed to commit offers");
 
-    if (res.data?.content) setOffersSha(res.data.content.sha || offersSha);
+    // ✅ Save new SHA if file was just created
+    if (res.data?.content?.sha) {
+      setOffersSha(res.data.content.sha);
+    }
+
     setOffersData(newOffers);
     setStatus("Offers updated ✔️");
     return true;
@@ -375,6 +379,7 @@ async function commitOffers(newOffers, msg) {
     setLoading(false);
   }
 }
+
 
 
   async function addOrUpdateOffer() {
