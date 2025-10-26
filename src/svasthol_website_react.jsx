@@ -504,25 +504,25 @@ const CATEGORIES = [
           )}
         </div>
 
-        {/* ✨ Hint animation */}
-        {showHint && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
-            transition={{ duration: 2.5, ease: "easeInOut" }}
-            className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          >
-            <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
-              👈 Swipe → 👉
-            </div>
-          </motion.div>
-        )}
-      </div>
-    </motion.div> 
-  {/* ✅ closes each card */}
-  );
-})}            
-{/* ✅ closes map() */}
+       {/* ✨ Hint animation */}
+{showHint && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
+    transition={{ duration: 2.5, ease: "easeInOut" }}
+    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+  >
+    <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
+      👈 Swipe → 👉
+    </div>
+  </motion.div>
+)}
+</div>
+
+{/* ✅ closes each card */}
+</motion.div>
+); // ✅ closes return()
+})} // ✅ closes .map()
 
 {/* 🛒 Floating Cart Button */}
  {cart.length > 0 && (
