@@ -8,7 +8,7 @@
     "Offer": "5",
     "Active": "Y",
     "ImageURL": "https://raw.githubusercontent.com/svasthol/SvasthOl/main/public/graphics/1761404217749_56.jpg",
-    "OutOfStock": true
+    "OutOfStock": false
   },
   {
     "ID": "seed1",
