@@ -815,7 +815,6 @@ const CATEGORIES = [
         </motion.div>
       ))}
     </div>
-  </div>
 </section>
 {/* ===================== */}
 {/* 🌿 MENU SECTION END */}
