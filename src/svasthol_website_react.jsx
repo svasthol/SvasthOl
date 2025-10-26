@@ -518,22 +518,25 @@ const CATEGORIES = [
 
           {/* ✅ Swipe Feedback Color */}
           <motion.div
-            className="absolute inset-0 z-0 rounded-2xl"
-            style={{ backgroundColor: "transparent" }}
-            animate={{
-              backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
-            }}
-            whileDrag={(event, info) => ({
-              backgroundColor:
-                info.offset.x > 0
-                  ? "rgba(16,185,129,0.15)" // green
-                  : info.offset.x < 0
-                  ? "rgba(239,68,68,0.15)" // red
-                  : "transparent",
-            })}
-          
-            {/* 🧃 Item Card */}
+  className="absolute inset-0 z-0 rounded-2xl"
+  style={{ backgroundColor: "transparent" }}
+  animate={{
+    backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
+  }}
+  whileDrag={(event, info) => ({
+    backgroundColor:
+      info.offset.x > 0
+        ? "rgba(16,185,129,0.15)" // green
+        : info.offset.x < 0
+        ? "rgba(239,68,68,0.15)" // red
+        : "transparent",
+  })}
+  transition={{ duration: 0.2 }}
+/>
+
+{/* 🧃 Item Card */}
 <div className="relative z-10 p-5">
+
   <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
     {item.img ? (
       <img
