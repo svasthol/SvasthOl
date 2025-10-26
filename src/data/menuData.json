@@ -1,5 +1,16 @@
 [
   {
+    "ID": "mh7dweij",
+    "Category": "Offers",
+    "Name": "__CATEGORY_PLACEHOLDER__Offers",
+    "Description": "",
+    "Price": "0",
+    "Offer": "",
+    "Active": "N",
+    "OutOfStock": true,
+    "ImageURL": ""
+  },
+  {
     "ID": "mh6elhj6",
     "Category": "Banana Loca",
     "Name": "Choco bliss",
