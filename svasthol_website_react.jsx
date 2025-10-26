@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Instagram, Youtube, Star } from "lucide-react";
 import MobileLuxury from "./src/components/MobileLuxury";
+import offersData from "./src/data/offers.json";
+
 
 // 🌿 Dynamic menu loading from GitHub
 export default function SvasthOlWebsite() {
