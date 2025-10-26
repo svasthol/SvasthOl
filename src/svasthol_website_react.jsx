@@ -574,7 +574,7 @@ const CATEGORIES = ["All", ...new Set(MENU.map((i) => i.category))];
     {/* 🖥️ Desktop Grid */}
     <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
       {filtered.map((item) => (
-        <motion.div key={item.id} whileHover={{ translateY: -6 }} className="bg-white rounded-2xl p-5 shadow">
+        <motion.div key={item.id} whileHover={{ translateY: -6 }} style={{ opacity: item.outOfStock ? 0.6 : 1 }} className="bg-white rounded-2xl p-5 shadow">
           <div className="h-40 rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center text-2xl font-semibold text-amber-700">
             {item.img ? (
               <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
@@ -583,7 +583,6 @@ const CATEGORIES = ["All", ...new Set(MENU.map((i) => i.category))];
             )}
           </div>
 
-          <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
           <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
             {item.outOfStock && (
                <span className="inline-block mt-1 text-xs bg-red-100 text-red-700 px-2 py-1 rounded-md">
