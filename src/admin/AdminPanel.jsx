@@ -346,24 +346,30 @@ async function githubPut(path, contentB64, message, sha) {
   }
 
   // ---------- Offers CRUD (offers.json) ----------
-  async function commitOffers(newOffers, msg) {
-    try {
-      setLoading(true);
-      const encoded = base64Encode(JSON.stringify(newOffers, null, 2));
-      const res = await githubPut(PATH_OFFERS, encoded, msg, offersSha);
-      if (!res.ok) throw new Error(res.data?.message || "Failed to commit offers");
-      if (res.data?.content) setOffersSha(res.data.content.sha || offersSha);
-      setOffersData(newOffers);
-      setStatus("Offers updated ✔️");
-      return true;
-    } catch (e) {
-      setStatus("Offers commit failed: " + e.message);
-      console.error(e);
-      return false;
-    } finally {
-      setLoading(false);
-    }
+async function commitOffers(newOffers, msg) {
+  try {
+    setLoading(true);
+    const encoded = base64Encode(JSON.stringify(newOffers, null, 2));
+
+    // ✅ if offersSha is null, omit the sha property completely
+    const shaToUse = offersSha && typeof offersSha === "string" ? offersSha : undefined;
+
+    const res = await githubPut(PATH_OFFERS, encoded, msg, shaToUse);
+    if (!res.ok) throw new Error(res.data?.message || "Failed to commit offers");
+
+    if (res.data?.content) setOffersSha(res.data.content.sha || offersSha);
+    setOffersData(newOffers);
+    setStatus("Offers updated ✔️");
+    return true;
+  } catch (e) {
+    setStatus("Offers commit failed: " + e.message);
+    console.error("💥 Offers commit error:", e);
+    return false;
+  } finally {
+    setLoading(false);
   }
+}
+
 
   async function addOrUpdateOffer() {
     try {
