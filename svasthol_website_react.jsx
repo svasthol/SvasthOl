@@ -403,382 +403,221 @@ const CATEGORIES = [
       transition={{ delay: 0.5, duration: 1 }}
       className="md:hidden mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-800 text-center shadow-sm"
     >
-      👉 Swipe <strong>right</strong> to <strong>add</strong> | Swipe <strong>left</strong> to <strong>remove</strong><br />
+      👉 Swipe <strong>right</strong> to <strong>add</strong> | Swipe <strong>left</strong> to <strong>remove</strong>
+      <br />
       🛒 Tap the cart icon to view your order.
     </motion.div>
 
     {/* 🧠 Swipe Hint Overlay (Mobile Only) */}
-{!showHintHidden && (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.6 }}
-    className="md:hidden fixed inset-0 z-[60] flex flex-col items-center justify-center bg-emerald-50/70 backdrop-blur-sm text-emerald-800 text-center"
-  >
-    <motion.div
-      initial={{ y: 20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, delay: 0.2 }}
-      className="p-6 rounded-2xl bg-white/70 shadow-lg border border-emerald-200"
-    >
-      <div className="flex items-center justify-center gap-3 text-lg font-semibold mb-3">
-        <motion.span
-          animate={{ x: [0, 10, 0] }}
-          transition={{ duration: 1.2, repeat: Infinity }}
-        >
-          👈
-        </motion.span>
-        Swipe left to Remove
-        <motion.span
-          animate={{ x: [0, -10, 0] }}
-          transition={{ duration: 1.2, repeat: Infinity }}
-        >
-          👉
-        </motion.span>
-      </div>
-      <div className="text-emerald-600 font-semibold text-base">
-        Swipe right to Add to Cart 🍃
-      </div>
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setShowHintHidden(true);
-          localStorage.setItem("swipeHintShown", "true");
-        }}
-        className="mt-4 bg-emerald-600 text-white px-4 py-2 rounded-lg shadow hover:bg-emerald-700"
+    {!showHintHidden && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.6 }}
+        className="md:hidden fixed inset-0 z-[60] flex flex-col items-center justify-center bg-emerald-50/70 backdrop-blur-sm text-emerald-800 text-center"
       >
-        Got it
-      </button>
-    </motion.div>
-  </motion.div>
-)}
-
-
-   {/* 🍋 Mobile Swipe Menu (Elastic & Simple) */}
-{/* 🛒 Floating Cart Button */}
-
-{/* 🍋 Mobile Swipe Menu (Elastic & Simple with Elegant Swipe Hint) */}
-<div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
-  <div className="flex flex-col gap-5">
-    {filtered.map((item, index) => {
-      const cartItem = cart.find((p) => p.id === item.id);
-      const qty = cartItem ? cartItem.qty : 0;
-      const showFirstHint = index === 0 && !localStorage.getItem("swipeHintShown");
-
-      return (
         <motion.div
-          key={item.id}
-          drag="x"
-          dragElastic={0.35}
-          dragConstraints={{ left: 0, right: 0 }}
-          onDragEnd={(e, info) => {
-            if (info.offset.x > 80) {
-              // add
-              setCart((prev) => {
-                const existing = prev.find((p) => p.id === item.id);
-                if (existing) {
-                  return prev.map((p) =>
-                    p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-                  );
-                }
-                return [...prev, { ...item, qty: 1 }];
-              });
-            } else if (info.offset.x < -80) {
-              // remove
-              setCart((prev) => {
-                const existing = prev.find((p) => p.id === item.id);
-                if (!existing) return prev;
-                if (existing.qty > 1) {
-                  return prev.map((p) =>
-                    p.id === item.id ? { ...p, qty: p.qty - 1 } : p
-                  );
-                }
-                return prev.filter((p) => p.id !== item.id);
-              });
-            }
-          }}
-          whileTap={{ scale: 0.97 }}
-          animate={showFirstHint ? { x: [0, 12, -12, 8, -8, 0] } : {}}
-          transition={index === 0 ? { duration: 1.8, ease: "easeInOut", delay: 0.8 } : {}}
-          onAnimationComplete={() => {
-            if (index === 0) localStorage.setItem("swipeHintShown", "true");
-          }}
-          className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="p-6 rounded-2xl bg-white/70 shadow-lg border border-emerald-200"
         >
-          {/* swipe feedback background */}
-          <motion.div
-            className="absolute inset-0 z-0 rounded-2xl"
-            style={{ backgroundColor: "transparent" }}
-            animate={{
-              backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent",
-            }}
-            whileDrag={(event, info) => {
-              const x = info?.offset?.x ?? 0;
-              return {
-                backgroundColor:
-                  x > 0 ? "rgba(16,185,129,0.15)" : x < 0 ? "rgba(239,68,68,0.15)" : "transparent",
-              };
-            }}
-            transition={{ duration: 0.15 }}
-          />
-
-          {/* item card (content) */}
-          <div className="relative z-10 p-5">
-            <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
-              {item.img ? (
-                <img
-                  src={item.img}
-                  alt={item.name}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={(e) => (e.target.style.display = "none")}
-                />
-              ) : (
-                <span className="font-semibold text-amber-700 text-lg">{item.name.split(" ")[0]}</span>
-              )}
-            </div>
-
-            <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
-            <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
-
-            <div className="mt-4 flex items-center justify-between">
-              <div className="text-emerald-600 font-bold">{item.price}</div>
-
-              <div className="flex items-center gap-2">
-                {qty > 0 ? (
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCart((prev) => {
-                          const existing = prev.find((p) => p.id === item.id);
-                          if (!existing) return prev;
-                          if (existing.qty > 1) {
-                            return prev.map((p) =>
-                              p.id === item.id ? { ...p, qty: p.qty - 1 } : p
-                            );
-                          }
-                          return prev.filter((p) => p.id !== item.id);
-                        });
-                      }}
-                      className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
-                    >
-                      −
-                    </button>
-
-                    <span className="text-sm font-semibold text-emerald-700">{qty}</span>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCart((prev) => {
-                          const existing = prev.find((p) => p.id === item.id);
-                          if (existing) {
-                            return prev.map((p) =>
-                              p.id === item.id ? { ...p, qty: p.qty + 1 } : p
-                            );
-                          }
-                          return [...prev, { ...item, qty: 1 }];
-                        });
-                      }}
-                      className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
-                    >
-                      +
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCart((prev) => [...prev, { ...item, qty: 1 }]);
-                    }}
-                    className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
-                  >
-                    Add to Cart
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* hint animation (first item only) */}
-            {showFirstHint && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
-                transition={{ duration: 2.5, ease: "easeInOut" }}
-                className="absolute inset-0 flex items-center justify-center pointer-events-none"
-              >
-                <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
-                  👈 Swipe → 👉
-                </div>
-              </motion.div>
-            )}
+          <div className="flex items-center justify-center gap-3 text-lg font-semibold mb-3">
+            <motion.span animate={{ x: [0, 10, 0] }} transition={{ duration: 1.2, repeat: Infinity }}>
+              👈
+            </motion.span>
+            Swipe left to Remove
+            <motion.span animate={{ x: [0, -10, 0] }} transition={{ duration: 1.2, repeat: Infinity }}>
+              👉
+            </motion.span>
           </div>
-        </motion.div>
-      );
-    })}
-  </div>
-</div>
-     
-{/* 🛒 Floating Cart Button */}
- {cart.length > 0 && (
-  <button
-    disabled={isOpeningCart}
-    onClick={() => {
-      if (isOpeningCart) return;
-      setIsOpeningCart(true);
-      setShowCart(true);
-      setTimeout(() => setIsOpeningCart(false), 800); // debounce for 0.8s
-    }}
-    className={`fixed bottom-6 right-4 md:hidden z-50 px-5 py-3 rounded-full text-sm font-semibold shadow-lg transition-all duration-300 ${
-      isOpeningCart
-        ? "bg-emerald-400 text-white opacity-70 cursor-not-allowed"
-        : "bg-emerald-600 text-white"
-    }`}
-  >
-    🛒 {cart.reduce((a, b) => a + b.qty, 0)} items
-  </button>
-)}
-
-
-    {/* 🧾 Cart Modal */}
-    <AnimatePresence>
-      {showCart && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end justify-center z-[999]"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setShowCart(false);
-          }}
-        >
-          <motion.div
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            exit={{ y: 100 }}
-            transition={{ type: "spring", stiffness: 80 }}
-            className="bg-white w-full rounded-t-3xl p-6 max-h-[80vh] overflow-y-auto"
+          <div className="text-emerald-600 font-semibold text-base">Swipe right to Add to Cart 🍃</div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowHintHidden(true);
+              localStorage.setItem("swipeHintShown", "true");
+            }}
+            className="mt-4 bg-emerald-600 text-white px-4 py-2 rounded-lg shadow hover:bg-emerald-700"
           >
-            <h4 className="text-xl font-semibold text-emerald-700 mb-4">
-              Your Cart
-            </h4>
-            {cart.length === 0 ? (
-              <p className="text-gray-500 text-center py-10">
-                Your cart is empty.
-              </p>
-            ) : (
-              <>
-                <div className="space-y-4">
-                  {cart.map((item) => (
-                    <div
-                      key={item.id}
-                      className="flex justify-between items-center border-b border-gray-200 pb-3"
-                    >
-                      <div>
-                        <h5 className="font-semibold text-emerald-800">
-                          {item.name}
-                        </h5>
-                        <p className="text-sm text-gray-500">
-                          ₹{parseInt(item.price.replace("₹", ""))} × {item.qty}
-                        </p>
-                      </div>
+            Got it
+          </button>
+        </motion.div>
+      </motion.div>
+    )}
+
+    {/* 🍋 Mobile Swipe Menu */}
+    <div className="block md:hidden overflow-x-hidden px-3 mt-6 touch-pan-y">
+      <div className="flex flex-col gap-5">
+        {filtered.map((item, index) => {
+          const cartItem = cart.find((p) => p.id === item.id);
+          const qty = cartItem ? cartItem.qty : 0;
+          const showFirstHint = index === 0 && !localStorage.getItem("swipeHintShown");
+
+          return (
+            <motion.div
+              key={item.id}
+              drag="x"
+              dragElastic={0.35}
+              dragConstraints={{ left: 0, right: 0 }}
+              onDragEnd={(e, info) => {
+                if (info.offset.x > 80) {
+                  // add
+                  setCart((prev) => {
+                    const existing = prev.find((p) => p.id === item.id);
+                    if (existing) {
+                      return prev.map((p) => (p.id === item.id ? { ...p, qty: p.qty + 1 } : p));
+                    }
+                    return [...prev, { ...item, qty: 1 }];
+                  });
+                } else if (info.offset.x < -80) {
+                  // remove
+                  setCart((prev) => {
+                    const existing = prev.find((p) => p.id === item.id);
+                    if (!existing) return prev;
+                    if (existing.qty > 1) {
+                      return prev.map((p) => (p.id === item.id ? { ...p, qty: p.qty - 1 } : p));
+                    }
+                    return prev.filter((p) => p.id !== item.id);
+                  });
+                }
+              }}
+              whileTap={{ scale: 0.97 }}
+              animate={showFirstHint ? { x: [0, 12, -12, 8, -8, 0] } : {}}
+              transition={index === 0 ? { duration: 1.8, ease: "easeInOut", delay: 0.8 } : {}}
+              onAnimationComplete={() => {
+                if (index === 0) localStorage.setItem("swipeHintShown", "true");
+              }}
+              className="relative bg-white rounded-2xl shadow-md overflow-hidden select-none"
+            >
+              <motion.div
+                className="absolute inset-0 z-0 rounded-2xl"
+                style={{ backgroundColor: "transparent" }}
+                animate={{ backgroundColor: qty > 0 ? "rgba(16,185,129,0.06)" : "transparent" }}
+                whileDrag={(event, info) => {
+                  const x = info?.offset?.x ?? 0;
+                  return {
+                    backgroundColor:
+                      x > 0
+                        ? "rgba(16,185,129,0.15)"
+                        : x < 0
+                        ? "rgba(239,68,68,0.15)"
+                        : "transparent",
+                  };
+                }}
+                transition={{ duration: 0.15 }}
+              />
+
+              <div className="relative z-10 p-5">
+                <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
+                  {item.img ? (
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                      onError={(e) => (e.target.style.display = 'none')}
+                    />
+                  ) : (
+                    <span className="font-semibold text-amber-700 text-lg">
+                      {item.name.split(' ')[0]}
+                    </span>
+                  )}
+                </div>
+
+                <h4 className="mt-3 font-semibold text-emerald-800">{item.name}</h4>
+                <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
+
+                <div className="mt-4 flex items-center justify-between">
+                  <div className="text-emerald-600 font-bold">{item.price}</div>
+
+                  <div className="flex items-center gap-2">
+                    {qty > 0 ? (
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() =>
-                            setCart((prev) =>
-                              prev.map((p) =>
-                                p.id === item.id && p.qty > 1
-                                  ? { ...p, qty: p.qty - 1 }
-                                  : p
-                              )
-                            )
-                          }
-                          className="px-2 py-1 bg-gray-100 rounded-lg text-gray-600"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCart((prev) => {
+                              const existing = prev.find((p) => p.id === item.id);
+                              if (!existing) return prev;
+                              if (existing.qty > 1) {
+                                return prev.map((p) =>
+                                  p.id === item.id ? { ...p, qty: p.qty - 1 } : p
+                                );
+                              }
+                              return prev.filter((p) => p.id !== item.id);
+                            });
+                          }}
+                          className="px-3 py-1 bg-red-100 text-red-600 rounded-lg active:scale-95 font-semibold"
                         >
-                          -
+                          −
                         </button>
-                        <span className="font-medium">{item.qty}</span>
+
+                        <span className="text-sm font-semibold text-emerald-700">{qty}</span>
+
                         <button
-                          onClick={() =>
-                            setCart((prev) =>
-                              prev.map((p) =>
-                                p.id === item.id
-                                  ? { ...p, qty: p.qty + 1 }
-                                  : p
-                              )
-                            )
-                          }
-                          className="px-2 py-1 bg-emerald-100 rounded-lg text-emerald-700"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setCart((prev) => {
+                              const existing = prev.find((p) => p.id === item.id);
+                              if (existing) {
+                                return prev.map((p) =>
+                                  p.id === item.id ? { ...p, qty: p.qty + 1 } : p
+                                );
+                              }
+                              return [...prev, { ...item, qty: 1 }];
+                            });
+                          }}
+                          className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg active:scale-95 font-semibold"
                         >
                           +
                         </button>
                       </div>
-                    </div>
-                  ))}
+                    ) : (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCart((prev) => [...prev, { ...item, qty: 1 }]);
+                        }}
+                        className="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg font-semibold active:scale-95 shadow-md"
+                      >
+                        Add to Cart
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                {/* 💰 Billing Summary */}
-                {(() => {
-                  const subtotal = cart.reduce(
-                    (sum, item) =>
-                      sum + parseInt(item.price.replace("₹", "")) * item.qty,
-                    0
-                  );
-                  const gst = subtotal * 0.05;
-                  const total = subtotal + gst;
-                  return (
-                    <div className="mt-6 border-t border-gray-200 pt-4 space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span>Subtotal</span>
-                        <span>₹{subtotal.toFixed(2)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>GST (5%)</span>
-                        <span>₹{gst.toFixed(2)}</span>
-                      </div>
-                      <div className="flex justify-between font-semibold text-emerald-700 text-base">
-                        <span>Total</span>
-                        <span>₹{total.toFixed(2)}</span>
-                      </div>
-                      <button
-                        onClick={() =>
-                          alert(
-                            `Thank you! Your total is ₹${total.toFixed(
-                              2
-                            )}. Proceed to WhatsApp for order confirmation.`
-                          )
-                        }
-                        className="mt-4 w-full bg-emerald-600 text-white py-3 rounded-xl shadow-md font-semibold"
-                      >
-                        Proceed to Order
-                      </button>
+                {showFirstHint && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
+                    transition={{ duration: 2.5, ease: 'easeInOut' }}
+                    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                  >
+                    <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
+                      👈 Swipe → 👉
                     </div>
-                  );
-                })()}
-              </>
-            )}
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
 
-    {/* 🖥️ Golden Desktop Grid (Unchanged) */}
+    {/* 🖥️ Desktop Grid */}
     <div className="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
       {filtered.map((item) => (
-        <motion.div
-          key={item.id}
-          whileHover={{ translateY: -6 }}
-          className="bg-white rounded-2xl p-5 shadow"
-        >
+        <motion.div key={item.id} whileHover={{ translateY: -6 }} className="bg-white rounded-2xl p-5 shadow">
           <div className="h-40 rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50 flex items-center justify-center text-2xl font-semibold text-amber-700">
-  {item.img ? (
-    <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
-  ) : (
-    item.name.split(" ")[0]
-  )}
-</div>
+            {item.img ? (
+              <img src={item.img} alt={item.name} className="w-full h-full object-cover" />
+            ) : (
+              item.name.split(' ')[0]
+            )}
+          </div>
 
           <h4 className="mt-4 font-semibold text-lg">{item.name}</h4>
           <p className="text-sm text-gray-600 mt-1">{item.desc}</p>
@@ -795,13 +634,13 @@ const CATEGORIES = [
           </div>
         </motion.div>
       ))}
-           </div> {/* closes flex-col container */}
-    </div> {/* closes mobile swipe container */}
-  </div> {/* closes .max-w-6xl container */}
-</section> {/* closes menu section */}
+    </div>
+  </div>
+</section>
 {/* ===================== */}
 {/* 🌿 MENU SECTION END */}
 {/* ===================== */}
+
 
   {/* about */}
       <section id="about" className="mt-20 bg-gradient-to-r from-amber-50 via-emerald-50 to-yellow-50 py-12">
