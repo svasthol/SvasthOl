@@ -795,11 +795,14 @@ const CATEGORIES = [
           </div>
         </motion.div>
       ))}
-        </div> {/* closes .max-w-6xl container */}
-  </section> {/* closes menu section */}
-  {/* ===================== */}
-  {/* 🌿 MENU SECTION END */}
-  {/* ===================== */}
+           </div> {/* closes flex-col container */}
+    </div> {/* closes mobile swipe container */}
+  </div> {/* closes .max-w-6xl container */}
+</section> {/* closes menu section */}
+{/* ===================== */}
+{/* 🌿 MENU SECTION END */}
+{/* ===================== */}
+
   {/* about */}
       <section id="about" className="mt-20 bg-gradient-to-r from-amber-50 via-emerald-50 to-yellow-50 py-12">
         <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
