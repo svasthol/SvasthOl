@@ -1,16 +1,5 @@
 [
   {
-    "ID": "mh7c5mwo",
-    "Category": "Cold Pressed Juices",
-    "Name": "Apple Juice",
-    "Description": "Yo Yo apple juiceooo",
-    "Price": "130",
-    "Offer": "10%",
-    "Active": "Y",
-    "OutOfStock": false,
-    "ImageURL": "https://raw.githubusercontent.com/svasthol/SvasthOl/main/public/graphics/1761460589963_lemon.svg"
-  },
-  {
     "ID": "mh6elhj6",
     "Category": "Banana Loca",
     "Name": "Choco bliss",
