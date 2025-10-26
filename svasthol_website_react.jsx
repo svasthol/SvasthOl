@@ -796,7 +796,9 @@ const CATEGORIES = [
         </motion.div>
       ))}
     </div>
+     {/* closes .max-w-6xl container */}
 </section>
+   {/* closes menu section properly */}
 {/* ===================== */}
 {/* 🌿 MENU SECTION END */}
 {/* ===================== */}
