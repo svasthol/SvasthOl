@@ -530,7 +530,9 @@ const CATEGORIES = [
                   : info.offset.x < 0
                   ? "rgba(239,68,68,0.15)" // red
                   : "transparent",
-            })}{/* 🧃 Item Card */}
+            })}
+            />
+            {/* 🧃 Item Card */}
 <div className="relative z-10 p-5">
   <div className="h-36 flex items-center justify-center rounded-lg overflow-hidden bg-gradient-to-br from-emerald-100 to-amber-50">
     {item.img ? (
