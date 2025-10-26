@@ -621,26 +621,25 @@ const CATEGORIES = [
     </div>
   </div>
 
-    {/* ✨ “Swipe Once” Hint Animation — first item only */}
-  {showHint && (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
-      transition={{ duration: 2.5, ease: "easeInOut" }}
-      className="absolute inset-0 flex items-center justify-center pointer-events-none"
-    >
-      <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
-        👈 Swipe → 👉
-      </div>
-    </motion.div>
-  )}
+  {/* ✨ “Swipe Once” Hint Animation — first item only */}
+{showHint && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: [0, 1, 1, 0], x: [0, 10, -10, 0] }}
+    transition={{ duration: 2.5, ease: "easeInOut" }}
+    className="absolute inset-0 flex items-center justify-center pointer-events-none"
+  >
+    <div className="flex items-center gap-2 bg-white/70 px-3 py-1 rounded-full shadow text-emerald-700 text-xs font-medium">
+      👈 Swipe → 👉
+    </div>
+  </motion.div>
+)}
 </div>
-</motion.div> 
-      
+</motion.div>
+{/* ✅ properly close the draggable motion.div */}
 
-    {/* 🛒 Floating Cart Button */}
-  
-{cart.length > 0 && (
+{/* 🛒 Floating Cart Button */}
+ {cart.length > 0 && (
   <button
     disabled={isOpeningCart}
     onClick={() => {
